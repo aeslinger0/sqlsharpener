@@ -1,6 +1,9 @@
 # sql-sharpener
 Parses SQL files to create a meta-object hierarchy with which you can generate C# code either manually or by invoking the included pre-compiled T4 template. The included template will automatically generate C# stored procedure wrappers.
 
+# Motivation
+Rather than generating code from the database or using a heavy abstraction layer that might miss differences between the database and data access layer until run-time, this project aims to provide a very fast and simple data access layer that is generated at design-time using SQL _files_ as the source-of-truth (such as those found in an SSDT project).
+
 # Example
 **Given a stored procedure that looks like this:**
 
@@ -86,7 +89,6 @@ Parses SQL files to create a meta-object hierarchy with which you can generate C
       }
     
     	public class usp_TaskGetDto
-    	
     	{
     		public String Name { get; set; }
     		public String Description { get; set; }
@@ -106,7 +108,7 @@ Using Nuget, run the following command to install SqlSharpener into your data la
 
     PM> Install-Package SqlSharpener
 
-# Usage
+# Generation
 
 Add a new T4 template (*.tt) file to your data project. Set its content as follows:
 
@@ -136,3 +138,35 @@ Add a new T4 template (*.tt) file to your data project. Set its content as follo
     #>
 
 Right-click on the .tt file and click "Run Custom Tool". The generated .cs file will contain a class with functions for all your stored procedures, DTO objects for procedures that return records, and an interface you can used if you use dependency-injection.
+
+# Usage
+
+Once the code is generated, your business layer can call it like any other function. Here is one example:
+
+        public int? Create(Task task)
+        {
+            int? taskId;
+            storedProcedures.usp_TaskCreate(
+                task.Name,
+                task.Description,
+                task.TaskStatusId,
+                task.Created,
+                task.CreatedBy,
+                task.Updated,
+                task.UpdatedBy,
+                out taskId);
+            return taskId;
+        }
+        
+# Dependency Injection
+
+If you use a dependency-injection framework such as Ninject, you can use the interface generated. For example:
+
+    public class  DataModule : NinjectModule
+    {
+        public override void Load()
+        {
+            Bind<IStoredProcedures>().To<StoredProcedures>().InSingletonScope();
+        }
+    }
+    
