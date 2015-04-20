@@ -1,4 +1,4 @@
-# sql-sharpener
+# SqlSharpener
 Parses SQL files to create a meta-object hierarchy with which you can generate C# code either manually or by invoking the included pre-compiled T4 template. The included template will automatically generate C# stored procedure wrappers.
 
 # Motivation
@@ -104,35 +104,38 @@ Rather than generating code from the database or using a heavy abstraction layer
 
 # Installation
 
-Using Nuget, run the following command to install SqlSharpener into your data layer project:
+Using Nuget, run the following command to install SqlSharpener:
 
     PM> Install-Package SqlSharpener
+    
+This will add SqlSharpener as a solution-level package. That means that the dll's do not get added to any of your projects (nor should they). 
 
 # Generation
 
 Add a new T4 template (*.tt) file to your data project. Set its content as follows:
 
     <#@ template debug="false" hostspecific="true" language="C#" #>
-    <#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.0.0\lib\net45\SqlSharpener.dll" #>
+    <#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.2\tools\SqlSharpener.dll" #>
     <#@ output extension=".cs" #>
     <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
     <#@ import namespace="System.Collections.Generic" #>
     <#@ import namespace="SqlSharpener" #>
     <#
-      // Specify paths to your SQL files.
+    	// Specify paths to your SQL files.
     	var sqlPaths = new List<string>();
     	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Tables"));
     	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Stored Procedures"));
     
-    	var t = new SqlSharpener.StoredProceduresTemplate();
-    	var session = new TextTemplatingSession();
-    	
     	// Set parameters for the template.
+    	var session = new TextTemplatingSession();
     	session["outputNamespace"] = "SimpleExample.DataLayer";
     	session["connectionStringVariableName"] = "ConnectionString1";
+    	session["procedurePrefix"] = "usp_";
     	session["sqlPaths"] = sqlPaths;
-      
-      t.Session = session;
+    
+    	// Generate the code.
+    	var t = new SqlSharpener.StoredProceduresTemplate();
+        t.Session = session;
     	t.Initialize();
     	this.Write(t.TransformText());
     #>
@@ -146,7 +149,7 @@ Once the code is generated, your business layer can call it like any other funct
         public int? Create(Task task)
         {
             int? taskId;
-            storedProcedures.usp_TaskCreate(
+            storedProcedures.TaskCreate(
                 task.Name,
                 task.Description,
                 task.TaskStatusId,
