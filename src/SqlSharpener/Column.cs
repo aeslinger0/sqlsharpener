@@ -11,7 +11,7 @@ namespace SqlSharpener
         public Column(string name, IDictionary<TypeFormat, string> dataTypes)
         {
             this.Name = name;
-            this.DataTypes = dataTypes;
+            this.DataTypes = dataTypes ?? new Dictionary<TypeFormat, string>();
         }
 
         public string Name { get; private set; }

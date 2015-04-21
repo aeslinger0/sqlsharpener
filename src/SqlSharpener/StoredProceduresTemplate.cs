@@ -18,7 +18,7 @@ namespace SqlSharpener
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+    #line 1 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
     public partial class StoredProceduresTemplate : StoredProceduresTemplateBase
     {
@@ -29,7 +29,7 @@ namespace SqlSharpener
         public virtual string TransformText()
         {
             
-            #line 11 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 11 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
 
   /// This creates a pre-compiled template that can be called from
   /// within a project to generate C# wrappers for stored procedures.
@@ -53,93 +53,113 @@ namespace SqlSharpener
 // ------------------------------------------------------------------------------
 namespace ");
             
-            #line 29 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 29 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetNamespace(outputNamespace)));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n\tusing System;\r\n\tusing System.IO;\r\n\tusing System.Data;\r\n\tusing System.Data.S" +
-                    "qlClient;\r\n\tusing System.Configuration;\r\n\tusing System.Collections.Generic;\r\n\r\n\t" +
-                    "public interface IStoredProcedures\r\n\t{\r\n");
+            this.Write(@"
+{
+	using System;
+	using System.IO;
+	using System.Data;
+	using System.Data.SqlClient;
+	using System.Configuration;
+	using System.Collections.Generic;
+
+	/// <summary>
+	/// Interface of the wrapper class for calling stored procedures. 
+	/// </summary>
+	public partial interface IStoredProcedures
+	{
+");
             
-            #line 40 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 43 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
 foreach(var proc in meta.Procedures){ 
             
             #line default
             #line hidden
             this.Write("\t\t");
             
-            #line 41 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 44 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetReturnType(proc)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 41 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 44 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(proc.Name));
             
             #line default
             #line hidden
             this.Write("( ");
             
-            #line 41 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 44 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetMethodParamList(proc)));
             
             #line default
             #line hidden
             this.Write(" );\r\n");
             
-            #line 42 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 45 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\t}\r\n\r\n\tpublic partial class StoredProcedures : IStoredProcedures\r\n\t{\r\n");
+            this.Write("\t}\r\n\r\n\t/// <summary>\r\n\t/// Wrapper class for calling stored procedures. \r\n\t/// </" +
+                    "summary>\r\n\tpublic partial class StoredProcedures : IStoredProcedures\r\n\t{\r\n");
             
-            #line 47 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 53 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
 foreach(var proc in meta.Procedures){ 
             
             #line default
             #line hidden
-            this.Write("\t\t/// <summary>Calls the \"");
+            this.Write("\t\t/// <summary>\r\n\t\t/// Calls the \"");
             
-            #line 48 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 55 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(proc.RawName));
             
             #line default
             #line hidden
-            this.Write("\" stored procedure</summary>\r\n\t\tpublic ");
+            this.Write("\" stored procedure\r\n\t\t/// </summary>\r\n\t\tpublic ");
             
-            #line 49 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 57 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetReturnType(proc)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 49 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 57 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(proc.Name));
             
             #line default
             #line hidden
             this.Write("( ");
             
-            #line 49 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 57 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetMethodParamList(proc)));
             
             #line default
             #line hidden
-            this.Write(" )\r\n\t\t{\r\n\t\t\t");
+            this.Write(" )\r\n\t\t{\r\n\t\t\tOn");
             
-            #line 51 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 59 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(proc.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Begin();\r\n\t\t\t");
+            
+            #line 60 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetReturnVariable(proc)));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\tvar connectionString = ConfigurationManager.ConnectionStrings[\"");
             
-            #line 52 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 61 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetConnStrVar(connectionStringVariableName)));
             
             #line default
@@ -148,34 +168,64 @@ foreach(var proc in meta.Procedures){
                     "\t\t{\r\n\t\t\t\tconn.Open();\r\n\t\t\t\tusing (var cmd = conn.CreateCommand())\r\n\t\t\t\t{\r\n\t\t\t\t\tc" +
                     "md.CommandType = CommandType.StoredProcedure;\r\n\t\t\t\t\tcmd.CommandText = \"");
             
-            #line 59 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 68 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(proc.RawName));
             
             #line default
             #line hidden
             this.Write("\";\r\n");
             
-            #line 60 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 69 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetSqlParamList(proc, 5)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 61 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 70 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetExecuteStatement(proc, 5)));
             
             #line default
             #line hidden
-            this.Write("\r\n\t\t\t\t}\r\n\t\t\t\tconn.Close();\r\n\t\t\t}\r\n\t\t\treturn result;\r\n\t\t}\r\n\r\n");
+            this.Write("\r\n\t\t\t\t}\r\n\t\t\t\tconn.Close();\r\n\t\t\t}\r\n\t\t\tOn");
             
-            #line 68 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 74 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(proc.Name));
+            
+            #line default
+            #line hidden
+            this.Write("End();\r\n\t\t\treturn result;\r\n\t\t}\r\n\r\n\t\tpartial void On");
+            
+            #line 78 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(proc.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Begin();\r\n\t\tpartial void On");
+            
+            #line 79 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(proc.Name));
+            
+            #line default
+            #line hidden
+            this.Write("End(");
+            
+            #line 79 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetReturnType(proc)));
+            
+            #line default
+            #line hidden
+            this.Write(" result);\r\n\r\n");
+            
+            #line 81 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write(@"
-		/// <summary>Helper function to get the bytes out of varbinary columns</summary>
+		/// <summary>
+		/// Helper function to get the bytes out of varbinary columns
+		/// </summary>
 		private byte[] GetBytes(IDataReader reader, int ordinal)
 		{
 			MemoryStream ms = new MemoryStream();
@@ -195,20 +245,20 @@ foreach(var proc in meta.Procedures){
 
 ");
             
-            #line 88 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 103 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
 foreach(var proc in meta.Procedures){ 
             
             #line default
             #line hidden
             
-            #line 89 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 104 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(helper.GetDtoObject(proc, 1)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 90 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+            #line 105 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
  } 
             
             #line default
@@ -217,7 +267,7 @@ foreach(var proc in meta.Procedures){
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "C:\Users\M139798\Documents\Visual Studio 2013\Projects\src\SqlSharpener\StoredProceduresTemplate.tt"
+        #line 1 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
 
 private string _outputNamespaceField;
 

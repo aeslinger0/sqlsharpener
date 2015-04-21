@@ -35,19 +35,28 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 	using System.Configuration;
 	using System.Collections.Generic;
 
-	public interface IStoredProcedures
+	/// <summary>
+	/// Interface of the wrapper class for calling stored procedures. 
+	/// </summary>
+	public partial interface IStoredProcedures
 	{
 <#foreach(var proc in meta.Procedures){ #>
 		<#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc)#> );
 <# } #>
 	}
 
+	/// <summary>
+	/// Wrapper class for calling stored procedures. 
+	/// </summary>
 	public partial class StoredProcedures : IStoredProcedures
 	{
 <#foreach(var proc in meta.Procedures){ #>
-		/// <summary>Calls the "<#=proc.RawName#>" stored procedure</summary>
+		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure
+		/// </summary>
 		public <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc)#> )
 		{
+			On<#=proc.Name#>Begin();
 			<#=helper.GetReturnVariable(proc)#>
 			var connectionString = ConfigurationManager.ConnectionStrings["<#=helper.GetConnStrVar(connectionStringVariableName)#>"].ConnectionString;
 			using(var conn = new SqlConnection(connectionString))
@@ -62,12 +71,18 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 				}
 				conn.Close();
 			}
+			On<#=proc.Name#>End();
 			return result;
 		}
 
+		partial void On<#=proc.Name#>Begin();
+		partial void On<#=proc.Name#>End(<#=helper.GetReturnType(proc)#> result);
+
 <# } #>
 
-		/// <summary>Helper function to get the bytes out of varbinary columns</summary>
+		/// <summary>
+		/// Helper function to get the bytes out of varbinary columns
+		/// </summary>
 		private byte[] GetBytes(IDataReader reader, int ordinal)
 		{
 			MemoryStream ms = new MemoryStream();

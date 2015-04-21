@@ -11,7 +11,7 @@ namespace SqlSharpener
         public Parameter(string name, IDictionary<TypeFormat, string> dataTypes, bool isOutput)
         {
             this.Name = name;
-            this.DataTypes = dataTypes;
+            this.DataTypes = dataTypes ?? new Dictionary<TypeFormat, string>();
             this.IsOutput = isOutput;
         }
 

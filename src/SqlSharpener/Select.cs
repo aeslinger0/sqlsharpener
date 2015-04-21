@@ -10,7 +10,7 @@ namespace SqlSharpener
     {
         public Select(IEnumerable<Column> columns, bool isTopOne)
         {
-            this.Columns = columns;
+            this.Columns = columns ?? new List<Column>();
             this.IsTopOne = isTopOne;
         }
 

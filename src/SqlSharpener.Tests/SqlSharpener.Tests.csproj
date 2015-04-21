@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="MetaBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlSharpenerHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SqlSharpener\SqlSharpener.csproj">

@@ -30,7 +30,7 @@ namespace SqlSharpener
             if (connectionStringVariableName == null) throw new ArgumentNullException("connectionStringVariableName cannot be null.");
             return connectionStringVariableName;
         }
-        
+
         /// <summary>
         /// Gets the DTO return objects that represent a row of each result set of each procedure.
         /// </summary>
@@ -39,12 +39,16 @@ namespace SqlSharpener
         /// <returns>The generated DTO objects.</returns>
         public string GetDtoObject(Procedure proc, int indent = 0)
         {
+            // If only one select and one column or one row, no DTO is needed.
+            if (proc.Selects.Count() == 1 && (proc.Selects.First().IsTopOne || proc.Selects.First().Columns.Count() == 1))
+                return "";
+
             var b = new TextBuilder();
             b.Indent(indent);
             for (var i = 0; i < proc.Selects.Count(); i++)
             {
                 b.AppendFormatLine("/// <summary>DTO for the output of the \"{0}\" stored procedure.</summary>", proc.RawName);
-                b.AppendFormatLine("public class {0}Dto", proc.Name);
+                b.AppendFormat("public partial class {0}Dto", proc.Name);
                 if (i > 0) b.Append((i + 1).ToString());
                 b.AppendLine();
                 b.AppendLine("{");
@@ -58,7 +62,7 @@ namespace SqlSharpener
             }
             if (proc.Selects.Count() > 1)
             {
-                b.AppendFormatLine("public class {0}Results", proc.Name);
+                b.AppendFormatLine("public partial class {0}Results", proc.Name);
                 b.AppendLine("{");
                 b.Indent();
                 for (var i = 0; i < proc.Selects.Count(); i++)
@@ -172,10 +176,20 @@ namespace SqlSharpener
             var b = new TextBuilder();
             b.Indent(indent);
 
+            var singleSelect = proc.Selects.Count() == 1;
+            var singleSelectRow = singleSelect && proc.Selects.First().IsTopOne;
+            var singleColumn = singleSelect && proc.Selects.First().Columns.Count() == 1;
+            var singleValue = singleSelectRow && singleColumn;
+
             // If no SELECT statements, use ExecuteNonQuery().
             if (!proc.Selects.Any())
             {
                 b.AppendLine("result = cmd.ExecuteNonQuery();");
+            }
+            // If only one SELECT statement with one column that returns one value, use ExecuteScalar().
+            else if (singleValue)
+            {
+                b.AppendFormatLine("result = cmd.ExecuteScalar() as {0};", proc.Selects.First().Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             }
             else
             {
@@ -187,39 +201,53 @@ namespace SqlSharpener
                     var inc = i > 0 ? (i + 1).ToString() : "";
                     var select = proc.Selects.ElementAt(i);
 
-                    // If not selecting a single row, declare a list for the results.
+                    // If multiple selects OR muliple rows, declare a list for this select's results.
                     if (proc.Selects.Count() > 1 || !select.IsTopOne)
-                        b.AppendFormatLine("var list{1} = new List<{0}Dto{1}>();", proc.Name, inc);
+                    {
+                        // If only one select with one column, use a primitive list, else use a DTO list.
+                        if (singleColumn) b.AppendFormatLine("var list = new List<{0}>();", select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+                        else b.AppendFormatLine("var list{1} = new List<{0}Dto{1}>();", proc.Name, inc);
+                    }
+
 
                     // Start reading the records.
                     b.AppendLine("while (reader.Read())");
                     b.AppendLine("{");
                     b.Indent();
-                    b.AppendFormatLine("var item = new {0}Dto{1}();", proc.Name, inc);
-                    var columns = select.Columns;
-                    for (var j = 0; j < columns.Count(); j++)
+                    // If only one select with one column, use a primitive, else use a DTO.
+                    if (singleColumn)
+                        b.AppendFormatLine("{0} item;", select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+                    else
+                        b.AppendFormatLine("var item = new {0}Dto{1}();", proc.Name, inc);
+
+                    for (var j = 0; j < select.Columns.Count(); j++)
                     {
                         // If datatype is binary, use the GetBytes helper function.
-                        var col = columns.ElementAt(j);
+                        var col = select.Columns.ElementAt(j);
                         if (col.DataTypes[TypeFormat.SqlDataReaderDbType] == "GetBytes")
-                            b.AppendFormatLine("item.{0} = GetBytes(reader, {1});", col.Name, j.ToString());
+                        {
+                            if (singleColumn) b.AppendFormatLine("item = GetBytes(reader, {0});", j.ToString());
+                            else b.AppendFormatLine("item.{0} = GetBytes(reader, {1});", col.Name, j.ToString());
+                        }
                         else
-                            b.AppendFormatLine("item.{0} = reader.{1}({2});", col.Name, col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString());
+                        {
+                            if (singleColumn) b.AppendFormatLine("item = reader.{0}({1});", col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString());
+                            else b.AppendFormatLine("item.{0} = reader.{1}({2});", col.Name, col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString());
+                        }
                     }
 
                     // If selecting a single row, assign directly to result, else add to list of results.
-                    if (proc.Selects.Count() == 1 && select.IsTopOne)
-                        b.AppendLine("result = item;");
-                    else
-                        b.AppendFormatLine("list{0}.Add(item);", inc);
-                    
+                    if (singleSelectRow) b.AppendLine("result = item;");
+                    else b.AppendFormatLine("list{0}.Add(item);", inc);
+
                     b.Unindent();
                     b.AppendLine("}");
 
                     // If only one select statement
-                    if (proc.Selects.Count() == 1)
+                    if (singleSelect)
                     {
-                        // If not returning a single row, return the list
+                        // If not returning a single row, return the list,
+                        // else the item should have already been assigned directly to the result above.
                         if (!select.IsTopOne) b.AppendLine("result = list;");
                     }
                     else // If multiple selects, assign the result and move to the next one.

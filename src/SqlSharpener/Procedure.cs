@@ -13,8 +13,8 @@ namespace SqlSharpener
         {
             this.Name = name;
             this.RawName = rawName;
-            this.Parameters = parameters;
-            this.Selects = selects;
+            this.Parameters = parameters ?? new List<Parameter>();
+            this.Selects = selects ?? new List<Select>();
         }
 
         public string Name { get; private set; }
