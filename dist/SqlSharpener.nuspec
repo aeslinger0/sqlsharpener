@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SqlSharpener</id>
+    <version>1.0.2</version>
+    <title>SqlSharpener</title>
+    <authors>Adam Eslinger</authors>
+    <owners>Adam Eslinger</owners>
+    <licenseUrl>https://github.com/aeslinger0/sqlsharpener/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/aeslinger0/sqlsharpener</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Parses SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>dac ScriptDom SSDT C#</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Configuration" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
