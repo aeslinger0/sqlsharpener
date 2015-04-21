@@ -2,7 +2,7 @@
 	@TaskId int
 AS
 
-	-- Specifying "TOP 1" makes the generated return value a single instance instead of an array.
+	-- Specifying "TOP 1" makes the generated return value a single instance instead of an IEnumerable<T>.
 	SELECT TOP 1
 		t.Name,
 		t.[Description],
