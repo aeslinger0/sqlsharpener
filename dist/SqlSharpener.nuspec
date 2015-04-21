@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SqlSharpener</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>SqlSharpener</title>
     <authors>Adam Eslinger</authors>
     <owners>Adam Eslinger</owners>
