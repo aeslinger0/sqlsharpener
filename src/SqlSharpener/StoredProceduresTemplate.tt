@@ -71,7 +71,7 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 				}
 				conn.Close();
 			}
-			On<#=proc.Name#>End();
+			On<#=proc.Name#>End(result);
 			return result;
 		}
 

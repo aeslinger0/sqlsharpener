@@ -230,6 +230,31 @@ cmd.Parameters.Add(param2OutputParameter);
         }
 
         [TestMethod]
+        public void DTOObjectSingleSelectSingleRowMultipleColumnTest()
+        {
+            // Arrange
+            var helper = new SqlSharpenerHelper();
+            var procedure = new Procedure("proc", "proc", null, new List<Select>{
+                new Select(new List<Column>{
+                    new Column("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
+                    new Column("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String")),
+                }, true)
+            });
+
+            // Act
+            var result = helper.GetDtoObject(procedure);
+
+            // Assert
+            Assert.AreEqual(@"/// <summary>DTO for the output of the ""proc"" stored procedure.</summary>
+public partial class procDto
+{
+	public Int32? col1 { get; set; }
+	public String col2 { get; set; }
+}
+", result);
+        }
+
+        [TestMethod]
         public void DTOObjectSingleSelectMultipleRowSingleColumnTest()
         {
             // Arrange

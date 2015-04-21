@@ -194,7 +194,7 @@ foreach(var proc in meta.Procedures){
             
             #line default
             #line hidden
-            this.Write("End();\r\n\t\t\treturn result;\r\n\t\t}\r\n\r\n\t\tpartial void On");
+            this.Write("End(result);\r\n\t\t\treturn result;\r\n\t\t}\r\n\r\n\t\tpartial void On");
             
             #line 78 "C:\Users\M139798\Source\Repos\sqlsharpener\src\SqlSharpener\StoredProceduresTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(proc.Name));
