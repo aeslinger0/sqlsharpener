@@ -44,16 +44,16 @@ Rather than generating code from the database or using a heavy abstraction layer
 
     	public interface IStoredProcedures
     	{
-    		int usp_TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId );
-    		usp_TaskGetDto usp_TaskGet( Int32? TaskId );
-    		int usp_TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy );
+    		int TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId );
+    		TaskGetDto TaskGet( Int32? TaskId );
+    		int TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy );
     	}
     
     	public partial class StoredProcedures : IStoredProcedures
     	{
-    		public usp_TaskGetDto usp_TaskGet( Int32? TaskId )
+    		public TaskGetDto TaskGet( Int32? TaskId )
     		{
-    			usp_TaskGetDto result = null;
+    			TaskGetDto result = null;
     			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
     			using(var conn = new SqlConnection(connectionString))
     			{
@@ -68,7 +68,7 @@ Rather than generating code from the database or using a heavy abstraction layer
     					{
     						while (reader.Read())
     						{
-    							var item = new usp_TaskGetDto();
+    							var item = new TaskGetDto();
     							item.Name = reader.GetString(0);
     							item.Description = reader.GetString(1);
     							item.Status = reader.GetString(2);
@@ -88,7 +88,7 @@ Rather than generating code from the database or using a heavy abstraction layer
     		}
       }
     
-    	public class usp_TaskGetDto
+    	public class TaskGetDto
     	{
     		public String Name { get; set; }
     		public String Description { get; set; }
@@ -173,3 +173,6 @@ If you use a dependency-injection framework such as Ninject, you can use the int
         }
     }
     
+# License
+
+SqlSharpener uses The MIT License (MIT), but also has dependencies on DacFx and ScriptDom. I have included their license info in the root directory.
