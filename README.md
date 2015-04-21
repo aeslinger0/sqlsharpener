@@ -173,3 +173,6 @@ If you use a dependency-injection framework such as Ninject, you can use the int
         }
     }
     
+# License
+
+SqlSharpener uses The MIT License (MIT), but also has dependencies on DacFx and ScriptDom. I have included their license info in the root directory.
