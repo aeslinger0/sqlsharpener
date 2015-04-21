@@ -39,8 +39,8 @@ namespace SqlSharpener
         /// <returns>The generated DTO objects.</returns>
         public string GetDtoObject(Procedure proc, int indent = 0)
         {
-            // If only one select and one column or one row, no DTO is needed.
-            if (proc.Selects.Count() == 1 && (proc.Selects.First().IsTopOne || proc.Selects.First().Columns.Count() == 1))
+            // If only one select and one column, no DTO is needed.
+            if (proc.Selects.Count() == 1 && proc.Selects.First().Columns.Count() == 1)
                 return "";
 
             var b = new TextBuilder();
