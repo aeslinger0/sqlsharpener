@@ -104,7 +104,7 @@ Rather than generating code from the database or using a heavy abstraction layer
 
 # Installation
 
-Using Nuget, run the following command to install SqlSharpener:
+[Using NuGet](https://www.nuget.org/packages/SqlSharpener/), run the following command to install SqlSharpener:
 
     PM> Install-Package SqlSharpener
     
