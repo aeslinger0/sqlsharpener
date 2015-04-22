@@ -110,9 +110,9 @@ Using Nuget, run the following command to install SqlSharpener:
     
 This will add SqlSharpener as a solution-level package. That means that the dll's do not get added to any of your projects (nor should they). 
 
-# Generation
+# Quick Start
 
-Add a new T4 template (*.tt) file to your data project. Set its content as follows:
+The fastest way to get up and running is to call SqlSharpener's included pre-compiled template from your template. Add a new T4 template (*.tt) file to your data project and set its content as follows: (Ensure you have the correct version number in the dll path)
 
     <#@ template debug="false" hostspecific="true" language="C#" #>
     <#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.2\tools\SqlSharpener.dll" #>
@@ -121,7 +121,7 @@ Add a new T4 template (*.tt) file to your data project. Set its content as follo
     <#@ import namespace="System.Collections.Generic" #>
     <#@ import namespace="SqlSharpener" #>
     <#
-    	// Specify paths to your SQL files.
+    	// Specify paths to your *.sql files. Remember to include your tables as well! We need them to get the data types.
     	var sqlPaths = new List<string>();
     	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Tables"));
     	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Stored Procedures"));
@@ -140,7 +140,7 @@ Add a new T4 template (*.tt) file to your data project. Set its content as follo
     	this.Write(t.TransformText());
     #>
 
-Right-click on the .tt file and click "Run Custom Tool". The generated .cs file will contain a class with functions for all your stored procedures, DTO objects for procedures that return records, and an interface you can used if you use dependency-injection.
+The generated .cs file will contain a class with functions for all your stored procedures, DTO objects for procedures that return records, and an interface you can used if you use dependency-injection. Whenever your database project changes, simply right-click on the .tt file and click "Run Custom Tool" to regenerate the code.
 
 # Usage
 
