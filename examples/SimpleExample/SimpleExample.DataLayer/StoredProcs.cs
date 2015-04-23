@@ -15,18 +15,28 @@ namespace SimpleExample.DataLayer
 	using System.Configuration;
 	using System.Collections.Generic;
 
-	public interface IStoredProcedures
+	/// <summary>
+	/// Interface of the wrapper class for calling stored procedures. 
+	/// </summary>
+	public partial interface IStoredProcedures
 	{
 		int TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId );
 		TaskGetDto TaskGet( Int32? TaskId );
 		int TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy );
 	}
 
+	/// <summary>
+	/// Wrapper class for calling stored procedures. 
+	/// </summary>
 	public partial class StoredProcedures : IStoredProcedures
 	{
-		/// <summary>Calls the "usp_TaskCreate" stored procedure</summary>
+		/// <summary>
+		/// Calls the "usp_TaskCreate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
 		public int TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId )
 		{
+			OnTaskCreateBegin();
 			int result;
 			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
 			using(var conn = new SqlConnection(connectionString))
@@ -52,12 +62,20 @@ namespace SimpleExample.DataLayer
 				}
 				conn.Close();
 			}
+			OnTaskCreateEnd(result);
 			return result;
 		}
 
-		/// <summary>Calls the "usp_TaskGet" stored procedure</summary>
+		partial void OnTaskCreateBegin();
+		partial void OnTaskCreateEnd(int result);
+
+		/// <summary>
+		/// Calls the "usp_TaskGet" stored procedure
+		/// </summary>
+		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
 		public TaskGetDto TaskGet( Int32? TaskId )
 		{
+			OnTaskGetBegin();
 			TaskGetDto result = null;
 			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
 			using(var conn = new SqlConnection(connectionString))
@@ -89,12 +107,20 @@ namespace SimpleExample.DataLayer
 				}
 				conn.Close();
 			}
+			OnTaskGetEnd(result);
 			return result;
 		}
 
-		/// <summary>Calls the "usp_TaskUpdate" stored procedure</summary>
+		partial void OnTaskGetBegin();
+		partial void OnTaskGetEnd(TaskGetDto result);
+
+		/// <summary>
+		/// Calls the "usp_TaskUpdate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
 		public int TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy )
 		{
+			OnTaskUpdateBegin();
 			int result;
 			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
 			using(var conn = new SqlConnection(connectionString))
@@ -116,11 +142,17 @@ namespace SimpleExample.DataLayer
 				}
 				conn.Close();
 			}
+			OnTaskUpdateEnd(result);
 			return result;
 		}
 
+		partial void OnTaskUpdateBegin();
+		partial void OnTaskUpdateEnd(int result);
 
-		/// <summary>Helper function to get the bytes out of varbinary columns</summary>
+
+		/// <summary>
+		/// Helper function to get the bytes out of varbinary columns
+		/// </summary>
 		private byte[] GetBytes(IDataReader reader, int ordinal)
 		{
 			MemoryStream ms = new MemoryStream();
@@ -140,8 +172,7 @@ namespace SimpleExample.DataLayer
 
 
 	/// <summary>DTO for the output of the "usp_TaskGet" stored procedure.</summary>
-	public class TaskGetDto
-	
+	public partial class TaskGetDto	
 	{
 		public String Name { get; set; }
 		public String Description { get; set; }

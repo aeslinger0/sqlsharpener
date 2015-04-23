@@ -1,11 +1,13 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.2\tools\SqlSharpener.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.6\tools\SqlSharpener.dll" #>
 <#@ output extension=".cs" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="SqlSharpener" #>
 <#
-	// Specify paths to your SQL files.
+	// Ensure the SqlSharpener version number above matches the version you installed!
+
+	// Specify paths to your *.sql files. Remember to include your tables as well! We need them to get the data types.
 	var sqlPaths = new List<string>();
 	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Tables"));
 	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Stored Procedures"));
@@ -19,7 +21,7 @@
 
 	// Generate the code.
 	var t = new SqlSharpener.StoredProceduresTemplate();
-    t.Session = session;
+	t.Session = session;
 	t.Initialize();
 	this.Write(t.TransformText());
 #>

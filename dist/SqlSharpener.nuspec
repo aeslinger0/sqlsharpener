@@ -2,17 +2,19 @@
 <package >
   <metadata>
     <id>SqlSharpener</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <title>SqlSharpener</title>
     <authors>Adam Eslinger</authors>
     <owners>Adam Eslinger</owners>
     <licenseUrl>https://github.com/aeslinger0/sqlsharpener/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/aeslinger0/sqlsharpener</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Parses SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers. Go to https://github.com/aeslinger0/sqlsharpener for more info</description>
-    <releaseNotes>Fixed bug partial methods.</releaseNotes>
+    <description>Parses SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers or Entity Framework entities. Includes templates. Go to https://github.com/aeslinger0/sqlsharpener for more info!</description>
+    <releaseNotes>Added tables to the meta builder.
+Refactored code to be more object-oriented.
+Added more XML comments to generated code.</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>dac ScriptDom SSDT C#</tags>
+    <tags>dac ScriptDom SSDT C# CodeGen T4</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Configuration" />
     </frameworkAssemblies>

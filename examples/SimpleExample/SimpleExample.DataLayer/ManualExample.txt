@@ -1,0 +1,42 @@
+﻿
+TABLES:
+	Tasks
+		Id (Int32?)
+		Name (String)
+		Description (String)
+		TaskStatusId (Int32?)
+		Created (DateTime?)
+		CreatedBy (String)
+		Updated (DateTime?)
+		UpdatedBy (String)
+	
+	TaskStatus
+		Id (Int32?)
+		Name (String)
+	
+
+STORED PROCEDURES:
+	TaskCreate
+		Parameters
+				Name (String)
+				Description (String)
+				TaskStatusId (Int32?)
+				Created (DateTime?)
+				CreatedBy (String)
+				Updated (DateTime?)
+				UpdatedBy (String)
+				TaskId (Int32?)
+		
+	TaskGet
+		Parameters
+				TaskId (Int32?)
+		
+	TaskUpdate
+		Parameters
+				TaskId (Int32?)
+				Name (String)
+				Description (String)
+				TaskStatusId (Int32?)
+				Updated (DateTime?)
+				UpdatedBy (String)
+		

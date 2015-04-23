@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 namespace SqlSharpener
 {
     [Serializable]
-    public class SelectVisitor : TSqlFragmentVisitor
+    internal class SelectVisitor : TSqlFragmentVisitor
     {
         public SelectVisitor()
         {
-            this.Nodes = new List<SelectStatement>();
+            this.Nodes = new List<QueryExpression>();
         }
 
-        public List<SelectStatement> Nodes { get; private set; }
+        public List<QueryExpression> Nodes { get; private set; }
 
         public override void Visit(SelectStatement node)
         {
             base.Visit(node);
-            this.Nodes.Add(node);
+            this.Nodes.Add(node.QueryExpression);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SqlSharpener
 {
-    public class TextBuilder
+    internal class TextBuilder
     {
         private int indent = 0;
 

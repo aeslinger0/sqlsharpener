@@ -9,10 +9,10 @@
 <#@ parameter name="procedurePrefix" type="System.String" #>
 <#@ parameter name="sqlPaths" type="System.Collections.Generic.List<string>" #>
 <#
-  /// This creates a pre-compiled template that can be called from
-  /// within a project to generate C# wrappers for stored procedures.
+  // This creates a pre-compiled template that can be called from
+  // within a project to generate C# wrappers for stored procedures.
 
-  var helper = new SqlSharpenerHelper();
+  var helper = new ProcedureHelper();
   var meta = new MetaBuilder(sqlPaths.ToArray());
   meta.ProcedurePrefix = procedurePrefix ?? "";
 
@@ -54,6 +54,7 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 		/// <summary>
 		/// Calls the "<#=proc.RawName#>" stored procedure
 		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
 		public <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc)#> )
 		{
 			On<#=proc.Name#>Begin();

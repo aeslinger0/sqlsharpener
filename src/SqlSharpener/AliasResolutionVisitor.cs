@@ -8,7 +8,7 @@ using Microsoft.SqlServer.TransactSql.ScriptDom;
 namespace SqlSharpener
 {
     [Serializable]
-    public class AliasResolutionVisitor : TSqlFragmentVisitor
+    internal class AliasResolutionVisitor : TSqlFragmentVisitor
     {
         readonly Dictionary<string, string> aliases = new Dictionary<string, string>();
         public Dictionary<string, string> Aliases { get { return aliases; } }

@@ -1,0 +1,694 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SqlSharpener</name>
+    </assembly>
+    <members>
+        <member name="T:SqlSharpener.Model.Column">
+            <summary>
+            Represents a column in a table.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.Model.Column.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String},System.Boolean,System.Boolean,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Column"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="dataTypes">The data types.</param>
+            <param name="isIdentity">if set to <c>true</c> [is identity].</param>
+            <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+            <param name="precision">The precision.</param>
+            <param name="scale">The scale.</param>
+            <param name="length">The length.</param>
+        </member>
+        <member name="M:SqlSharpener.Model.Column.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Column"/> class.
+            </summary>
+            <param name="tSqlObject">The TSqlObject representing the column.</param>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.DataTypes">
+            <summary>
+            Gets the data types.
+            </summary>
+            <value>
+            The data types.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.IsIdentity">
+            <summary>
+            Gets or sets a value indicating whether this instance is an identity column.
+            </summary>
+            <value>
+            <c>true</c> if this instance is an identity column; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.IsNullable">
+            <summary>
+            Gets or sets a value indicating whether this instance is nullable.
+            </summary>
+            <value>
+            <c>true</c> if this instance is nullable; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.Precision">
+            <summary>
+            Gets or sets the precision.
+            </summary>
+            <value>
+            The precision.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.Scale">
+            <summary>
+            Gets or sets the scale.
+            </summary>
+            <value>
+            The scale.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.Length">
+            <summary>
+            Gets or sets the length.
+            </summary>
+            <value>
+            The length.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.Model.Table">
+            <summary>
+            Represents a table in the model.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.Model.Table.#ctor(System.String,System.Collections.Generic.IEnumerable{SqlSharpener.Model.Column})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Table"/> class.
+            </summary>
+            <param name="name">The name of the table.</param>
+            <param name="columns">The columns.</param>
+        </member>
+        <member name="M:SqlSharpener.Model.Table.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Table"/> class.
+            </summary>
+            <param name="tSqlObject">The TSqlObject representing the table.</param>
+        </member>
+        <member name="P:SqlSharpener.Model.Table.Name">
+            <summary>
+            Gets the name of the table.
+            </summary>
+            <value>
+            The name of the table.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Table.Columns">
+            <summary>
+            Gets the columns.
+            </summary>
+            <value>
+            The columns.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.Model.SelectColumn">
+            <summary>
+            Represents a column in a SELECT statement in a stored procedure.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.SelectColumn"/> class.
+            </summary>
+            <param name="name">The name or alias.</param>
+            <param name="dataTypes">The data types.</param>
+        </member>
+        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.SelectScalarExpression,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.SelectColumn"/> class.
+            </summary>
+            <param name="selectScalarExpression">The select scalar expression.</param>
+            <param name="bodyColumnTypes">The body column types.</param>
+            <param name="tableAliases">The table aliases.</param>
+        </member>
+        <member name="M:SqlSharpener.Model.SelectColumn.GetDataType(System.Collections.Generic.IDictionary{System.String,System.String},System.String)">
+            <summary>
+            Gets the data type from the MultiPartIdentifier
+            </summary>
+            <param name="bodyColumnTypes">The body column types.</param>
+            <param name="fullColName">Full name of the col.</param>
+            <returns>
+            The data type
+            </returns>
+            <exception cref="T:System.InvalidOperationException">Could not find column within BodyDependencies:  + fullColName</exception>
+        </member>
+        <member name="M:SqlSharpener.Model.SelectColumn.GetFullColumnName(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IList{Microsoft.SqlServer.TransactSql.ScriptDom.Identifier})">
+            <summary>
+            Gets the fully qualified column name with any table aliases resolved.
+            </summary>
+            <param name="tableAliases">The table aliases.</param>
+            <param name="identifiers">The identifiers in the MultiPartIdentifier.</param>
+            <returns>
+            The fully qualified column name.
+            </returns>
+        </member>
+        <member name="P:SqlSharpener.Model.SelectColumn.Name">
+            <summary>
+            Gets the name or alias.
+            </summary>
+            <value>
+            The name or alias.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.SelectColumn.DataTypes">
+            <summary>
+            Gets the data types.
+            </summary>
+            <value>
+            The data types.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.DataTypeHelper">
+            <summary>
+            Helps map a data type to similar datatypes in different environments.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.DataTypeHelper.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:SqlSharpener.DataTypeHelper"/> class from being created. 
+            Created from this reference: https://msdn.microsoft.com/en-us/library/cc716729%28v=vs.110%29.aspx
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.DataTypeHelper.ToDataType(System.String,SqlSharpener.TypeFormat,SqlSharpener.TypeFormat)">
+            <summary>
+            Converts the specified source data type into the specified destination data type.
+            </summary>
+            <param name="sourceDataType">The source data type. For example <c>bigint</c>.</param>
+            <param name="sourceFormat">The format of the the sourceDataType parameter.</param>
+            <param name="destinationFormat">The format to convert the sourceDataType parameter to.</param>
+            <returns>
+            The converted data type.
+            </returns>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="M:SqlSharpener.DataTypeHelper.GetMap(SqlSharpener.TypeFormat,System.String)">
+            <summary>
+            Gets a single data type dictionary with values for each TypeFormat by finding the specified entry in the list of data type dictionaries.
+            </summary>
+            <param name="lookupFormat">The TypeFormat of the lookupValue parameter.</param>
+            <param name="lookupValue">The value to identify the dictionary to return.</param>
+            <returns>
+            The first data type dictionary that contains the specified TypeFormat and value.
+            </returns>
+        </member>
+        <member name="P:SqlSharpener.DataTypeHelper.Instance">
+            <summary>
+            Gets the instance.
+            </summary>
+            <value>
+            The instance.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.TypeFormat">
+            <summary>
+            The different types of datatypes available.
+            </summary>
+        </member>
+        <member name="F:SqlSharpener.TypeFormat.SqlServerDbType">
+            <summary>
+            The SQL server database type
+            </summary>
+            <example>"bigint"</example>
+        </member>
+        <member name="F:SqlSharpener.TypeFormat.DotNetFrameworkType">
+            <summary>
+            The dot net framework type
+            </summary>
+            <example>"Int64?"</example>
+        </member>
+        <member name="F:SqlSharpener.TypeFormat.SqlDbTypeEnum">
+            <summary>
+            The SqlDbTypeEnum type
+            </summary>
+            <example>"BigInt"</example>
+        </member>
+        <member name="F:SqlSharpener.TypeFormat.SqlDataReaderSqlType">
+            <summary>
+            The SQL data reader SQL type
+            </summary>
+            <example>"GetSqlInt64"</example>
+        </member>
+        <member name="F:SqlSharpener.TypeFormat.DbTypeEnum">
+            <summary>
+            The database type enum
+            </summary>
+            <example>"Int64"</example>
+        </member>
+        <member name="F:SqlSharpener.TypeFormat.SqlDataReaderDbType">
+            <summary>
+            The SQL data reader database type
+            </summary>
+            <example>"GetInt64"</example>
+        </member>
+        <member name="T:SqlSharpener.Model.Parameter">
+            <summary>
+            Represents a parameter of a stored procedure.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.Model.Parameter.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String},System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Parameter"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="dataTypes">The data types.</param>
+            <param name="isOutput">if set to <c>true</c> [is output].</param>
+        </member>
+        <member name="M:SqlSharpener.Model.Parameter.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Parameter"/> class.
+            </summary>
+            <param name="tSqlObject">The TSqlObject representing the parameter.</param>
+        </member>
+        <member name="P:SqlSharpener.Model.Parameter.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Parameter.DataTypes">
+            <summary>
+            Gets the data types for this parameter.
+            </summary>
+            <value>
+            The data types.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Parameter.IsOutput">
+            <summary>
+            Gets a value indicating whether this instance is an output parameter.
+            </summary>
+            <value>
+              <c>true</c> if this instance is an output parameter; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.Model.Procedure">
+            <summary>
+            Represents a stored procedures
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.Model.Procedure.#ctor(System.String,System.String,System.String,System.Collections.Generic.IEnumerable{SqlSharpener.Model.Parameter},System.Collections.Generic.IEnumerable{SqlSharpener.Model.Select})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Procedure"/> class.
+            </summary>
+            <param name="name">The name to use for methods.</param>
+            <param name="rawName">The raw name of the stored procedure.</param>
+            <param name="prefix">The prefix used on stored procedure names.</param>
+            <param name="parameters">The parameters.</param>
+            <param name="selects">The selects.</param>
+        </member>
+        <member name="M:SqlSharpener.Model.Procedure.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Procedure"/> class.
+            </summary>
+            <param name="tSqlObject">The TSqlObject representing the stored procedure.</param>
+            <param name="prefix">The prefix used on stored procedure names.</param>
+        </member>
+        <member name="P:SqlSharpener.Model.Procedure.Name">
+            <summary>
+            Gets the name used for methods.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Procedure.RawName">
+            <summary>
+            Gets the raw name of the stored procedure.
+            </summary>
+            <value>
+            The stored procedure name verbatim.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Procedure.Prefix">
+            <summary>
+            Gets the prefix.
+            </summary>
+            <value>
+            The prefix.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Procedure.Parameters">
+            <summary>
+            Gets the parameters.
+            </summary>
+            <value>
+            The parameters.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Procedure.Selects">
+            <summary>
+            Gets the selects.
+            </summary>
+            <value>
+            The selects.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.MetaBuilder">
+            <summary>
+            Creates a model from the specified sql files.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.MetaBuilder.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.MetaBuilder"/> class.
+            </summary>
+            <param name="sqlPaths">The paths to the *.sql files.</param>
+        </member>
+        <member name="M:SqlSharpener.MetaBuilder.LoadModel">
+            <summary>
+            Creates a new TSqlModel, loads all *.sql files specified in the SqlPaths property
+            into the new model, and then parses the model.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">No path to *.sql files exists in SqlPaths properties.</exception>
+        </member>
+        <member name="M:SqlSharpener.MetaBuilder.LoadModel(System.String[])">
+            <summary>
+            Creates a new TSqlModel, loads each specified sql statement into the new model,
+            and then parses the model
+            </summary>
+            <param name="sqlStatements">One or more sql statements to load, such as CREATE TABLE or CREATE PROCEDURE statements.</param>
+        </member>
+        <member name="M:SqlSharpener.MetaBuilder.LoadModel(Microsoft.SqlServer.Dac.Model.TSqlModel)">
+            <summary>
+            Parses the specified TSqlModel
+            </summary>
+            <param name="model">The model.</param>
+        </member>
+        <member name="P:SqlSharpener.MetaBuilder.ProcedurePrefix">
+            <summary>
+            Gets or sets the prefix to strip off the procedure name when generating the method name.
+            </summary>
+            <value>
+            The procedure prefix.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.MetaBuilder.SqlPaths">
+            <summary>
+            List of directories where *.sql exist that should be added to the model.
+            </summary>
+            <value>
+            The SQL paths.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.MetaBuilder.Procedures">
+            <summary>
+            Objects representing the meta data parsed from stored procedures in the model.
+            </summary>
+            <value>
+            The procedures.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.MetaBuilder.Tables">
+            <summary>
+            Objects representing the meta data parsed from the tables in the model.
+            </summary>
+            <value>
+            The tables.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.Model.Select">
+            <summary>
+            Represents a SELECT statement in a stored procedure.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.Model.Select.#ctor(System.Collections.Generic.IEnumerable{SqlSharpener.Model.SelectColumn},System.Boolean,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Select"/> class.
+            </summary>
+            <param name="columns">The columns.</param>
+            <param name="isTopOne">if set to <c>true</c> the select statement uses a TOP 1 clause.</param>
+            <param name="tableAliases">The table aliases.</param>
+        </member>
+        <member name="M:SqlSharpener.Model.Select.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.QuerySpecification,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.Select"/> class.
+            </summary>
+            <param name="querySpecification">The query specification.</param>
+            <param name="bodyColumnTypes">The body column types.</param>
+        </member>
+        <member name="P:SqlSharpener.Model.Select.Columns">
+            <summary>
+            Gets the columns.
+            </summary>
+            <value>
+            The columns.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Select.IsTopOne">
+            <summary>
+            Gets a value indicating whether this instance uses a TOP 1 clause.
+            </summary>
+            <value>
+            <c>true</c> if this instance uses a TOP 1 clause; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Select.TableAliases">
+            <summary>
+            Gets the table aliases.
+            </summary>
+            <value>
+            The table aliases.
+            </value>
+        </member>
+        <member name="T:SqlSharpener.ProcedureHelper">
+            <summary>
+            Helper class to handle some of the more complex code generation.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetNamespace(System.String)">
+            <summary>
+            Scrubs the outputNamespace parameter to ensure it is not null.
+            </summary>
+            <param name="outputNameSpace">The outputNameSpace T4 parameter.</param>
+            <returns>
+            The value of outputNameSpace if not null.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">outputNamespace cannot be null.</exception>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetConnStrVar(System.String)">
+            <summary>
+            Scrubs the connectionStringVariableName parameter to ensure it is not null.
+            </summary>
+            <param name="connectionStringVariableName">The connectionStringVariableName T4 parameter.</param>
+            <returns>
+            The value of connectionStringVariableName if not null.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">connectionStringVariableName cannot be null.</exception>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetDtoObject(SqlSharpener.Model.Procedure,System.Int32)">
+            <summary>
+            Gets the DTO return objects that represent a row of each result set of each procedure.
+            </summary>
+            <param name="proc">The procedure to generate the DTO from.</param>
+            <param name="indent">The number of tabs to indent the generated code.</param>
+            <returns>
+            The generated DTO objects.
+            </returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetReturnType(SqlSharpener.Model.Procedure)">
+            <summary>
+            Gets the type of object the procedure's function will return.
+            </summary>
+            <param name="proc">The procedure to get the return type for.</param>
+            <returns>
+            The generated return type.
+            </returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetReturnVariable(SqlSharpener.Model.Procedure)">
+            <summary>
+            Gets the variable declaration statement for the return value.
+            </summary>
+            <param name="proc">The procedure to get the return variable declaration statement.</param>
+            <returns>
+            The generated declaration statement.
+            </returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetReturnXmlComment(SqlSharpener.Model.Procedure)">
+            <summary>
+            Gets the Xml comment to place in the &lt;returns%gt; element.
+            </summary>
+            <param name="proc">The procedure to get the return variable declaration statement.</param>
+            <returns>
+            The Xml comment
+            </returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetMethodParamList(SqlSharpener.Model.Procedure)">
+            <summary>
+            Gets the parameter list for the method.
+            </summary>
+            <param name="proc">The procedure to get the parameter list for.</param>
+            <returns>
+            The generated parameter list.
+            </returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetSqlParamList(SqlSharpener.Model.Procedure,System.Int32)">
+            <summary>
+            Gets the generated SqlParameter objects with assigned values.
+            </summary>
+            <param name="proc">The procedure to get the generated SqlParameters for.</param>
+            <param name="indent">The number of tabs to indent the generated code.</param>
+            <returns>
+            The generated SqlParameters
+            </returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetExecuteStatement(SqlSharpener.Model.Procedure,System.Int32)">
+            <summary>
+            Gets the generated statement that executes the stored procedure and loads the results
+            into the return variable.
+            </summary>
+            <param name="proc">The procedure to get the generated execute statement for.</param>
+            <param name="indent">The number of tabs to indent the generated code.</param>
+            <returns>
+            The generated code.
+            </returns>
+        </member>
+        <member name="T:SqlSharpener.StoredProceduresTemplate">
+            <summary>
+            Class to produce the template output
+            </summary>
+        </member>
+        <member name="T:SqlSharpener.StoredProceduresTemplateBase">
+            <summary>
+            Base class for this transformation
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.Write(System.String)">
+            <summary>
+            Write text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.WriteLine(System.String)">
+            <summary>
+            Write text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.Write(System.String,System.Object[])">
+            <summary>
+            Write formatted text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.WriteLine(System.String,System.Object[])">
+            <summary>
+            Write formatted text directly into the generated output
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.Error(System.String)">
+            <summary>
+            Raise an error
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.Warning(System.String)">
+            <summary>
+            Raise a warning
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.PushIndent(System.String)">
+            <summary>
+            Increase the indent
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.PopIndent">
+            <summary>
+            Remove the last indent that was added with PushIndent
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.ClearIndent">
+            <summary>
+            Remove any indentation
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplateBase.GenerationEnvironment">
+            <summary>
+            The string builder that generation-time code is using to assemble generated output
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplateBase.Errors">
+            <summary>
+            The error collection for the generation process
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplateBase.indentLengths">
+            <summary>
+            A list of the lengths of each indent that was added with PushIndent
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplateBase.CurrentIndent">
+            <summary>
+            Gets the current indent we use when adding lines to the output
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplateBase.Session">
+            <summary>
+            Current transformation session
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplateBase.ToStringHelper">
+            <summary>
+            Helper to produce culture-oriented representation of an object as a string
+            </summary>
+        </member>
+        <member name="T:SqlSharpener.StoredProceduresTemplateBase.ToStringInstanceHelper">
+            <summary>
+            Utility class to produce culture-oriented representation of an object as a string.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplateBase.ToStringInstanceHelper.ToStringWithCulture(System.Object)">
+            <summary>
+            This is called from the compile/run appdomain to convert objects within an expression block to a string
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplateBase.ToStringInstanceHelper.FormatProvider">
+            <summary>
+            Gets or sets format provider to be used by ToStringWithCulture method.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplate.TransformText">
+            <summary>
+            Create the template output
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.StoredProceduresTemplate.Initialize">
+            <summary>
+            Initialize the template
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplate.outputNamespace">
+            <summary>
+            Access the outputNamespace parameter of the template.
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplate.connectionStringVariableName">
+            <summary>
+            Access the connectionStringVariableName parameter of the template.
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplate.procedurePrefix">
+            <summary>
+            Access the procedurePrefix parameter of the template.
+            </summary>
+        </member>
+        <member name="P:SqlSharpener.StoredProceduresTemplate.sqlPaths">
+            <summary>
+            Access the sqlPaths parameter of the template.
+            </summary>
+        </member>
+    </members>
+</doc>

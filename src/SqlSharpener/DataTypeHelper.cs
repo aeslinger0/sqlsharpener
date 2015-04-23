@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace SqlSharpener
 {
+    /// <summary>
+    /// Helps map a data type to similar datatypes in different environments.
+    /// </summary>
     [Serializable]
     public class DataTypeHelper
     {
+        /// <summary>
+        /// Prevents a default instance of the <see cref="DataTypeHelper"/> class from being created. 
+        /// Created from this reference: https://msdn.microsoft.com/en-us/library/cc716729%28v=vs.110%29.aspx
+        /// </summary>
         private DataTypeHelper()
         {
             LoadDataTypes();
@@ -18,6 +25,12 @@ namespace SqlSharpener
 
         private static DataTypeHelper instance;
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <value>
+        /// The instance.
+        /// </value>
         public static DataTypeHelper Instance
         {
             get
@@ -30,13 +43,31 @@ namespace SqlSharpener
             }
         }
 
+        /// <summary>
+        /// Converts the specified source data type into the specified destination data type.
+        /// </summary>
+        /// <param name="sourceDataType">The source data type. For example <c>bigint</c>.</param>
+        /// <param name="sourceFormat">The format of the the sourceDataType parameter.</param>
+        /// <param name="destinationFormat">The format to convert the sourceDataType parameter to.</param>
+        /// <returns>
+        /// The converted data type.
+        /// </returns>
+        /// <exception cref="System.NotSupportedException"></exception>
         public string ToDataType(string sourceDataType, TypeFormat sourceFormat, TypeFormat destinationFormat)
         {
             var map = this.GetMap(sourceFormat, sourceDataType);
-            if (map == null) throw new NotSupportedException("Could not find data type: " + sourceDataType);
+            if (map == null) throw new NotSupportedException(string.Format("Could not find a {0} data type of {1}. Ensure the sourceFormat is appropriate for the specified sourceDataType.", Enum.GetName(typeof(TypeFormat), sourceFormat), sourceDataType));
             return map[destinationFormat];
         }
 
+        /// <summary>
+        /// Gets a single data type dictionary with values for each TypeFormat by finding the specified entry in the list of data type dictionaries.
+        /// </summary>
+        /// <param name="lookupFormat">The TypeFormat of the lookupValue parameter.</param>
+        /// <param name="lookupValue">The value to identify the dictionary to return.</param>
+        /// <returns>
+        /// The first data type dictionary that contains the specified TypeFormat and value.
+        /// </returns>
         public IDictionary<TypeFormat, string> GetMap(TypeFormat lookupFormat, string lookupValue)
         {
             return dataTypes.FirstOrDefault(dic => dic.Any(entry => entry.Key == lookupFormat && entry.Value == lookupValue));
@@ -79,13 +110,45 @@ namespace SqlSharpener
         }
     }
 
+    /// <summary>
+    /// The different types of datatypes available.
+    /// </summary>
     public enum TypeFormat
     {
+        /// <summary>
+        /// The SQL server database type
+        /// </summary>
+        /// <example>"bigint"</example>
         SqlServerDbType,
+
+        /// <summary>
+        /// The dot net framework type
+        /// </summary>
+        /// <example>"Int64?"</example>
         DotNetFrameworkType,
+
+        /// <summary>
+        /// The SqlDbTypeEnum type
+        /// </summary>
+        /// <example>"BigInt"</example>
         SqlDbTypeEnum,
+
+        /// <summary>
+        /// The SQL data reader SQL type
+        /// </summary>
+        /// <example>"GetSqlInt64"</example>
         SqlDataReaderSqlType,
+
+        /// <summary>
+        /// The database type enum
+        /// </summary>
+        /// <example>"Int64"</example>
         DbTypeEnum,
+
+        /// <summary>
+        /// The SQL data reader database type
+        /// </summary>
+        /// <example>"GetInt64"</example>
         SqlDataReaderDbType
     }
 }

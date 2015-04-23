@@ -48,6 +48,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ManualExample.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ManualExample.txt</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="StoredProcs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -56,6 +60,13 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ManualExample.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ManualExample.tt</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
