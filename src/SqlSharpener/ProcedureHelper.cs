@@ -59,7 +59,7 @@ namespace SqlSharpener
             b.Indent(indent);
             for (var i = 0; i < proc.Selects.Count(); i++)
             {
-                b.AppendLine("/// <summary>")
+                b.AppendLine("/// <summary>");
                 b.AppendFormatLine("/// DTO for the output of the \"{0}\" stored procedure.", proc.RawName);
                 b.AppendLine("/// </summary>");
                 b.AppendFormat("public partial class {0}Dto", proc.Name);
