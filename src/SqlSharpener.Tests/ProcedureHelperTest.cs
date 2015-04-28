@@ -20,20 +20,6 @@ namespace SqlSharpener.Tests
         }
 
         [TestMethod]
-        public void Test()
-        {
-            var builder = new MetaBuilder();
-            builder.SqlPaths.Add(@"C:\WorkGPS\DTCServices\main\Mayo.DTCServices\Mayo.DTCServices.Database\dbo\Tables");
-            builder.SqlPaths.Add(@"C:\WorkGPS\DTCServices\main\Mayo.DTCServices\Mayo.DTCServices.Database\dbo\Stored Procedures");
-            var helper = new ProcedureHelper();
-            foreach (var proc in builder.Procedures)
-            {
-                var y = helper.GetSqlParamList(proc);
-                var x = helper.GetReturnVariable(proc);
-            }
-        }
-        
-        [TestMethod]
         public void ReturnTypeSingleRowSingleColumnTest()
         {
             // Arrange
