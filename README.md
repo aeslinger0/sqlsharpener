@@ -143,9 +143,9 @@ This will add SqlSharpener as a solution-level package. That means that the dll'
 
 # Quick Start
 
-See the [Quick Start Guide](https://github.com/aeslinger0/sqlsharpener/wiki/QuickStart) for more examples.
+See the [Quick Start Guide](https://github.com/aeslinger0/sqlsharpener/wiki/Quick-Start-Guide) for more examples.
 
-The fastest way to get up and running is to call one of SqlSharpener's included pre-compiled templates from your template. Add a new T4 template (*.tt) file to your data project and set its content as follows: *(Ensure you have the correct version number in the dll path)*
+The fastest way to get up and running is to call one of SqlSharpener's included pre-compiled templates from your template. Add a new T4 template (\*.tt) file to your data project and set its content as follows: *(Ensure you have the correct version number in the dll path)*
 
     <#@ template debug="false" hostspecific="true" language="C#" #>
     <#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.2\tools\SqlSharpener.dll" #>
