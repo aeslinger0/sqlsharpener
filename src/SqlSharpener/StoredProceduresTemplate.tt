@@ -40,7 +40,18 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 	public partial interface IStoredProcedures
 	{
 <#foreach(var proc in meta.Procedures){ #>
+		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure
+		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
+		<#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=proc.Name#>InputDto input );
+		
+		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure
+		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
 		<#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc)#> );
+
 <# } #>
 	}
 
@@ -58,6 +69,22 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 
 
 <#foreach(var proc in meta.Procedures){ #>
+		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure
+		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
+		public <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=proc.Name#>InputDto input )
+		{
+<# foreach(var outputParam in proc.Parameters.Where(x => x.IsOutput)){ #>
+			<#=outputParam.DataTypes[TypeFormat.DotNetFrameworkType]#> <#=outputParam.Name#>Output;
+<# } #>
+			var result = this.<#=proc.Name#>(<#=helper.GetMethodParamListForOverload(proc)#>);
+<# foreach(var outputParam in proc.Parameters.Where(x => x.IsOutput)){ #>
+			input.<#=outputParam.Name#> = <#=outputParam.Name#>Output;
+<# } #>
+			return result;
+		}
+
 		/// <summary>
 		/// Calls the "<#=proc.RawName#>" stored procedure
 		/// </summary>

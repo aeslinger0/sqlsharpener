@@ -20,9 +20,42 @@ namespace SimpleExample.DataLayer
 	/// </summary>
 	public partial interface IStoredProcedures
 	{
+		/// <summary>
+		/// Calls the "usp_TaskCreate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
+		int TaskCreate( TaskCreateInputDto input );
+		
+		/// <summary>
+		/// Calls the "usp_TaskCreate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
 		int TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId );
-		Result<TaskGetDto> TaskGet( Int32? TaskId );
+
+		/// <summary>
+		/// Calls the "usp_TaskGet" stored procedure
+		/// </summary>
+		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
+		Result<TaskGetOutputDto> TaskGet( TaskGetInputDto input );
+		
+		/// <summary>
+		/// Calls the "usp_TaskGet" stored procedure
+		/// </summary>
+		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
+		Result<TaskGetOutputDto> TaskGet( Int32? TaskId );
+
+		/// <summary>
+		/// Calls the "usp_TaskUpdate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
+		int TaskUpdate( TaskUpdateInputDto input );
+		
+		/// <summary>
+		/// Calls the "usp_TaskUpdate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
 		int TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy );
+
 	}
 
 	/// <summary>
@@ -37,6 +70,18 @@ namespace SimpleExample.DataLayer
 			this.connectionString = connectionString;
 		}
 
+
+		/// <summary>
+		/// Calls the "usp_TaskCreate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
+		public int TaskCreate( TaskCreateInputDto input )
+		{
+			Int32? TaskIdOutput;
+			var result = this.TaskCreate(input.Name, input.Description, input.TaskStatusId, input.Created, input.CreatedBy, input.Updated, input.UpdatedBy, out TaskIdOutput);
+			input.TaskId = TaskIdOutput;
+			return result;
+		}
 
 		/// <summary>
 		/// Calls the "usp_TaskCreate" stored procedure
@@ -80,10 +125,20 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskGet" stored procedure
 		/// </summary>
 		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
-		public Result<TaskGetDto> TaskGet( Int32? TaskId )
+		public Result<TaskGetOutputDto> TaskGet( TaskGetInputDto input )
+		{
+			var result = this.TaskGet(input.TaskId);
+			return result;
+		}
+
+		/// <summary>
+		/// Calls the "usp_TaskGet" stored procedure
+		/// </summary>
+		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
+		public Result<TaskGetOutputDto> TaskGet( Int32? TaskId )
 		{
 			OnTaskGetBegin();
-			Result<TaskGetDto> result = new Result<TaskGetDto>();
+			Result<TaskGetOutputDto> result = new Result<TaskGetOutputDto>();
 			using(var conn = new SqlConnection(connectionString))
 			{
 				conn.Open();
@@ -98,7 +153,7 @@ namespace SimpleExample.DataLayer
 						result.RecordsAffected = reader.RecordsAffected;
 						while (reader.Read())
 						{
-							var item = new TaskGetDto();
+							var item = new TaskGetOutputDto();
 							item.Name = reader.GetString(0);
 							item.Description = reader.GetString(1);
 							item.Status = reader.GetString(2);
@@ -119,7 +174,17 @@ namespace SimpleExample.DataLayer
 		}
 
 		partial void OnTaskGetBegin();
-		partial void OnTaskGetEnd(Result<TaskGetDto> result);
+		partial void OnTaskGetEnd(Result<TaskGetOutputDto> result);
+
+		/// <summary>
+		/// Calls the "usp_TaskUpdate" stored procedure
+		/// </summary>
+		/// <returns>The number of rows affected.</returns>
+		public int TaskUpdate( TaskUpdateInputDto input )
+		{
+			var result = this.TaskUpdate(input.TaskId, input.Name, input.Description, input.TaskStatusId, input.Updated, input.UpdatedBy);
+			return result;
+		}
 
 		/// <summary>
 		/// Calls the "usp_TaskUpdate" stored procedure
@@ -185,11 +250,61 @@ namespace SimpleExample.DataLayer
 		public int RecordsAffected { get; set; }
 	}
 
+	/// <summary>
+	/// DTO for the input of the "usp_TaskCreate" stored procedure.
+	/// </summary>
+	public partial class TaskCreateInputDto
+	{
+		/// <summary>
+		/// Property that fills the Name input parameter.
+		/// </summary>
+		public String Name { get; set; }
+		/// <summary>
+		/// Property that fills the Description input parameter.
+		/// </summary>
+		public String Description { get; set; }
+		/// <summary>
+		/// Property that fills the TaskStatusId input parameter.
+		/// </summary>
+		public Int32? TaskStatusId { get; set; }
+		/// <summary>
+		/// Property that fills the Created input parameter.
+		/// </summary>
+		public DateTime? Created { get; set; }
+		/// <summary>
+		/// Property that fills the CreatedBy input parameter.
+		/// </summary>
+		public String CreatedBy { get; set; }
+		/// <summary>
+		/// Property that fills the Updated input parameter.
+		/// </summary>
+		public DateTime? Updated { get; set; }
+		/// <summary>
+		/// Property that fills the UpdatedBy input parameter.
+		/// </summary>
+		public String UpdatedBy { get; set; }
+		/// <summary>
+		/// Property that gets filled with the TaskId output parameter.
+		/// </summary>
+		public Int32? TaskId { get; internal set; }
+	}
+	
 
+	/// <summary>
+	/// DTO for the input of the "usp_TaskGet" stored procedure.
+	/// </summary>
+	public partial class TaskGetInputDto
+	{
+		/// <summary>
+		/// Property that fills the TaskId input parameter.
+		/// </summary>
+		public Int32? TaskId { get; set; }
+	}
+	
 	/// <summary>
 	/// DTO for the output of the "usp_TaskGet" stored procedure.
 	/// </summary>
-	public partial class TaskGetDto	
+	public partial class TaskGetOutputDto	
 	{
 		public String Name { get; set; }
 		public String Description { get; set; }
@@ -199,6 +314,38 @@ namespace SimpleExample.DataLayer
 		public DateTime Updated { get; set; }
 		public String UpdatedBy { get; set; }
 	}
+	
 
+	/// <summary>
+	/// DTO for the input of the "usp_TaskUpdate" stored procedure.
+	/// </summary>
+	public partial class TaskUpdateInputDto
+	{
+		/// <summary>
+		/// Property that fills the TaskId input parameter.
+		/// </summary>
+		public Int32? TaskId { get; set; }
+		/// <summary>
+		/// Property that fills the Name input parameter.
+		/// </summary>
+		public String Name { get; set; }
+		/// <summary>
+		/// Property that fills the Description input parameter.
+		/// </summary>
+		public String Description { get; set; }
+		/// <summary>
+		/// Property that fills the TaskStatusId input parameter.
+		/// </summary>
+		public Int32? TaskStatusId { get; set; }
+		/// <summary>
+		/// Property that fills the Updated input parameter.
+		/// </summary>
+		public DateTime? Updated { get; set; }
+		/// <summary>
+		/// Property that fills the UpdatedBy input parameter.
+		/// </summary>
+		public String UpdatedBy { get; set; }
+	}
+	
 
 }

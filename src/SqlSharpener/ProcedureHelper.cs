@@ -37,18 +37,42 @@ namespace SqlSharpener
         /// </returns>
         public string GetDtoObject(Procedure proc, int indent = 0)
         {
-            // If only one select and one column, no DTO is needed.
-            if (proc.Selects.Count() == 1 && proc.Selects.First().Columns.Count() == 1)
-                return "";
-
             var b = new TextBuilder();
             b.Indent(indent);
+
+            if (proc.Parameters.Any())
+            {
+                b.AppendLine("/// <summary>");
+                b.AppendFormatLine("/// DTO for the input of the \"{0}\" stored procedure.", proc.RawName);
+                b.AppendLine("/// </summary>");
+                b.AppendFormatLine("public partial class {0}InputDto", proc.Name);
+                b.AppendLine("{");
+                b.Indent();
+                foreach (var p in proc.Parameters)
+                {
+                    b.AppendLine("/// <summary>");
+                    b.AppendFormatLine(p.IsOutput ?
+                        "/// Property that gets filled with the {0} output parameter." :
+                        "/// Property that fills the {0} input parameter.", p.Name);
+                    b.AppendLine("/// </summary>");
+                    var cSharpType = p.DataTypes[TypeFormat.DotNetFrameworkType];
+                    b.AppendFormatLine("public {0} {1} {{ get; {2}set; }}", cSharpType, p.Name, p.IsOutput ? "internal " : "");
+                }
+                b.Unindent();
+                b.AppendLine("}");
+                b.AppendLine();
+            }
+
+            // If only one select and one column, no output DTO is needed.
+            if (proc.Selects.Count() == 1 && proc.Selects.First().Columns.Count() == 1)
+                return b.ToString();
+
             for (var i = 0; i < proc.Selects.Count(); i++)
             {
                 b.AppendLine("/// <summary>");
                 b.AppendFormatLine("/// DTO for the output of the \"{0}\" stored procedure.", proc.RawName);
                 b.AppendLine("/// </summary>");
-                b.AppendFormat("public partial class {0}Dto", proc.Name);
+                b.AppendFormat("public partial class {0}OutputDto", proc.Name);
                 if (i > 0) b.Append((i + 1).ToString());
                 b.AppendLine();
                 b.AppendLine("{");
@@ -61,6 +85,7 @@ namespace SqlSharpener
                 }
                 b.Unindent();
                 b.AppendLine("}");
+                b.AppendLine();
             }
             if (proc.Selects.Count() > 1)
             {
@@ -71,11 +96,13 @@ namespace SqlSharpener
                 for (var i = 0; i < proc.Selects.Count(); i++)
                 {
                     var inc = i > 0 ? (i + 1).ToString() : "";
-                    b.AppendFormatLine("public IEnumerable<{0}Dto{1}> Result{1} {{ get; set; }}", proc.Name, inc);
+                    b.AppendFormatLine("public IEnumerable<{0}OutputDto{1}> Result{1} {{ get; set; }}", proc.Name, inc);
                 }
                 b.Unindent();
                 b.AppendLine("}");
+                b.AppendLine();
             }
+            b.Unindent();
             return b.ToString();
         }
 
@@ -102,8 +129,8 @@ namespace SqlSharpener
                 }
                 else
                 {
-                    return string.Format(select.IsSingleRow ? "Result<{0}>" : "Result<IEnumerable<{0}>>", proc.Name + "Dto");
-                 }
+                    return string.Format(select.IsSingleRow ? "Result<{0}>" : "Result<IEnumerable<{0}>>", proc.Name + "OutputDto");
+                }
             }
             else
             {
@@ -169,6 +196,18 @@ namespace SqlSharpener
             return b.ToString();
         }
 
+        public string GetMethodParamListForOverload(Procedure proc)
+        {
+            var b = new TextBuilder();
+            for (var i = 0; i < proc.Parameters.Count(); i++)
+            {
+                var parameter = proc.Parameters.ElementAt(i);
+                if (i != 0) b.Append(", ");
+                b.AppendFormat(parameter.IsOutput ? "out {0}Output" : "input.{0}", parameter.Name);
+            }
+            return b.ToString();
+        }
+
         /// <summary>
         /// Gets the generated SqlParameter objects with assigned values.
         /// </summary>
@@ -226,7 +265,7 @@ namespace SqlSharpener
             {
                 var col = proc.Selects.First().Columns.First();
                 var cSharpType = col.DataTypes[TypeFormat.DotNetFrameworkType];
-                if(!col.IsNullable) cSharpType = cSharpType.TrimEnd('?');
+                if (!col.IsNullable) cSharpType = cSharpType.TrimEnd('?');
                 b.AppendFormatLine("result = ({0})cmd.ExecuteScalar();", cSharpType);
             }
             else
@@ -245,7 +284,7 @@ namespace SqlSharpener
                     {
                         // If only one select with one column, use a primitive list, else use a DTO list.
                         if (singleColumn) b.AppendFormatLine("var list = new List<{0}>();", select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
-                        else b.AppendFormatLine("var list{1} = new List<{0}Dto{1}>();", proc.Name, inc);
+                        else b.AppendFormatLine("var list{1} = new List<{0}OutputDto{1}>();", proc.Name, inc);
                     }
 
 
@@ -257,7 +296,7 @@ namespace SqlSharpener
                     if (singleColumn)
                         b.AppendFormatLine("{0} item;", select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
                     else
-                        b.AppendFormatLine("var item = new {0}Dto{1}();", proc.Name, inc);
+                        b.AppendFormatLine("var item = new {0}OutputDto{1}();", proc.Name, inc);
 
                     for (var j = 0; j < select.Columns.Count(); j++)
                     {

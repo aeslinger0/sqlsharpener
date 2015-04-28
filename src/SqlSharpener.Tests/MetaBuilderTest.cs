@@ -207,6 +207,22 @@ namespace SqlSharpener.Tests
             Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DbTypeEnum]);
         }
+
+        [TestMethod]
+        public void TableVariableTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(id int, col1 int)",
+                "create type tbInput as table(id int not null, col1 int null)",
+                "create procedure blah (@tbInput tbInput READONLY) as select col1 from @tbInput");
+            Assert.AreEqual(1, builder.Procedures.Count());
+            Assert.AreEqual("blah", builder.Procedures.First().Name);
+            Assert.AreEqual(1, builder.Procedures.First().Parameters.Count());
+            Assert.AreEqual("tbInput", builder.Procedures.First().Parameters.First().Name);
+            Assert.AreEqual(false, builder.Procedures.First().Parameters.First().IsOutput);
+            Assert.AreEqual("", builder.Procedures.First().Parameters.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+        }
     }
 }
 

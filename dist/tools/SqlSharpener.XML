@@ -172,14 +172,6 @@
             <param name="bodyColumnTypes">The body column types.</param>
             <param name="tableAliases">The table aliases.</param>
         </member>
-        <member name="M:SqlSharpener.Model.SelectColumn.SetDataType(System.Collections.Generic.IDictionary{System.String,SqlSharpener.DataType},System.String)">
-            <summary>
-            Sets the data type from the MultiPartIdentifier.
-            </summary>
-            <param name="bodyColumnTypes">The body column types.</param>
-            <param name="fullColName">Full name of the col.</param>
-            <exception cref="T:System.InvalidOperationException">Could not find column within BodyDependencies:  + fullColName</exception>
-        </member>
         <member name="M:SqlSharpener.Model.SelectColumn.GetFullColumnName(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IList{Microsoft.SqlServer.TransactSql.ScriptDom.Identifier})">
             <summary>
             Gets the fully qualified column name with any table aliases resolved.

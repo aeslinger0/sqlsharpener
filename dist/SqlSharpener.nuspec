@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SqlSharpener</id>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <title>SqlSharpener</title>
     <authors>Adam Eslinger</authors>
     <owners>Adam Eslinger</owners>
@@ -10,10 +10,7 @@
     <projectUrl>https://github.com/aeslinger0/sqlsharpener</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Parses SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers or Entity Framework entities. Includes templates. Go to https://github.com/aeslinger0/sqlsharpener for more info!</description>
-    <releaseNotes>Added views to the meta builder.
-Made primatives nullable only if database column is nullable.
-Made connection string a constructor parameter (so it can be injected with Ninject) instead of using ConfigurationManager.
-Changed return value to be an object with Data&lt;T&gt; and RecordsAffected as properties.</releaseNotes>
+    <releaseNotes>Added overloads that accept an object parameter with many properties instead of many parameters.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>dac ScriptDom SSDT C# CodeGen T4</tags>
   </metadata>

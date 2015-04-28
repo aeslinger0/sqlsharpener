@@ -38,6 +38,7 @@ namespace SqlSharpener.Model
             if (selectScalarExpression.Expression is ColumnReferenceExpression)
             {
                 var columnReferenceExpression = (ColumnReferenceExpression)selectScalarExpression.Expression;
+                var identifiers = columnReferenceExpression.MultiPartIdentifier.Identifiers;
                 var fullColName = this.GetFullColumnName(tableAliases, identifiers);
 
                 this.Name = selectScalarExpression.ColumnName != null && selectScalarExpression.ColumnName.Value != null
