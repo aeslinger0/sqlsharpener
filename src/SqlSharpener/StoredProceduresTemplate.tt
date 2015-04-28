@@ -5,7 +5,6 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 <#@ parameter name="outputNamespace" type="System.String" #>
-<#@ parameter name="connectionStringVariableName" type="System.String" #>
 <#@ parameter name="procedurePrefix" type="System.String" #>
 <#@ parameter name="sqlPaths" type="System.Collections.Generic.List<string>" #>
 <#
@@ -50,6 +49,14 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 	/// </summary>
 	public partial class StoredProcedures : IStoredProcedures
 	{
+		private string connectionString;
+
+		public StoredProcedures(string connectionString)
+		{
+			this.connectionString = connectionString;
+		}
+
+
 <#foreach(var proc in meta.Procedures){ #>
 		/// <summary>
 		/// Calls the "<#=proc.RawName#>" stored procedure
@@ -59,7 +66,6 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 		{
 			On<#=proc.Name#>Begin();
 			<#=helper.GetReturnVariable(proc)#>
-			var connectionString = ConfigurationManager.ConnectionStrings["<#=helper.GetConnStrVar(connectionStringVariableName)#>"].ConnectionString;
 			using(var conn = new SqlConnection(connectionString))
 			{
 				conn.Open();
@@ -99,6 +105,15 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 			writer.Close();
 			return ms.ToArray();
 		}
+	}
+
+	/// <summary>
+	/// The return value of the stored procedure functions.
+	/// </summary>
+	public partial class Result<T>
+	{
+		public T Data { get; set; }
+		public int RecordsAffected { get; set; }
 	}
 
 <#foreach(var proc in meta.Procedures){ #>

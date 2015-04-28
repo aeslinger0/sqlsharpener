@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.SqlServer.Dac;
 
 namespace SqlSharpener.Model
 {
@@ -14,14 +15,16 @@ namespace SqlSharpener.Model
     public class SelectColumn
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SelectColumn"/> class.
+        /// Initializes a new instance of the <see cref="SelectColumn" /> class.
         /// </summary>
         /// <param name="name">The name or alias.</param>
         /// <param name="dataTypes">The data types.</param>
-        public SelectColumn(string name, IDictionary<TypeFormat, string> dataTypes)
+        /// <param name="isNullable">if set to <c>true</c> [is nullable].</param>
+        public SelectColumn(string name, IDictionary<TypeFormat, string> dataTypes, bool isNullable)
         {
             this.Name = name;
             this.DataTypes = dataTypes ?? new Dictionary<TypeFormat, string>();
+            this.IsNullable = isNullable;
         }
 
         /// <summary>
@@ -30,15 +33,66 @@ namespace SqlSharpener.Model
         /// <param name="selectScalarExpression">The select scalar expression.</param>
         /// <param name="bodyColumnTypes">The body column types.</param>
         /// <param name="tableAliases">The table aliases.</param>
-        public SelectColumn(SelectScalarExpression selectScalarExpression, IDictionary<string, string> bodyColumnTypes, IDictionary<string, string> tableAliases)
+        public SelectColumn(SelectScalarExpression selectScalarExpression, IDictionary<string, DataType> bodyColumnTypes, IDictionary<string, string> tableAliases)
         {
-            var identifiers = ((ColumnReferenceExpression)selectScalarExpression.Expression).MultiPartIdentifier.Identifiers;
-            var fullColName = this.GetFullColumnName(tableAliases, identifiers);
+            if (selectScalarExpression.Expression is ColumnReferenceExpression)
+            {
+                var columnReferenceExpression = (ColumnReferenceExpression)selectScalarExpression.Expression;
+                var fullColName = this.GetFullColumnName(tableAliases, identifiers);
 
-            this.Name = selectScalarExpression.ColumnName != null && selectScalarExpression.ColumnName.Value != null
-                ? selectScalarExpression.ColumnName.Value
-                : identifiers.Last().Value;
-            this.DataTypes = this.GetDataType(bodyColumnTypes, fullColName);
+                this.Name = selectScalarExpression.ColumnName != null && selectScalarExpression.ColumnName.Value != null
+                    ? selectScalarExpression.ColumnName.Value
+                    : identifiers.Last().Value;
+
+                var key = bodyColumnTypes.Keys.FirstOrDefault(x => x.EndsWith(fullColName, StringComparison.InvariantCultureIgnoreCase));
+                if (key == null) throw new InvalidOperationException("Could not find column within BodyDependencies: " + fullColName);
+
+                var bodyColumnType = bodyColumnTypes[key];
+                this.DataTypes = bodyColumnType.Map;
+                this.IsNullable = bodyColumnType.Nullable;
+            }
+            else if (selectScalarExpression.Expression is ConvertCall)
+            {
+                var convertCall = (ConvertCall)selectScalarExpression.Expression;
+                this.Name = selectScalarExpression.ColumnName != null && selectScalarExpression.ColumnName.Value != null
+                    ? selectScalarExpression.ColumnName.Value
+                    : "Value";
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, convertCall.DataType.Name.BaseIdentifier.Value);
+                this.IsNullable = true;
+            }
+            else if (selectScalarExpression.Expression is CastCall)
+            {
+                var castCall = (CastCall)selectScalarExpression.Expression;
+                this.Name = selectScalarExpression.ColumnName != null && selectScalarExpression.ColumnName.Value != null
+                    ? selectScalarExpression.ColumnName.Value
+                    : "Value";
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, castCall.DataType.Name.BaseIdentifier.Value);
+                this.IsNullable = true;
+            }
+            else if (selectScalarExpression.Expression is IntegerLiteral)
+            {
+                var integerLiteral = (IntegerLiteral)selectScalarExpression.Expression;
+                this.Name = selectScalarExpression.ColumnName != null && selectScalarExpression.ColumnName.Value != null
+                    ? selectScalarExpression.ColumnName.Value
+                    : "Value";
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, "int");
+                this.IsNullable = true;
+            }
+            else if (selectScalarExpression.Expression is VariableReference)
+            {
+                var variableReference = (VariableReference)selectScalarExpression.Expression;
+                this.Name = variableReference.Name.TrimStart('@');
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Object");
+                this.IsNullable = true;
+            }
+            else
+            {
+                this.Name = selectScalarExpression.ColumnName != null && selectScalarExpression.ColumnName.Value != null
+                    ? selectScalarExpression.ColumnName.Value
+                    : "Value";
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Object");
+                this.IsNullable = true;
+            }
         }
 
         /// <summary>
@@ -58,24 +112,12 @@ namespace SqlSharpener.Model
         public IDictionary<TypeFormat, string> DataTypes { get; private set; }
 
         /// <summary>
-        /// Gets the data type from the MultiPartIdentifier
+        /// Gets or sets a value indicating whether this instance is nullable.
         /// </summary>
-        /// <param name="bodyColumnTypes">The body column types.</param>
-        /// <param name="fullColName">Full name of the col.</param>
-        /// <returns>
-        /// The data type
-        /// </returns>
-        /// <exception cref="System.InvalidOperationException">Could not find column within BodyDependencies:  + fullColName</exception>
-        private IDictionary<TypeFormat, string> GetDataType(IDictionary<string, string> bodyColumnTypes, string fullColName)
-        {
-            var key = bodyColumnTypes.Keys.FirstOrDefault(x => x.EndsWith(fullColName, StringComparison.InvariantCultureIgnoreCase));
-            if (key != null)
-            {
-                var dataType = bodyColumnTypes[key];
-                return DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, dataType);
-            }
-            throw new InvalidOperationException("Could not find column within BodyDependencies: " + fullColName);
-        }
+        /// <value>
+        /// <c>true</c> if this instance is nullable; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsNullable { get; set; }
 
         /// <summary>
         /// Gets the fully qualified column name with any table aliases resolved.

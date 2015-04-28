@@ -28,20 +28,6 @@ namespace SqlSharpener
         }
 
         /// <summary>
-        /// Scrubs the connectionStringVariableName parameter to ensure it is not null.
-        /// </summary>
-        /// <param name="connectionStringVariableName">The connectionStringVariableName T4 parameter.</param>
-        /// <returns>
-        /// The value of connectionStringVariableName if not null.
-        /// </returns>
-        /// <exception cref="System.ArgumentNullException">connectionStringVariableName cannot be null.</exception>
-        public string GetConnStrVar(string connectionStringVariableName)
-        {
-            if (connectionStringVariableName == null) throw new ArgumentNullException("connectionStringVariableName cannot be null.");
-            return connectionStringVariableName;
-        }
-
-        /// <summary>
         /// Gets the DTO return objects that represent a row of each result set of each procedure.
         /// </summary>
         /// <param name="proc">The procedure to generate the DTO from.</param>
@@ -59,7 +45,7 @@ namespace SqlSharpener
             b.Indent(indent);
             for (var i = 0; i < proc.Selects.Count(); i++)
             {
-                b.AppendLine("/// <summary>")
+                b.AppendLine("/// <summary>");
                 b.AppendFormatLine("/// DTO for the output of the \"{0}\" stored procedure.", proc.RawName);
                 b.AppendLine("/// </summary>");
                 b.AppendFormat("public partial class {0}Dto", proc.Name);
@@ -69,7 +55,9 @@ namespace SqlSharpener
                 b.Indent();
                 foreach (var col in proc.Selects.ElementAt(i).Columns)
                 {
-                    b.AppendFormatLine("public {0} {1} {{ get; set; }}", col.DataTypes[TypeFormat.DotNetFrameworkType], col.Name);
+                    var cSharpType = col.DataTypes[TypeFormat.DotNetFrameworkType];
+                    if (!col.IsNullable) cSharpType = cSharpType.TrimEnd('?');
+                    b.AppendFormatLine("public {0} {1} {{ get; set; }}", cSharpType, col.Name);
                 }
                 b.Unindent();
                 b.AppendLine("}");
@@ -79,6 +67,7 @@ namespace SqlSharpener
                 b.AppendFormatLine("public partial class {0}Results", proc.Name);
                 b.AppendLine("{");
                 b.Indent();
+                b.AppendLine("public int RecordsAffected { get; set; }");
                 for (var i = 0; i < proc.Selects.Count(); i++)
                 {
                     var inc = i > 0 ? (i + 1).ToString() : "";
@@ -106,13 +95,15 @@ namespace SqlSharpener
                 var select = proc.Selects.First();
                 if (select.Columns.Count() == 1)
                 {
-                    var cSharpType = select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType];
-                    return select.IsTopOne ? cSharpType : "IEnumerable<" + cSharpType + ">";
+                    var col = select.Columns.First();
+                    var cSharpType = col.DataTypes[TypeFormat.DotNetFrameworkType];
+                    if (!col.IsNullable) cSharpType = cSharpType.TrimEnd('?');
+                    return select.IsSingleRow ? cSharpType : "Result<IEnumerable<" + cSharpType + ">>";
                 }
                 else
                 {
-                    return select.IsTopOne ? proc.Name + "Dto" : "IEnumerable<" + proc.Name + "Dto>";
-                }
+                    return string.Format(select.IsSingleRow ? "Result<{0}>" : "Result<IEnumerable<{0}>>", proc.Name + "Dto");
+                 }
             }
             else
             {
@@ -130,10 +121,10 @@ namespace SqlSharpener
         public string GetReturnVariable(Procedure proc)
         {
             var returnType = GetReturnType(proc);
-            if (proc.Selects.Count() > 1)
+            if (proc.Selects.Count() == 1 && proc.Selects.First().IsSingleRow && proc.Selects.First().Columns.Count() == 1)
+                return string.Format("{0} result = default({0});", returnType);
+            else if (proc.Selects.Any())
                 return string.Format("{0} result = new {0}();", returnType);
-            else if (proc.Selects.Count() == 1)
-                return string.Format("{0} result = null;", returnType);
             else
                 return string.Format("{0} result;", returnType);
         }
@@ -150,11 +141,11 @@ namespace SqlSharpener
             var multiSelect = proc.Selects.Count() > 1;
             var singleSelect = proc.Selects.Count() == 1;
             var singleColumn = singleSelect && proc.Selects.First().Columns.Count() == 1;
-            var isTopOne = singleSelect && proc.Selects.First().IsTopOne;
-                        
-            if (singleColumn) return (isTopOne ? "The value of " : "An IEnumerable of ") + proc.Selects.First().Columns.First().Name;
-            if (singleSelect) return (isTopOne ? "A DTO " : "An IEnumerable of DTOs ") + "filled with the results of the SELECT statement.";
-            if (multiSelect)  return "An object containing all the SELECT results in properties named 'Result', 'Result2', 'Result3', etc.";
+            var isSingleRow = singleSelect && proc.Selects.First().IsSingleRow;
+
+            if (singleColumn) return (isSingleRow ? "The value of " : "An IEnumerable of ") + proc.Selects.First().Columns.First().Name;
+            if (singleSelect) return (isSingleRow ? "A DTO " : "An IEnumerable of DTOs ") + "filled with the results of the SELECT statement.";
+            if (multiSelect) return "An object containing all the SELECT results in properties named 'Result', 'Result2', 'Result3', etc.";
             return "The number of rows affected.";
         }
 
@@ -221,7 +212,7 @@ namespace SqlSharpener
             b.Indent(indent);
 
             var singleSelect = proc.Selects.Count() == 1;
-            var singleSelectRow = singleSelect && proc.Selects.First().IsTopOne;
+            var singleSelectRow = singleSelect && proc.Selects.First().IsSingleRow;
             var singleColumn = singleSelect && proc.Selects.First().Columns.Count() == 1;
             var singleValue = singleSelectRow && singleColumn;
 
@@ -233,20 +224,24 @@ namespace SqlSharpener
             // If only one SELECT statement with one column that returns one value, use ExecuteScalar().
             else if (singleValue)
             {
-                b.AppendFormatLine("result = cmd.ExecuteScalar() as {0};", proc.Selects.First().Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+                var col = proc.Selects.First().Columns.First();
+                var cSharpType = col.DataTypes[TypeFormat.DotNetFrameworkType];
+                if(!col.IsNullable) cSharpType = cSharpType.TrimEnd('?');
+                b.AppendFormatLine("result = ({0})cmd.ExecuteScalar();", cSharpType);
             }
             else
             {
                 b.AppendLine("using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))");
                 b.AppendLine("{");
                 b.Indent();
+                b.AppendLine("result.RecordsAffected = reader.RecordsAffected;");
                 for (var i = 0; i < proc.Selects.Count(); i++)
                 {
                     var inc = i > 0 ? (i + 1).ToString() : "";
                     var select = proc.Selects.ElementAt(i);
 
                     // If multiple selects OR muliple rows, declare a list for this select's results.
-                    if (proc.Selects.Count() > 1 || !select.IsTopOne)
+                    if (proc.Selects.Count() > 1 || !select.IsSingleRow)
                     {
                         // If only one select with one column, use a primitive list, else use a DTO list.
                         if (singleColumn) b.AppendFormatLine("var list = new List<{0}>();", select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
@@ -281,7 +276,7 @@ namespace SqlSharpener
                     }
 
                     // If selecting a single row, assign directly to result, else add to list of results.
-                    if (singleSelectRow) b.AppendLine("result = item;");
+                    if (singleSelectRow) b.AppendLine("result.Data = item;");
                     else b.AppendFormatLine("list{0}.Add(item);", inc);
 
                     b.Unindent();
@@ -292,7 +287,7 @@ namespace SqlSharpener
                     {
                         // If not returning a single row, return the list,
                         // else the item should have already been assigned directly to the result above.
-                        if (!select.IsTopOne) b.AppendLine("result = list;");
+                        if (!select.IsSingleRow) b.AppendLine("result.Data = list;");
                     }
                     else // If multiple selects, assign the result and move to the next one.
                     {

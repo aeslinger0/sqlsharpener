@@ -7,6 +7,7 @@ namespace SqlSharpener.Tests
     [TestClass]
     public class MetaBuilderTest
     {
+
         [TestMethod]
         public void TableTest()
         {
@@ -43,6 +44,34 @@ namespace SqlSharpener.Tests
             Assert.AreEqual(3, columns.ElementAt(2).Scale);
         }
 
+        [TestMethod]
+        public void SingleFunctionCallTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(col1 int)",
+                "create procedure blah as insert into tb1 (col1) values (3) select cast(scope_identity() as float)");
+            Assert.AreEqual(1, builder.Procedures.Count());
+            Assert.AreEqual("blah", builder.Procedures.First().Name);
+            Assert.AreEqual(1, builder.Procedures.First().Selects.Count());
+            Assert.AreEqual(1, builder.Procedures.First().Selects.First().Columns.Count());
+        }
+
+        [TestMethod]
+        public void SingleVariableTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(id int identity(1,1), col1 int)",
+                "create procedure blah as insert into tb1 (col1) values (3) declare @id int = scope_identity() select @id");
+            Assert.AreEqual(1, builder.Procedures.Count());
+            Assert.AreEqual("blah", builder.Procedures.First().Name);
+            Assert.AreEqual(1, builder.Procedures.First().Selects.Count());
+            Assert.AreEqual(1, builder.Procedures.First().Selects.First().Columns.Count());
+            Assert.AreEqual("id", builder.Procedures.First().Selects.First().Columns.First().Name);
+            Assert.AreEqual("Object", builder.Procedures.First().Selects.First().Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(false, builder.Procedures.First().Selects.First().Columns.First().IsNullable);
+        }
 
         [TestMethod]
         public void SingleColumnTest()
@@ -99,7 +128,7 @@ namespace SqlSharpener.Tests
         }
 
         [TestMethod]
-        public void TopOneTest()
+        public void SingleRowTest()
         {
             var builder = new MetaBuilder();
             builder.LoadModel(
@@ -113,7 +142,7 @@ namespace SqlSharpener.Tests
             Assert.AreEqual("col1", columns.First().Name);
             Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
-            Assert.AreEqual(true, builder.Procedures.First().Selects.First().IsTopOne);
+            Assert.AreEqual(true, builder.Procedures.First().Selects.First().IsSingleRow);
         }
 
         [TestMethod]
@@ -180,3 +209,4 @@ namespace SqlSharpener.Tests
         }
     }
 }
+

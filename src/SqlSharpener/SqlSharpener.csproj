@@ -70,8 +70,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AliasResolutionVisitor.cs" />
+    <Compile Include="DataType.cs" />
     <Compile Include="Model\Column.cs" />
     <Compile Include="Model\Table.cs" />
+    <Compile Include="Model\View.cs" />
     <Compile Include="TextBuilder.cs" />
     <Compile Include="Model\SelectColumn.cs" />
     <Compile Include="DataTypeHelper.cs" />

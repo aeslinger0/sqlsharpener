@@ -1,127 +1,127 @@
-<?xml version="1.0"?>
+<?xml version=
 <doc>
     <assembly>
         <name>Microsoft.SqlServer.Dac</name>
     </assembly>
     <members>
-        <member name="T:Microsoft.SqlServer.Dac.BacPackage">
+        <member name=
             <summary>
             Representation of the artifact that contains the definition and data of a data-tier application.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.BacPackage.Dispose">
+        <member name=
             <summary>
             Release the resources held by this instance.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.BacPackage.Unpack(System.String)">
+        <member name=
             <summary>
-            Place the contents of this package into the directory specified by <paramref name="directoryPath"/>.
+            Place the contents of this package into the directory specified by <paramref name=
             </summary>
-            <param name="directoryPath">
+            <param name=
             Base directory in which to place the package contents.
             </param>
-            <exception cref="T:System.ArgumentException">
-            If <paramref name="directoryPath"/> is a null reference or empty string.
+            <exception cref=
+            If <paramref name=
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs while attempting to unpack the package.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.BacPackage.Load(System.String)">
+        <member name=
             <summary>
-            Load a package file specified by <paramref name="fileName"/>.
+            Load a package file specified by <paramref name=
             </summary>
-            <param name="fileName">
+            <param name=
             Path to the package file.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified file.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package contains exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.BacPackage.Load(System.String,Microsoft.SqlServer.Dac.DacSchemaModelStorageType)">
+        <member name=
             <summary>
-            Load a package file specified by <paramref name="fileName"/>.
+            Load a package file specified by <paramref name=
             </summary>
-            <param name="fileName">
+            <param name=
             Path to the package file.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Backing storage type for package instance.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified file.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package does not contain exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.BacPackage.Load(System.IO.Stream)">
+        <member name=
             <summary>
-            Load a package from the specified <see cref="T:System.IO.Stream"/>.
+            Load a package from the specified <see cref=
             </summary>
-            <param name="stream">
+            <param name=
             Stream from which to read the package.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified file.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package does not contain exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.BacPackage.Load(System.IO.Stream,Microsoft.SqlServer.Dac.DacSchemaModelStorageType)">
+        <member name=
             <summary>
-            Load a package from the specified <see cref="T:System.IO.Stream"/>.
+            Load a package from the specified <see cref=
             </summary>
-            <param name="stream">
+            <param name=
             Stream from which to read the package.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Backing storage type for package instance.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified file.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package does not contain exported data.
             </exception>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacImportOptions">
+        <member name=
             <summary>
             Defines options that affect the behavior of package import to a database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacImportOptions.ImportContributors">
+        <member name=
             <summary>
             Specifies additional deployment contributors which should run.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacImportOptions.ImportContributorArguments">
+        <member name=
             <summary>
             Specifies additional deployment contributor arguments.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacImportOptions.DatabaseSpecification">
+        <member name=
             <summary>
             Defines optional parameters specific to a Microsoft Azure SQL Database.
             </summary>
             
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacOperationProgressMessage">
+        <member name=
             <summary>
              Progress message associated with the overal progress import or export operation.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacMessage">
+        <member name=
             <summary>
             Data associated with an executing operation to report status updates or errors.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacMessage.ToString">
+        <member name=
             <summary>
             Return a string that represents the current object.
             </summary>
@@ -129,16 +129,16 @@
             String that represents the current object.
             </returns>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacMessage.MessageType">
+        <member name=
             <summary>
             Get the type of the event message.
             </summary>
             <value>
             Enumeration value that specifies the type of the event message.
             </value>
-            <seealso cref="P:Microsoft.SqlServer.Dac.DacMessage.Message"/>
+            <seealso cref=
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacMessage.Number">
+        <member name=
             <summary>
             Get numeric value associated with the event message.
             </summary>
@@ -146,7 +146,7 @@
             Numeric value associated with the message.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacMessage.Prefix">
+        <member name=
             <summary>
             Get string prefix associated with the source of the event message.
             </summary>
@@ -154,7 +154,7 @@
             String prefix associated with the source of the event message.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacMessage.Message">
+        <member name=
             <summary>
             Get friendly message for the current status of an operation.
             </summary>
@@ -162,54 +162,54 @@
             String message for the current status of an operation.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacOperationProgressMessage.Progress">
+        <member name=
             <summary>
             Current progress in percent complete.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacDataProgressMessage">
+        <member name=
             <summary>
              Data associated with an executing data operation to report status updates or errors related to progress.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDataProgressMessage.Progress">
+        <member name=
             <summary>
             Current progress in percent complete.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDataProgressMessage.SchemaName">
+        <member name=
             <summary>
             The schema name of the table whose progress is being reported.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDataProgressMessage.TableName">
+        <member name=
             <summary>
             The name of the table whose progress is being reported.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacDeployOptions">
+        <member name=
             <summary>
             Defines options that affect the behavior of package deployment to a database.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacDeployOptions.#ctor">
+        <member name=
             <summary>
-            Create a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> class
+            Create a new instance of the <see cref=
             with default options.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacDeployOptions.EnableDnrOrdering(System.Boolean)">
+        <member name=
             <summary>
             Interal mechanism to control deployment DNR ordering behavior
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacDeployOptions.#ctor(Microsoft.Data.Tools.Schema.Sql.Deployment.SqlDeploymentOptions)">
+        <member name=
             <summary>
-            Create a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> class
+            Create a new instance of the <see cref=
             with specified options.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacDeployOptions.InitializeDefaults(Microsoft.Data.Tools.Schema.Sql.Deployment.SqlDeploymentOptions)">
+        <member name=
             <summary>
             Initialize the expected defaults for this API.
             </summary>
@@ -224,19 +224,19 @@
             When removing or renaming an option, the compiler will complain (good).
             </remarks>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.AdditionalDeploymentContributors">
+        <member name=
             <summary>
             Specifies additional deployment contributors which should run - in addition
             to those specified in the dacpac.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.AdditionalDeploymentContributorArguments">
+        <member name=
             <summary>
             Specifies additional deployment contributor arguments in addition to those already listed
             in the dacpac.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.AllowDropBlockingAssemblies">
+        <member name=
             <summary>
             Get or set boolean that specifies whether CLR deployment will cause blocking assemblies to be dropped.
             </summary>
@@ -245,7 +245,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.AllowIncompatiblePlatform">
+        <member name=
             <summary>
             Get or set boolean that specifies whether deployment will block due to platform compatibility.
             </summary>
@@ -254,7 +254,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.BackupDatabaseBeforeChanges">
+        <member name=
             <summary>
             Get or set boolean that specifies whether a database backup will be performed before proceeding 
             with the actual deployment actions.
@@ -264,7 +264,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.BlockOnPossibleDataLoss">
+        <member name=
             <summary>
             Get or set boolean that specifies whether deployment should stop if the operation could cause data loss.
             </summary>
@@ -273,19 +273,19 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.BlockWhenDriftDetected">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the system will check for differences between the 
             present state of the database and the registered state of the database and block deployment 
             if changes are detected.  Even if this option is set to true, drift detection will only occur 
-            on a database if it was previously deployed with the <see cref="P:Microsoft.SqlServer.Dac.DacDeployOptions.RegisterDataTierApplication"/> option enabled.
+            on a database if it was previously deployed with the <see cref=
             </summary>
             <value>
             True to error is drift is detected; otherwise, false.
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.CommentOutSetVarDeclarations">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the declaration of SQLCMD variables are commented 
             out in the script header.
@@ -295,7 +295,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.CompareUsingTargetCollation">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the target collation will be used for identifier 
             comparison.
@@ -305,7 +305,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.CreateNewDatabase">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the existing database will be dropped
             and a new database created before proceeding with the actual deployment actions.
@@ -316,7 +316,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DeployDatabaseInSingleUserMode">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the system will acquire single-user mode on the target
             database during the duration of the deployment operation.
@@ -330,7 +330,7 @@
             Database may remain in single-user mode if an error occurs during execution.
             </remarks>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DisableAndReenableDdlTriggers">
+        <member name=
             <summary>
             Get or set boolean that specifies if all DDL triggers will be disabled for the duration of the 
             deployment operation and then re-enabled after all changes are applied.  
@@ -343,7 +343,7 @@
             Triggers may remain disabled if an error occurs during execution.
             </remarks>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DoNotAlterChangeDataCaptureObjects">
+        <member name=
             <summary>
             Get or set boolean that specifies whether items configured for Change Data Capture (CDC)
             should be altered during deployment.  
@@ -353,7 +353,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DoNotAlterReplicatedObjects">
+        <member name=
             <summary>
             Get or set boolean that specifies whether items configured for Replication
             should be altered during deployment.  
@@ -363,7 +363,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropConstraintsNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to drop all constraints that do not
             exist in the source model.  
@@ -376,7 +376,7 @@
             This applies to check, default, foreign key, primary key, and unique constraints.
             </remarks>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropDmlTriggersNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to drop all DML triggers that do not
             exist in the source model.
@@ -386,7 +386,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropExtendedPropertiesNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to drop all extended properties that do 
             not exist in the source model.
@@ -396,7 +396,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropIndexesNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to drop all indexes that do not
             exist in the source model.
@@ -406,7 +406,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropObjectsNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether objects that exist in the target but not source should be dropped during deployment.
             </summary>
@@ -415,7 +415,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropPermissionsNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to drop all permissions that do not
             exist in the source model.
@@ -425,7 +425,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropRoleMembersNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to drop all role memberships that do not
             exist in the source model.
@@ -435,7 +435,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.DropStatisticsNotInSource">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to drop all role memberships that do not
             exist in the source model.
@@ -445,7 +445,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.GenerateSmartDefaults">
+        <member name=
             <summary>
             Get or set boolean that specifies whether default values should be generated to populate NULL columns that are constrained to NOT NULL values.
             </summary>
@@ -457,7 +457,7 @@
             This is useful when needing to add a new NOT NULL column to an existing table with data.
             </remarks>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreAnsiNulls">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the ANSI_NULL option from 
             consideration when comparing the source and target model.
@@ -467,7 +467,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreAuthorizer">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the AUTHORIZATION option from 
             consideration when comparing the source and target model.
@@ -477,7 +477,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreColumnCollation">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the collation specifier from 
             consideration when comparing the source and target model.
@@ -487,7 +487,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreComments">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude comments from 
             consideration when comparing the source and target model.
@@ -497,7 +497,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreCryptographicProviderFilePath">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the file specification 
             of a cryptographic provider from consideration when comparing the source and 
@@ -508,7 +508,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreDdlTriggerOrder">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude DDL trigger order from 
             consideration when comparing the source and target model.
@@ -518,7 +518,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreDdlTriggerState">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude DDL trigger state from 
             consideration when comparing the source and target model.
@@ -528,7 +528,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreDefaultSchema">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the DEFAULT_SCHEMA option from 
             consideration when comparing the source and target model.
@@ -538,7 +538,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreDmlTriggerOrder">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude DML trigger order from 
             consideration when comparing the source and target model.
@@ -548,7 +548,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreDmlTriggerState">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude DML trigger state from 
             consideration when comparing the source and target model.
@@ -558,7 +558,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreExtendedProperties">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude all extended properties from 
             consideration when comparing the source and target model.
@@ -568,7 +568,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreFileAndLogFilePath">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the FILENAME option of 
             FILE objects from consideration when comparing the source and target model.
@@ -578,7 +578,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreFilegroupPlacement">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the filegroup specifier 
             from consideration when comparing the source and target model.
@@ -588,7 +588,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreFileSize">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the SIZE option of FILE objects 
             from consideration when comparing the source and target model.
@@ -598,7 +598,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreFillFactor">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the FILLFACTOR option
             from consideration when comparing the source and target model.
@@ -608,7 +608,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreFullTextCatalogFilePath">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the path specification of 
             FULLTEXT CATALOG objects from consideration when comparing the source and target model.
@@ -618,7 +618,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreIdentitySeed">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the seed value of IDENTITY columns 
             from consideration when comparing the source and target model.
@@ -628,7 +628,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreIncrement">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the increment value of IDENTITY columns 
             from consideration when comparing the source and target model.
@@ -638,7 +638,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreIndexOptions">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude differences in index options 
             from consideration when comparing the source and target model.
@@ -648,7 +648,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreIndexPadding">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the PAD_INDEX option 
             from consideration when comparing the source and target model.
@@ -658,7 +658,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreKeywordCasing">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude difference in the casing of keywords 
             from consideration when comparing the source and target model.
@@ -668,7 +668,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreLockHintsOnIndexes">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the ALLOW_ROW_LOCKS and 
             ALLOW_PAGE_LOGKS options from consideration when comparing the source and target model.
@@ -678,7 +678,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreLoginSids">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the SID option of the LOGIN object 
             from consideration when comparing the source and target model.
@@ -688,7 +688,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreNotForReplication">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the NOT FOR REPLICATION option 
             from consideration when comparing the source and target model.
@@ -698,7 +698,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreObjectPlacementOnPartitionScheme">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the partition scheme object
             from consideration when comparing the source and target model for the following
@@ -709,7 +709,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnorePartitionSchemes">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the parameter type and 
             boundary VALUES of a PARTITION FUNCTION from consideration when comparing the 
@@ -721,7 +721,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnorePermissions">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude all permission statements 
             from consideration when comparing the source and target model.
@@ -731,7 +731,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreQuotedIdentifiers">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the QUOTED_IDENTIFIER option 
             from consideration when comparing the source and target model.
@@ -741,7 +741,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreRoleMembership">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude all ROLE MEMBERSHIP objects 
             from consideration when comparing the source and target model.
@@ -751,7 +751,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreRouteLifetime">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the LIFETIME option of ROUTE objects 
             from consideration when comparing the source and target model.
@@ -761,7 +761,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreSemicolonBetweenStatements">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the existence or absence of semi-colons 
             from consideration when comparing the source and target model.
@@ -771,7 +771,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreTableOptions">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the options on the target table are updated 
             to match the source table.
@@ -781,7 +781,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreUserSettingsObjects">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude user settings 
             from consideration when comparing the source and target model.
@@ -791,7 +791,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreWhitespace">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude whitespace 
             from consideration when comparing the source and target model.
@@ -801,7 +801,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreWithNocheckOnCheckConstraints">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the CHECK|NO CHECK option of a CHECK 
             constraint object from consideration when comparing the source and target model.
@@ -811,7 +811,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IgnoreWithNocheckOnForeignKeys">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to exclude the CHECK|NO CHECK option of a FOREIGN KEY  
             constraint object from consideration when comparing the source and target model.
@@ -821,7 +821,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IncludeCompositeObjects">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to include referenced, external elements that also 
             compose the source model and then update the target database in a single deployment operation.
@@ -831,7 +831,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IncludeTransactionalScripts">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to use transations during the deployment operation 
             and commit the transaction after all changes are successfully applied.
@@ -841,7 +841,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.NoAlterStatementsToChangeClrTypes">
+        <member name=
             <summary>
             Get or set boolean that specifies whether to force a change to CLR assemblies by dropping and recreating them.
             </summary>
@@ -850,7 +850,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.PopulateFilesOnFileGroups">
+        <member name=
             <summary>
             Get or set boolean that specifies whether files are supplied for filegroups defined in the deployment source.
             </summary>
@@ -859,7 +859,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.RegisterDataTierApplication">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the database will be registered as a Data-Tier Application.  
             If the target database is already a registered Data-Tier Application, then the registration will be updated.
@@ -869,13 +869,13 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.RunDeploymentPlanExecutors">
+        <member name=
             <summary>
             Specifies whether DeploymentPlanExecutor contributors should be run when other operations are executed.
             Default is false.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.ScriptDatabaseCollation">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the target database should be altered to match the 
             source model's collation.
@@ -885,7 +885,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.ScriptDatabaseCompatibility">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the target database should be altered to match the 
             source model's compatibility level.
@@ -895,7 +895,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.ScriptDatabaseOptions">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the database options in the target database should 
             be updated to match the source model.
@@ -905,7 +905,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.ScriptDeployStateChecks">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the target database should be checked to ensure that 
             it exists, is online and can be updated.
@@ -915,7 +915,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.ScriptFileSize">
+        <member name=
             <summary>
             Get or set boolean that specifies whether a file size is specified when adding files to file groups.
             </summary>
@@ -924,7 +924,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.ScriptNewConstraintValidation">
+        <member name=
             <summary>
             Get or set boolean that specifies whether constraints are validated after all changes are applied.
             </summary>
@@ -936,7 +936,7 @@
             Constraints are always added with NOCHECK option; as a result their validation is skipped during creation.
             </remarks>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.ScriptRefreshModule">
+        <member name=
             <summary>
             Get or set boolean that specifies whether referencing procedures are refreshed when referenced objects are updated.
             </summary>
@@ -945,7 +945,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.TreatVerificationErrorsAsWarnings">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the deployment operation should proceed when errors are 
             generated during plan verification.
@@ -955,7 +955,7 @@
             Default is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.UnmodifiableObjectWarnings">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the deployment operation should proceed when errors are 
             generated during plan verification.
@@ -965,7 +965,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.VerifyCollationCompatibility">
+        <member name=
             <summary>
             Get or set boolean that specifies whether deployment will verify that the collation specified in the 
             source model is compatible with the collation specified in the target model.
@@ -975,7 +975,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.VerifyDeployment">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the plan verification phase is executed or not.
             </summary>
@@ -984,7 +984,7 @@
             Default is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.SqlCommandVariableValues">
+        <member name=
             <summary>
             Get dictionary of SQL command variable values, keyed by variable name.
             </summary>
@@ -995,308 +995,308 @@
             Valid values must be provided for every variable before deployment, or failures may occur during deployment.
             </remarks>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacErrorResources">
+        <member name=
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ResourceManager">
+        <member name=
             <summary>
               Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.Culture">
+        <member name=
             <summary>
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.BacpacShouldNotContainDeploymentScripts">
+        <member name=
             <summary>
               Looks up a localized string similar to BACPAC should not contain either pre-deployment or post-deployment scripts..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.CannotWriteToPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Cannot apply updates to a package loaded for read only..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.DacMessageFormat">
+        <member name=
             <summary>
               Looks up a localized string similar to {0} {1}{2}: {3}.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ElementValidationFailureMessage">
+        <member name=
             <summary>
               Looks up a localized string similar to Error validating element {0}: {1}.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorAttemptToUpgradeExistingDatabase">
+        <member name=
             <summary>
               Looks up a localized string similar to Cannot deploy to existing database when upgrading has been disabled..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorBacpacValidationFailed">
+        <member name=
             <summary>
               Looks up a localized string similar to Validation of the schema model for data package failed. Check the inner exception for details..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorCannotOpenBacPackageWithoutData">
+        <member name=
             <summary>
               Looks up a localized string similar to Cannot create a BACPAC from a file that does not contain exported data..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorCannotOpenDacPackageWithData">
+        <member name=
             <summary>
               Looks up a localized string similar to Cannot create a DAC package from a file that contains exported data..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorConnectingToDatabase">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not connect to database server..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorCouldNotDetermineProviderFromPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not determine SQL platform from package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorCouldNotDetermineServerVersion">
+        <member name=
             <summary>
               Looks up a localized string similar to Database source is not a supported version of SQL Server {0}: {1}..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorDataTableNotFound">
+        <member name=
             <summary>
               Looks up a localized string similar to Table with schema &quot;{0}&quot; and name &quot;{1}&quot; was specified for data import or export, but does not exist in the database schema..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorDeployingPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not deploy package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorExportingPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not export schema and data from database..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorExtractAllTableDataTrueAndTablesNotNull">
+        <member name=
             <summary>
               Looks up a localized string similar to Argument &apos;ExtractAllTableData&apos; has an invalid value:&apos;true&apos;. &apos;ExtractAllTableData&apos; cannot be &apos;true&apos; because individual user tables are also specified using the &apos;TableData&apos; argument. Set &apos;ExtractAllTableData&apos; to &apos;false&apos; to extract data from the specified user tables..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorExtractingFromFileTable">
+        <member name=
             <summary>
               Looks up a localized string similar to Extracting data from FileTable {0}.{1} is not supported..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorExtractingFromMasterUnsupported">
+        <member name=
             <summary>
               Looks up a localized string similar to Extracting the master database is not supported..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorExtractingPackageFromDatabase">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not extract package from specified database..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorForeignKeyCannotReferenceTable">
+        <member name=
             <summary>
               Looks up a localized string similar to Foreign key {0} cannot reference table {1} when used as part of a data package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorFoundUnsupportedElementsForDataPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to One or more unsupported elements were found in the schema used as part of a data package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorGeneratingDeploymentReport">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not generate deployment report..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorGeneratingDeploymentScript">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not generate deployment script..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorGeneratingDriftReport">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not generate drift report..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorImportingPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not import package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorInvalidPropertyName">
+        <member name=
             <summary>
               Looks up a localized string similar to The property {0} specified is not present in the resource {1}..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorLoadingConstraints">
+        <member name=
             <summary>
               Looks up a localized string similar to Error loading constraint information from target database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorLoadingPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not load package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorLoadingPackageFrom">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not load package from &apos;{0}&apos;..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorReadingDacMetadataFromPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not load data-tier application metadata from package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorReadingModelFromPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not load schema model from package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorReadingModelHeader">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not read schema model header information from package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorReadingProfile">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not read profile properties: {0}.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorReadingProfileProperties">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not read profile properties: {0}.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorReadingScriptFromPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not load script from package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorRegisteringApplication">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not register DAC information..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorSavingPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not save package to file..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorStreamDoesNotSupportReading">
+        <member name=
             <summary>
               Looks up a localized string similar to Stream does not support reading..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorStreamDoesNotSupportSeeking">
+        <member name=
             <summary>
               Looks up a localized string similar to Stream does not support seeking..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorStreamDoesNotSupportWriting">
+        <member name=
             <summary>
               Looks up a localized string similar to Stream does not support writing..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnpacking_FileExists">
+        <member name=
             <summary>
               Looks up a localized string similar to Cannot unpack to the same location twice. The file &apos;{0}&apos; already exists in the unpack directory.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnpackingPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not unpack the package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnregisteringApplication">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not unregister DAC information..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnsupportedClrElementForDataPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Element {0} is an unsupported CLR element that is not allowed when used as part of a data package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnsupportedContainedUserElementForDataPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Element {0} is a contained user that is not supported when used as a part of a data package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnsupportedElementForDataPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to The element {0} is not supported when used as part of a data package (.bacpac file)..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnsupportedElementPropertyForDataPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Element {0} has an unsupported property {1} set and is not supported when used as part of a data package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnsupportedFileStreamColumnForDataPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Element {0} is an unsupported FILESTREAM column that is not allowed when used as part of a data package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnsupportedMultiPartNameForSynonym">
+        <member name=
             <summary>
               Looks up a localized string similar to {0} is not supported on Microsoft Azure SQL Database as it aliases the external element {1}..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUnsupportUserDefinedTypeColumnForDataPackage">
+        <member name=
             <summary>
               Looks up a localized string similar to Element {0} is an unsupported CLR User-defined type column that is not allowed when used as part of a data package..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorUpdatingDacHistory">
+        <member name=
             <summary>
               Looks up a localized string similar to Could not update the dac history table..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorValidationFailed">
+        <member name=
             <summary>
               Looks up a localized string similar to Validation of the schema model for data package failed..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorVerifyingDeploymentPlan">
+        <member name=
             <summary>
               Looks up a localized string similar to Verification of the deployment plan failed..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.InvalidArgumentValue">
+        <member name=
             <summary>
               Looks up a localized string similar to {0} is not a valid value for {1}..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.InvalidModelHeaderData">
+        <member name=
             <summary>
               Looks up a localized string similar to The model header data from the package &apos;{0}&apos; is invalid..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ReferencedPackageDoesnotExist">
+        <member name=
             <summary>
               Looks up a localized string similar to The referenced package &apos;{0}&apos; doesn&apos;t exist..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.UnknownPackageVersion">
+        <member name=
             <summary>
               Looks up a localized string similar to The version of the supplied package, {0}, is incompatible with this version of the DAC Framework..
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacExceptionMessage">
+        <member name=
             <summary>
             Data associated with an error with exception information.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExceptionMessage.Exception">
+        <member name=
             <summary>
             Get exception associated with the event message.
             </summary>
@@ -1304,27 +1304,27 @@
             Exception object associated with the message.
             </value>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacAzureEdition">
+        <member name=
             <summary>
             List of possible editions for an Window sAzure SQL Databsae
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacAzureEdition.Web">
+        <member name=
             <summary>
             CREATE DATABASE database_name EDITION = <b>'web'</b>
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacAzureEdition.Business">
+        <member name=
             <summary>
             CREATE DATABASE database_name EDITION = <b>'business'</b>
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacAzureDatabaseSpecification">
+        <member name=
             <summary>
             Defines optional parameters specific to a Microsoft Azure SQL Database
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacAzureDatabaseSpecification.Edition">
+        <member name=
             <summary>
             Database Edition
             </summary>
@@ -1341,7 +1341,7 @@
             }
             </remarks>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacAzureDatabaseSpecification.MaximumSize">
+        <member name=
             <summary>
             Maximum size, in GB
             </summary>
@@ -1358,17 +1358,17 @@
             }
             </remarks>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacExtractOptions">
+        <member name=
             <summary>
             Defines options that affect the behavior of package extraction.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacExtractOptions.#ctor">
+        <member name=
             <summary>
-            Construct a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacExtractOptions"/> class.
+            Construct a new instance of the <see cref=
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.ExtractAllTableData">
+        <member name=
             <summary>
             Get or set boolean that specifies whether data for all user tables will be extracted.
             </summary>
@@ -1377,7 +1377,7 @@
             Default value is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.ExtractReferencedServerScopedElements">
+        <member name=
             <summary>
             Get or set boolean that specifies whether server-scoped elements referenced by the source should be extracted.
             </summary>
@@ -1386,7 +1386,7 @@
             Default value is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.ExtractApplicationScopedObjectsOnly">
+        <member name=
             <summary>
             Get or set boolean that specifies the scope of objects extracted from the source.
             </summary>
@@ -1396,7 +1396,7 @@
             Default value is true.
             </value>        
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.IgnoreExtendedProperties">
+        <member name=
             <summary>
             Get or set boolean that specifies whether extended properties should be ignored.
             </summary>
@@ -1405,7 +1405,7 @@
             Default value is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.IgnorePermissions">
+        <member name=
             <summary>
             Get or set boolean that specifies whether permissions should be ignored.
             </summary>
@@ -1414,7 +1414,7 @@
             Default value is true.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.IgnoreUserLoginMappings">
+        <member name=
             <summary>
             Get or set boolean that specifies whether mappings between users and logins should be extracted from the source.
             </summary>
@@ -1423,7 +1423,7 @@
             Default value is false.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.Storage">
+        <member name=
             <summary>
             Get the type of backing storage for the schema model used during extraction.
             </summary>
@@ -1432,7 +1432,7 @@
             Default value is File.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacExtractOptions.VerifyExtraction">
+        <member name=
             <summary>
             Get or set boolean that specifies whether the extracted package should be verified.
             </summary>
@@ -1441,219 +1441,219 @@
             Default value is false.
             </value> 
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacMessageEventArgs">
+        <member name=
             <summary>
             Data associated with event raised as an executing operation reports status updates or errors.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacMessageEventArgs.Message">
+        <member name=
             <summary>
             Message information associated with this event instance.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacMessageType">
+        <member name=
             <summary>
             Specifies the type (or severity) of message associated with a given event.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacMessageType.Message">
+        <member name=
             <summary>
             Informational message.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacMessageType.Warning">
+        <member name=
             <summary>
             Noncritical problem.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacMessageType.Error">
+        <member name=
             <summary>
             Serious, possibly fatal issue.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacOperationStatus">
+        <member name=
             <summary>
             Specifies the state of a service operation.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacOperationStatus.Pending">
+        <member name=
             <summary>
             Operation has not yet started.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacOperationStatus.Running">
+        <member name=
             <summary>
             Operation is executing.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacOperationStatus.Completed">
+        <member name=
             <summary>
             Operation has finished execution.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacOperationStatus.Faulted">
+        <member name=
             <summary>
             Operation did not complete execution.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacOperationStatus.Cancelled">
+        <member name=
             <summary>
             Operation was cancelled.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacPackage">
+        <member name=
             <summary>
             Representation of the artifact that contains the definition of a data-tier application.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Dispose">
+        <member name=
             <summary>
             Release the resources held by this instance.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Unpack(System.String)">
+        <member name=
             <summary>
-            Place the contents of this package into the directory specified by <paramref name="directoryPath"/>.
+            Place the contents of this package into the directory specified by <paramref name=
             </summary>
-            <param name="directoryPath">
+            <param name=
             Base directory in which to place the package contents.
             </param>
-            <exception cref="T:System.ArgumentException">
-            If <paramref name="directoryPath"/> is a null reference or empty string.
+            <exception cref=
+            If <paramref name=
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs while attempting to unpack the package.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Unpack(Microsoft.SqlServer.Dac.IPackageSource,System.String)">
+        <member name=
             <summary>
-            Place the contents of this package into the directory specified by <paramref name="directoryPath"/>.
+            Place the contents of this package into the directory specified by <paramref name=
             </summary>
-            <param name="packageSource">
+            <param name=
             Object used to access package content.
             </param>
-            <param name="directoryPath">
+            <param name=
             Base directory in which to place the package contents.
             </param>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Load(System.String)">
+        <member name=
             <summary>
-            Load a package file specified by <paramref name="fileName"/>.
+            Load a package file specified by <paramref name=
             </summary>
-            <param name="fileName">
+            <param name=
             Path to the package file.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified file.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package contains exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Load(System.String,Microsoft.SqlServer.Dac.DacSchemaModelStorageType)">
+        <member name=
             <summary>
-            Load a package file specified by <paramref name="fileName"/>.
+            Load a package file specified by <paramref name=
             </summary>
-            <param name="fileName">
+            <param name=
             Path to the package file.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Backing storage type for package instance.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified file.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package contains exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Load(System.String,Microsoft.SqlServer.Dac.DacSchemaModelStorageType,System.IO.FileAccess)">
+        <member name=
             <summary>
-            Load a package file specified by <paramref name="fileName"/>.
+            Load a package file specified by <paramref name=
             </summary>
-            <param name="fileName">
+            <param name=
             Path to the package file.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Backing storage type for package instance.
             </param>
-            <param name="packageAccess">
-            The access in which to open the package. Valid values are <see cref="F:System.IO.FileAccess.Read"/> or <see cref="F:System.IO.FileAccess.ReadWrite"/>.
+            <param name=
+            The access in which to open the package. Valid values are <see cref=
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified file.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package contains exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Load(System.IO.Stream)">
+        <member name=
             <summary>
-            Load a package from the specified <see cref="T:System.IO.Stream"/>.
+            Load a package from the specified <see cref=
             </summary>
-            <param name="stream">
+            <param name=
             Stream from which to read the package.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified <see cref="T:System.IO.Stream"/>.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package contains exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Load(System.IO.Stream,Microsoft.SqlServer.Dac.DacSchemaModelStorageType)">
+        <member name=
             <summary>
-            Load a package from the specified <see cref="T:System.IO.Stream"/>.
+            Load a package from the specified <see cref=
             </summary>
-            <param name="stream">
+            <param name=
             Stream from which to read the package.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Backing storage type for package instance.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified <see cref="T:System.IO.Stream"/>.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package contains exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Load(System.IO.Stream,Microsoft.SqlServer.Dac.DacSchemaModelStorageType,System.IO.FileAccess)">
+        <member name=
             <summary>
-            Load a package from the specified <see cref="T:System.IO.Stream"/>.
+            Load a package from the specified <see cref=
             </summary>
-            <param name="stream">
+            <param name=
             Stream from which to read the package.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Backing storage type for package instance.
             </param>
-            <param name="packageAccess">
-            The access in which to open the package. Valid values are <see cref="F:System.IO.FileAccess.Read"/> or <see cref="F:System.IO.FileAccess.ReadWrite"/>.
+            <param name=
+            The access in which to open the package. Valid values are <see cref=
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instance that represents the package loaded from the specified <see cref="T:System.IO.Stream"/>.
+            <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If there is a problem reading the package; or if the package contains exported data.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacPackage.Save(System.IO.Stream,Microsoft.Data.Tools.Schema.SchemaModel.DataSchemaModel,Microsoft.Data.Tools.Schema.Sql.Dac.DacMetadata)">
+        <member name=
             <summary>
-            Write package with the supplied schema model and DAC metadata to the supplied <see cref="T:System.IO.Stream"/>.
+            Write package with the supplied schema model and DAC metadata to the supplied <see cref=
             </summary>
-            <param name="stream">
-            <see cref="T:System.IO.Stream"/> to which to write the package.
+            <param name=
+            <see cref=
             </param>
-            <param name="model">
+            <param name=
             Schema model to be serialized into package.
             </param>
-            <param name="metadata">
+            <param name=
             DAC metadata to be serialized into package.
             </param>
             <returns>The model version used for the serialization</returns>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacPackage.Name">
+        <member name=
             <summary>
             Get identifier for this package.
             </summary>
@@ -1661,7 +1661,7 @@
             String identifier for this package.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacPackage.Description">
+        <member name=
             <summary>
             Get an optional summary of this package.
             </summary>
@@ -1669,82 +1669,82 @@
             String summary of this package; or null reference if there is no summary.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacPackage.Version">
+        <member name=
             <summary>
             Get version information for this package.
             </summary>
             <value>
-            <see cref="P:Microsoft.SqlServer.Dac.DacPackage.Version"/> structure that specifies the version information for this package.
+            <see cref=
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacPackage.PreDeploymentScript">
+        <member name=
             <summary>
             Get stream used to read and write script executed prior to deploying schema contained in this package.
             </summary>
             <value>
-            <see cref="T:System.IO.Stream"/> instance used to read and write script contents.
+            <see cref=
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacPackage.PostDeploymentScript">
+        <member name=
             <summary>
             Get stream used to read and write script executed after deploying schema contained in this package.
             </summary>
             <value>
-            <see cref="T:System.IO.Stream"/> instance used to read and write script contents.
+            <see cref=
             </value>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacProfile">
+        <member name=
             <summary>
             Contains settings related to a specific deployment configuration.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacProfile.#ctor">
+        <member name=
             <summary>
-            Construct a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacProfile"/> class with a default set of deployment options.
+            Construct a new instance of the <see cref=
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacProfile.Load(System.String)">
+        <member name=
             <summary>
-            Create a <see cref="T:Microsoft.SqlServer.Dac.DacProfile"/> instance by reading serialized profile data from the specified file.
+            Create a <see cref=
             </summary>
-            <param name="fileName">
+            <param name=
             Path to file with serialized profile data.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacProfile"/> instance initialized from the serialized file data.
+            <see cref=
             </returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacProfile.Load(System.IO.Stream)">
+        <member name=
             <summary>
-            Create a <see cref="T:Microsoft.SqlServer.Dac.DacProfile"/> instance by reading serialized profile data from the specified <see cref="T:System.IO.Stream"/>.
+            Create a <see cref=
             </summary>
-            <param name="stream">
+            <param name=
             Stream from which to read serialized profile data.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacProfile"/> instance initialized from the serialized file data.
+            <see cref=
             </returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacProfile.LoadImpl(System.Func{Microsoft.Data.Tools.Schema.Sql.Deployment.PublishProfileSerializer})">
+        <member name=
             <summary>
-            Create a <see cref="T:Microsoft.SqlServer.Dac.DacProfile"/> instance by reading serialized profile data from the specified <see cref="T:System.IO.Stream"/>.
+            Create a <see cref=
             </summary>
-            <param name="serializerProvider">
+            <param name=
             Provider that creates serializer from which to read parsed profile data.
             </param>
             <returns>
-            <see cref="T:Microsoft.SqlServer.Dac.DacProfile"/> instance initialized from the serialized file data.
+            <see cref=
             </returns>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacProfile.DeployOptions">
+        <member name=
             <summary>
             Get deployment options associated with this profile.
             </summary>
             <value>
-            <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> instance that specifies deployment options.
+            <see cref=
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacProfile.TargetDatabaseName">
+        <member name=
             <summary>
             Get or set name of database used as the target of a deployment.
             </summary>
@@ -1752,7 +1752,7 @@
             String name of target database.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacProfile.TargetConnectionString">
+        <member name=
             <summary>
             Get or set connection string for database server used as the target of a deployment.
             </summary>
@@ -1760,20 +1760,20 @@
             String that specifies database server connection information.
             </value>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacProgressEventArgs">
+        <member name=
             <summary>
             Data associated with event raised as an executing operation completes individual steps of processing.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacProgressEventArgs.Status">
+        <member name=
             <summary>
             Get status of an active operation.
             </summary>
             <value>
-            <see cref="T:Microsoft.SqlServer.Dac.DacOperationStatus"/> enumeration value that specifies the current status of an operation.
+            <see cref=
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacProgressEventArgs.Message">
+        <member name=
             <summary>
             Get a friendly message associated with the current step of an operation.
             </summary>
@@ -1781,7 +1781,7 @@
             String message associated with the current step of an operation.
             </value>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacProgressEventArgs.OperationId">
+        <member name=
             <summary>
             Gets the ID of the top level task the progress event relates to.
             </summary>
@@ -1799,83 +1799,83 @@
                 </ul>
             </remarks>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacRetryMessage">
+        <member name=
             <summary>
             This message is raised when the DacFx API retried a command or connection due to a
             transient error returned by the server.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacRetryMessage.RetryCount">
+        <member name=
             <summary>
             The retry count when this error was encountered
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacRetryMessage.ServerErrorNumber">
+        <member name=
             <summary>
             The number of the error from SQL Server or 0 if a different 
             exception was encountered (that invoked a retry)
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacSchemaModelStorageType">
+        <member name=
             <summary>
             Specifies the type of backing storage for a schema model.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacSchemaModelStorageType.File">
+        <member name=
             <summary>
             Model is back by file-based storage.
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacSchemaModelStorageType.Memory">
+        <member name=
             <summary>
             Model is stored completely in-memory.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacServicesException">
+        <member name=
             <summary>
             Exception thrown for DAC service errors.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServicesException.#ctor">
+        <member name=
             <summary>
-            Construct a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacServicesException"/> class.
+            Construct a new instance of the <see cref=
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServicesException.#ctor(System.String)">
+        <member name=
             <summary>
-            Construct a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacServicesException"/> class with the specified error message.
+            Construct a new instance of the <see cref=
             </summary>
-            <param name="message">
+            <param name=
             The message that describes the error.
             </param>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServicesException.#ctor(System.String,System.Exception)">
+        <member name=
             <summary>
-            Construct a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacServicesException"/> class with the specified error message 
+            Construct a new instance of the <see cref=
             and a reference to the inner exception that is the cause of this exception.
             </summary>
-            <param name="message">
+            <param name=
             The message that describes the error.
             </param>
-            <param name="innerException">
+            <param name=
             The exception that is the cause of the current exception, or a null reference if no inner exception is specified. 
             </param>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServicesException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name=
             <summary>
-            Write exception information to the supplied <see cref="T:System.Runtime.Serialization.SerializationInfo"/> object.
+            Write exception information to the supplied <see cref=
             </summary>
-            <param name="info">
-            <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data.
+            <param name=
+            <see cref=
             </param>
-            <param name="context">
-            <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.
+            <param name=
+            <see cref=
             </param>
-            <exception cref="T:System.ArgumentNullException">
-            If <paramref name="info"/> is a null reference.
+            <exception cref=
+            If <paramref name=
             </exception>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacServicesException.Messages">
+        <member name=
             <summary>
             Get collection of additional error, warning, and informational messages associated with this exception.
             </summary>
@@ -1883,819 +1883,819 @@
             Collection of additional messages associated with this exception.
             </value>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.DacServices">
+        <member name=
             <summary>
-            Provides operations to create and consume DAC packages represented by <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instances.
+            Provides operations to create and consume DAC packages represented by <see cref=
             </summary>
         </member>
-        <member name="F:Microsoft.SqlServer.Dac.DacServices._userConnectionString">
+        <member name=
             <summary>
             Connection string supplied by caller.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.Initialize">
+        <member name=
             <summary>
             Called by classes within the API to initialize any static state
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.#ctor(System.String)">
+        <member name=
             <summary>
-            Construct a new instance of the <see cref="T:Microsoft.SqlServer.Dac.DacServices"/> class
+            Construct a new instance of the <see cref=
             that operates against the database specified by the supplied connection string.
             </summary>
-            <param name="connectionString">
+            <param name=
             String that supplies connection information for the database connection used by this instance.
             </param>
-            <exception cref="T:System.ArgumentNullException">
-            If <paramref name="connectionString"/> is a null reference.
+            <exception cref=
+            If <paramref name=
             </exception>
-            <exception cref="T:System.ArgumentException">
-            If the supplied <paramref name="connectionString"/> is not valid.
+            <exception cref=
+            If the supplied <paramref name=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.Extract(System.String,System.String,System.String,System.Version,System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String}},Microsoft.SqlServer.Dac.DacExtractOptions,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Extract the schema from a database into a package.
             </summary>
-            <param name="packageFileName">
+            <param name=
             Path to the package file to be created.
             </param>
-            <param name="databaseName">
+            <param name=
             Name of the source database.
             </param>
-            <param name="applicationName">
+            <param name=
             String identifier for the DAC application.
             </param>
-            <param name="applicationVersion">
+            <param name=
             Version of the DAC application.
             </param>
-            <param name="applicationDescription">
+            <param name=
             Optional string summary of the DAC application.
             </param>
-            <param name="tables">
+            <param name=
             <para>
             Optional enumerable used to retrieve enumerator over set of tables for which reference data should be stored.
-            For each <see cref="T:System.Tuple"/> in the enumeration the first item specifies the schema of the table, and the second specifies the base identifier of the table.
+            For each <see cref=
             </para>
             <para>
             If the value for this parameter is a null reference, no reference data will be stored.
             </para>
             </param>
-            <param name="extractOptions">
-            Optional <see cref="T:Microsoft.SqlServer.Dac.DacExtractOptions"/> instance used to specify options that affect the behavior of package extraction.
+            <param name=
+            Optional <see cref=
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
-            If <paramref name="applicationName"/> is a null reference or empty string.
+            <exception cref=
+            If <paramref name=
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during package extraction.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.Extract(System.IO.Stream,System.String,System.String,System.Version,System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String}},Microsoft.SqlServer.Dac.DacExtractOptions,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Extract the schema from a database into a package.
             </summary>
-            <param name="packageStream">
-            <see cref="T:System.IO.Stream"/> to which to write the package.
+            <param name=
+            <see cref=
             </param>
-            <param name="databaseName">
+            <param name=
             Name of the source database.
             </param>
-            <param name="applicationName">
+            <param name=
             String identifier for the DAC application.
             </param>
-            <param name="applicationVersion">
+            <param name=
             Version of the DAC application.
             </param>
-            <param name="applicationDescription">
+            <param name=
             Optional string summary of the DAC application.
             </param>
-            <param name="tables">
+            <param name=
             <para>
             Optional enumerable used to retrieve enumerator over set of tables for which data should be exported.
-            For each <see cref="T:System.Tuple"/> in the enumeration the first item specifies the schema of the table, and the second specifies the base identifier of the table.
+            For each <see cref=
             </para>
             <para>
             If the value for this parameter is a null reference, no data will be exported.
             </para>
             </param>
-            <param name="extractOptions">
-            Optional <see cref="T:Microsoft.SqlServer.Dac.DacExtractOptions"/> instance used to specify options that affect the behavior of package extraction.
+            <param name=
+            Optional <see cref=
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
-            If <paramref name="applicationName"/> is a null reference or empty string.
+            <exception cref=
+            If <paramref name=
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during package extraction; or the supplied stream is not suitable for writing the package.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.Deploy(Microsoft.SqlServer.Dac.DacPackage,System.String,System.Boolean,Microsoft.SqlServer.Dac.DacDeployOptions,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Deploy the supplied package to a database.
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing schema to be deployed.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="upgradeExisting">
+            <param name=
             True to allow modification of existing database schema in order to match schema contained in source package;
             otherwise false to block modification of existing database.
             If the database does not exist this flag has no effect.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment.
+            <param name=
+            Instance of <see cref=
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
-            If <paramref name="upgradeExisting"/> is true and the target database exists;
+            <exception cref=
+            If <paramref name=
             or if an error occurs during deployment.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDeployScript(Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
-            Create T-SQL script that can be used to deploy the schema of the supplied <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> to a database.
+            Create T-SQL script that can be used to deploy the schema of the supplied <see cref=
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing schema to be deployed.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment script creation.
+            <param name=
+            Instance of <see cref=
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
             <returns>
-            String of T-SQL script used to create or update database schema based on the supplied <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/>.
+            String of T-SQL script used to create or update database schema based on the supplied <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during script generation.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDeployReport(Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
-            Create XML report of the steps needed to deploy the schema of the supplied <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> to a database.
+            Create XML report of the steps needed to deploy the schema of the supplied <see cref=
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing schema to be deployed.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment report creation.
+            <param name=
+            Instance of <see cref=
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
             <returns>
             String of XML that details the steps of the package deployment.
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during report generation.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.CreateController(Microsoft.Data.Tools.Schema.Sql.Deployment.SqlDeployment,Microsoft.Data.Tools.Schema.ErrorManager)">
+        <member name=
             <summary>
-            Creates an <see cref="T:Microsoft.Data.Tools.Schema.Sql.Deployment.IDeploymentController"/>, handling any errors thrown during contstruction
+            Creates an <see cref=
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDriftReport(System.String,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Create XML report of the drift that has occurred since the database was last registered.
             </summary>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
             <returns>
             String of XML that details the database drift, or null if the database has not been registered.
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during report generation.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDriftReport(System.String,Microsoft.SqlServer.Dac.DacSchemaModelStorageType,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Create XML report of the drift that has occurred since the database was last registered.
             </summary>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Specifies the type of backing storage for a schema model.
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
             <returns>
             String of XML that details the database drift, or null if the database has not been registered.
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during report generation.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.Register(System.String,System.String,System.Version,System.String)">
+        <member name=
             <summary>
             Add DAC registration information for the specified target database.
             </summary>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the database for which to add registration information.
             </param>
-            <param name="applicationName">
+            <param name=
             String identifier for the DAC application.
             </param>
-            <param name="applicationVersion">
+            <param name=
             Version of the DAC application.
             </param>
-            <param name="applicationDescription">
+            <param name=
             Optional string summary of the DAC application.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If any of the required arguments are null or zero-length strings.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.Register(System.String,Microsoft.SqlServer.Dac.DacSchemaModelStorageType,System.String,System.Version,System.String)">
+        <member name=
             <summary>
             Add DAC registration information for the specified target database.
             </summary>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the database for which to add registration information.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Specifies the type of backing storage for a schema model.
             </param>
-            <param name="applicationName">
+            <param name=
             String identifier for the DAC application.
             </param>
-            <param name="applicationVersion">
+            <param name=
             Version of the DAC application.
             </param>
-            <param name="applicationDescription">
+            <param name=
             Optional string summary of the DAC application.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If any of the required arguments are null or zero-length strings.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.Unregister(System.String)">
+        <member name=
             <summary>
             Remove DAC registration information for the specified target database.
             </summary>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the database for which to remove registration information.
             </param>
-            <exception cref="T:System.ArgumentException">
-            If <paramref name="targetDatabaseName"/> is null or a zero-length string.
+            <exception cref=
+            If <paramref name=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ExportBacpac(System.String,System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String}},System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
-            Extract schema and export data from a database into a "bacpac" package.
+            Extract schema and export data from a database into a 
             </summary>
-            <param name="packageFileName">
+            <param name=
             Path of the target package file.
             </param>
-            <param name="databaseName">
+            <param name=
             Name of the source database.
             </param>
-            <param name="tables">
+            <param name=
             <para>
             Optional enumerable used to retrieve enumerator over set of tables for which data should be exported.
-            For each <see cref="T:System.Tuple"/> in the enumeration the first item specifies the schema of the table, and the second specifies the base identifier of the table.
+            For each <see cref=
             </para>
             <para>
             If the value for this parameter is a null reference, data for all tables will be exported.
             </para>
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs during schema deployment and data export;
-            or if <paramref name="tables"/> specifies a table that does not exist in the schema contained in the supplied package.
+            or if <paramref name=
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ExportBacpac(System.String,System.String,Microsoft.SqlServer.Dac.DacSchemaModelStorageType,System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String}},System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
-            Extract schema and export data from a database into a "bacpac" package.
+            Extract schema and export data from a database into a 
             </summary>
-            <param name="packageFileName">
+            <param name=
             Path of the target package file.
             </param>
-            <param name="databaseName">
+            <param name=
             Name of the source database.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Specifies the type of backing storage for a schema model.
             </param>
-            <param name="tables">
+            <param name=
             <para>
             Optional enumerable used to retrieve enumerator over set of tables for which data should be exported.
-            For each <see cref="T:System.Tuple"/> in the enumeration the first item specifies the schema of the table, and the second specifies the base identifier of the table.
+            For each <see cref=
             </para>
             <para>
             If the value for this parameter is a null reference, data for all tables will be exported.
             </para>
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs during schema deployment and data export;
-            or if <paramref name="tables"/> specifies a table that does not exist in the schema contained in the supplied package.
+            or if <paramref name=
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ExportBacpac(System.IO.Stream,System.String,System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String}},System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
-            Extract schema and export data from a database into a "bacpac" package.
+            Extract schema and export data from a database into a 
             </summary>
-            <param name="packageStream">
-            <see cref="T:System.IO.Stream"/> to which to write the package.
+            <param name=
+            <see cref=
             </param>
-            <param name="databaseName">
+            <param name=
             Name of the source database.
             </param>
-            <param name="tables">
+            <param name=
             <para>
             Optional enumerable used to retrieve enumerator over set of tables for which data should be exported.
-            For each <see cref="T:System.Tuple"/> in the enumeration the first item specifies the schema of the table, and the second specifies the base identifier of the table.
+            For each <see cref=
             </para>
             <para>
             If the value for this parameter is a null reference, data for all tables will be exported.
             </para>
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs during schema deployment and data export;
-            or if <paramref name="tables"/> specifies a table that does not exist in the schema contained in the supplied package;
+            or if <paramref name=
             or the supplied stream is not suitable for writing the package.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ExportBacpac(System.IO.Stream,System.String,Microsoft.SqlServer.Dac.DacSchemaModelStorageType,System.Collections.Generic.IEnumerable{System.Tuple{System.String,System.String}},System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
-            Extract schema and export data from a database into a "bacpac" package.
+            Extract schema and export data from a database into a 
             </summary>
-            <param name="packageStream">
-            <see cref="T:System.IO.Stream"/> to which to write the package.
+            <param name=
+            <see cref=
             </param>
-            <param name="databaseName">
+            <param name=
             Name of the source database.
             </param>
-            <param name="modelStorageType">
+            <param name=
             Specifies the type of backing storage for a schema model.
             </param>
-            <param name="tables">
+            <param name=
             <para>
             Optional enumerable used to retrieve enumerator over set of tables for which data should be exported.
-            For each <see cref="T:System.Tuple"/> in the enumeration the first item specifies the schema of the table, and the second specifies the base identifier of the table.
+            For each <see cref=
             </para>
             <para>
             If the value for this parameter is a null reference, data for all tables will be exported.
             </para>
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs during schema deployment and data export;
-            or if <paramref name="tables"/> specifies a table that does not exist in the schema contained in the supplied package;
+            or if <paramref name=
             or the supplied stream is not suitable for writing the package.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.SetAmbientSetting(System.String,System.Object)">
+        <member name=
             <summary>
             Populates ambient setting controlling
             deployment/retry behavior down the stack.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.CreateSettingsContext(Microsoft.SqlServer.Dac.DacLoggingContext)">
+        <member name=
             <summary>
             Sets up a stack context to push a configured settings object to populate
             the ambient settings for consumption further down the stack
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ImportBacpac(Microsoft.SqlServer.Dac.BacPackage,System.String,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Deploy schema and import table data from the supplied package to a database.
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.BacPackage"/> containing schema to be deployed and data to be imported.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs during schema deployment and data import.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ImportBacpac(Microsoft.SqlServer.Dac.BacPackage,System.String,Microsoft.SqlServer.Dac.DacAzureDatabaseSpecification,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Deploy schema and import table data from the supplied package to a database.
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.BacPackage"/> containing schema to be deployed and data to be imported.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="creationDefaults">
+            <param name=
             Optional default size and edition parameters used when creating a new Azure database.
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs during schema deployment and data import.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ImportBacpac(Microsoft.SqlServer.Dac.BacPackage,System.String,Microsoft.SqlServer.Dac.DacImportOptions,System.Nullable{System.Threading.CancellationToken})">
+        <member name=
             <summary>
             Deploy schema and import table data from the supplied package to a database.
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.BacPackage"/> containing schema to be deployed and data to be imported.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="importOptions">
-             Instance of <see cref="T:Microsoft.SqlServer.Dac.DacImportOptions"/> that specifies properties that affect various aspects of the import.
+            <param name=
+             Instance of <see cref=
             </param>
-            <param name="cancellationToken">
-            Optional <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            Optional <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference or an empty string.
             </exception>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If an error occurs during schema deployment and data import.
             </exception>
-            <exception cref="T:System.OperationCanceledException">
-            If the <see cref="T:System.Threading.CancellationToken"/> has a cancellation requested and the operation could be cancelled.
+            <exception cref=
+            If the <see cref=
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.SafeFileStreamGetter(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,System.String)">
+        <member name=
             <summary>
             Return FileStream after handling all acceptable exceptions.
             </summary>
-            <param name="path">File path.</param>
-            <param name="mode">File mode.</param>
-            <param name="access">File access.</param>
-            <param name="share">File share.</param>
-            <param name="handledExceptionMessage">Message for handled exception.</param>
+            <param name=
+            <param name=
+            <param name=
+            <param name=
+            <param name=
             <returns></returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateCreateScript(Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions)">
+        <member name=
             <summary>
-            Create T-SQL script that can be used to deploy the schema of the supplied <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> to a database.
+            Create T-SQL script that can be used to deploy the schema of the supplied <see cref=
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing schema to be deployed.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment script creation.
+            <param name=
+            Instance of <see cref=
             </param>
             <returns>
-            String of T-SQL script used to create database schema based on the supplied <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/>.
+            String of T-SQL script used to create database schema based on the supplied <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during script generation.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateCreateScript(System.IO.Stream,Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions)">
+        <member name=
             <summary>
-            Create T-SQL script that can be used to deploy the schema of the supplied <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> to a database.
+            Create T-SQL script that can be used to deploy the schema of the supplied <see cref=
             </summary>
-            <param name="outputStream">
-            <see cref="T:System.IO.Stream"/> to which to write the deployment script.
+            <param name=
+            <see cref=
             </param>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing schema to be deployed.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment script creation.
+            <param name=
+            Instance of <see cref=
             </param>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during script generation.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDeployScript(Microsoft.SqlServer.Dac.DacPackage,Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions)">
+        <member name=
             <summary>
-            Create T-SQL script that can be used to deploy the differences between the schemas of the supplied source and target <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instances to a database.
+            Create T-SQL script that can be used to deploy the differences between the schemas of the supplied source and target <see cref=
             </summary>
-            <param name="sourcePackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the source schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetPackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the target schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment script creation.
+            <param name=
+            Instance of <see cref=
             </param>
             <returns>
-            String of T-SQL script used to create or update database schema based on the supplied <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/>.
+            String of T-SQL script used to create or update database schema based on the supplied <see cref=
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during script generation.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDeployScript(System.IO.Stream,Microsoft.SqlServer.Dac.DacPackage,Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions)">
+        <member name=
             <summary>
-            Create T-SQL script that can be used to deploy the differences between the schemas of the supplied source and target <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instances to a database.
+            Create T-SQL script that can be used to deploy the differences between the schemas of the supplied source and target <see cref=
             </summary>
-            <param name="outputStream">
-            <see cref="T:System.IO.Stream"/> to which to write the deployment script.
+            <param name=
+            <see cref=
             </param>
-            <param name="sourcePackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the source schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetPackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the target schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment script creation.
+            <param name=
+            Instance of <see cref=
             </param>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during script generation.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDeployReport(Microsoft.SqlServer.Dac.DacPackage,Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions)">
+        <member name=
             <summary>
-            Create XML report of the steps needed to deploy the differences between the schemas of the supplied source and target <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instances to a database.
+            Create XML report of the steps needed to deploy the differences between the schemas of the supplied source and target <see cref=
             </summary>
-            <param name="sourcePackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the source schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetPackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the target schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment report creation.
+            <param name=
+            Instance of <see cref=
             </param>
             <returns>
             String of XML that details the steps of the deployment.
             </returns>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during report generation.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.GenerateDeployReport(System.IO.Stream,Microsoft.SqlServer.Dac.DacPackage,Microsoft.SqlServer.Dac.DacPackage,System.String,Microsoft.SqlServer.Dac.DacDeployOptions)">
+        <member name=
             <summary>
-            Create XML report of the steps needed to deploy the differences between the schemas of the supplied source and target <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> instances to a database.
+            Create XML report of the steps needed to deploy the differences between the schemas of the supplied source and target <see cref=
             </summary>
-            <param name="outputStream">
-            <see cref="T:System.IO.Stream"/> to which to write the deployment report.
+            <param name=
+            <see cref=
             </param>
-            <param name="sourcePackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the source schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetPackage">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing the target schema to be compared.
+            <param name=
+            <see cref=
             </param>
-            <param name="targetDatabaseName">
+            <param name=
             Name of the target database for deployment.
             </param>
-            <param name="options">
-            Instance of <see cref="T:Microsoft.SqlServer.Dac.DacDeployOptions"/> that specifies properties that affect various aspects of the deployment report creation.
+            <param name=
+            Instance of <see cref=
             </param>
-            <exception cref="T:Microsoft.SqlServer.Dac.DacServicesException">
+            <exception cref=
             If a problem occurs during report generation.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DacServices.ParseAndThrowIfUnsupportedConnectionString(System.String)">
+        <member name=
             <summary>
-            Parses the connection string and determine if supplied connection string is valid and supported by <see cref="T:Microsoft.SqlServer.Dac.DacServices"/>.
+            Parses the connection string and determine if supplied connection string is valid and supported by <see cref=
             </summary>
-            <param name="connectionString">
+            <param name=
             Connection string to be validated.
             </param>
             <returns>Parsed connection string with only supported arguments present.</returns>
-            <exception cref="T:System.ArgumentException">
-            If the supplied <paramref name="connectionString"/> is not valid (as determined by <see cref="T:System.Data.SqlClient.SqlConnectionStringBuilder"/>),
-            or if it specifies properties or property values that are not supported by <see cref="T:Microsoft.SqlServer.Dac.DacServices"/>.
+            <exception cref=
+            If the supplied <paramref name=
+            or if it specifies properties or property values that are not supported by <see cref=
             </exception>
         </member>
-        <member name="E:Microsoft.SqlServer.Dac.DacServices.ProgressChanged">
+        <member name=
             <summary>
             Invoked as the state of an operation changes.
             </summary>
         </member>
-        <member name="E:Microsoft.SqlServer.Dac.DacServices.Message">
+        <member name=
             <summary>
             Invoked as an operation reports status updates or errors.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.DataException">
+        <member name=
             <summary>
             This class is meant to be a public exception class - i.e. when throwing it ensure
             that the exception is meaningful to the end-developer.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.DataResources">
+        <member name=
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.DataResources.ResourceManager">
+        <member name=
             <summary>
               Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.DataResources.Culture">
+        <member name=
             <summary>
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.DataResources.CreateTargetModelFailed">
+        <member name=
             <summary>
               Looks up a localized string similar to Failed to retrieve information from target database {0}.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.DataResources.DataPlanExecutionFailed">
+        <member name=
             <summary>
               Looks up a localized string similar to Data plan execution failed with message {0}.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.DataResources.FailedDetectDspType">
+        <member name=
             <summary>
               Looks up a localized string similar to Failed to retrieve information from target database to correctly model the database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.DataResources.Skipped_SelectedColumn">
+        <member name=
             <summary>
               Looks up a localized string similar to Excluded column [{0}].[{1}].[{2}] does not exist in the source model..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.DataResources.Skipped_SelectedTable">
+        <member name=
             <summary>
               Looks up a localized string similar to Selected table [{0}].[{1}] does not have data and will not be populated..
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Deployment.DatabasePointer">
+        <member name=
             <summary>
             Logically represents a database.  Can be used to retrieve information about the database
             such as a model and data
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Deployment.DatabasePointer.AddNewConstraints(Microsoft.Data.Tools.Schema.Sql.Deployment.ConstraintManager,System.Data.SqlClient.SqlConnectionStringBuilder)">
+        <member name=
             <summary>
             Adds new constraints to the specified constraint manager.  Will throw a DataException if a error
             occurs with the connection to the DB
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Deployment.Data.DataDeployment">
+        <member name=
             <summary>
-            Represents a "top of stack" incremental data deployment engine.  This engine acts primarly as an orchestrator
+            Represents a 
             between other more fine-grained data deployment components.  It is meant to be a fire-and-dispose component, access to and control of 
             more fine grained components is left to direct manipulation of those components directly to avoid lifetime issues
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Deployment.Data.DataDeploymentOptions.AddSelectedTable(System.Tuple{System.String,System.String})">
+        <member name=
             <summary>
             Adds a table to be considered when creating the data deployment plan
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Deployment.Data.DataDeploymentOptions.TableSelectionPolicy">
+        <member name=
             <summary>
             Configures how tables will be selected for data deployment
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Deployment.Data.DataDeploymentOptions.StorageType">
+        <member name=
             <summary>
             Storage to use when creating models of the source/target databases
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Deployment.Data.DataDeploymentOptions.TargetDatabaseName">
+        <member name=
             <summary>
             Name of the target database.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Deployment.Data.DataPlanHandle">
+        <member name=
             <summary>
             This class represents the disposable parts of the deployment plan.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Deployment.Data.DataPlanStrategy">
+        <member name=
             <summary>
             Base class for different data deployment plan generation strategies
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Deployment.Data.PlanCreationContext">
+        <member name=
             <summary>
             A data transfer object used to pass state between components used in plan creation
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Deployment.Data.PlanCreationContext.PopulateIncludedTables(System.Collections.Generic.HashSet{Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlElementDescriptor})">
+        <member name=
              <summary>
              Called to populate selected data tables and columns based on
              policy specified in the options
@@ -2703,29 +2703,29 @@
              Assumption: the Options and Source model are populted before this method is called
              </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Deployment.PlanExecutor">
+        <member name=
             <summary>
             Executes a deployment plan against the specified target database
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceException">
+        <member name=
             <summary>
             Thrown by the DeveloperInstanceManager 
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager">
+        <member name=
             <summary>
             This class encapsulates dealing with the Serverless SQL Express technology SqlStudio uses
             as a default destination for database project deployment 
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.CreateLocaldbInstanceName(System.String)">
+        <member name=
             <summary>
             Returns a localdb instance named based on the specified named.  The returned
             name is in the format of (localdb)\namePrefix
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.CreateInstance(System.String)">
+        <member name=
             <summary>
             If necessary creates and then starts the specified instance and returns a connection string to connect 
             to master on the specified localdb instance.
@@ -2735,98 +2735,98 @@
             if localdb is not installed or if an error occurs during creation of the connection string
             </returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.DetachDatabase(System.String,System.String)">
+        <member name=
             <summary>
             If the specified database exists on the instance detach it from the instance.  
             Any connections/transactions open on the database will be closed as part of the detach.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.StopInstance(System.String)">
+        <member name=
             <summary>
             Stops the specified instance if it is running
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.TeardownInstance(System.String)">
+        <member name=
             <summary>
             Tears down an instance by stopping and then deleting the specified instance.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.CreateConnectionString(System.String)">
+        <member name=
             <summary>
             Helper method that creates a connection string to 
             connect to the specified data source
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.ThrowCouldNotSetup">
+        <member name=
             <summary>
-            Helper method that throws the well known "could not setup" exception
+            Helper method that throws the well known 
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.CreateSafeInstanceName(System.String)">
+        <member name=
             <summary>
             Helper to create a safe name prefix
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.DoesDatabaseExist(System.Data.SqlClient.SqlConnection,System.String)">
+        <member name=
             <summary>
             Helper to check if a database exists
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.TestLocaldbConnectivityInstalled(System.String)">
+        <member name=
             <summary>
             If not already tested, tests whether the localdb connectivity fix has been 
             installed.  This is a QFE ontop of .net framework 4.0.  It is assumed that the
             instance has already been started.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.SetupLocalDBInstance(System.String)">
+        <member name=
             <summary>
             Sets up the LocalDB instance.  Returns named pipe if successful
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.BeginNewDatabaseWarmup(System.Data.SqlClient.SqlConnectionStringBuilder,System.String)">
+        <member name=
             <summary>
-            Helper method to "warmup" a new database after it has been created/attached
+            Helper method to 
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.BuildCreateDatabase(System.String,System.String,System.String,System.IO.DirectoryInfo,System.IO.DirectoryInfo)">
+        <member name=
             <summary>
             Creates an AST that represents a create database statement to create a database
             on a serverless instance
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.BuildDetachDatabase(System.String)">
+        <member name=
             <summary>
             Builds an AST that will set the specified database to single user and detach it.
             </summary>
-            <param name="dbName"></param>
+            <param name=
             <returns></returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.BuildDropDatabase(System.String)">
+        <member name=
             <summary>
             Creates an AST to drop a database
             </summary>
-            <param name="databaseName"></param>
+            <param name=
             <returns></returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.ExecuteScript(System.Data.SqlClient.SqlConnection,Microsoft.SqlServer.TransactSql.ScriptDom.TSqlScript)">
+        <member name=
             <summary>
             Helper method that executes a set of batches against provided connection
             </summary>
-            <param name="conn"></param>
-            <param name="script"></param>
+            <param name=
+            <param name=
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbInstalled">
+        <member name=
             <summary>
             Returns true is localDb is install on the user's machine
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper">
+        <member name=
             <summary>
             This class encalsulates management of LocalDB instances via the native control .dll
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.Create(System.String)">
+        <member name=
             <summary>
             Creates a new LocalDB instance using the specified instance name
             </summary>
@@ -2834,35 +2834,35 @@
             True if the instance was created or already existed
             </returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.Start(System.String,System.String@)">
+        <member name=
             <summary>
             Starts the specified instance.  
             </summary>
-            <param name="instanceName">The name of an instance that was already created</param>
-            <param name="namedPipe">The named pipe that can be used to communicate with the instance</param>
+            <param name=
+            <param name=
             <returns></returns>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.Stop(System.String)">
+        <member name=
             <summary>
             Stops the specified instance
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.Delete(System.String)">
+        <member name=
             <summary>
             Deletes the specified instance.  
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.VerifyInstalled">
+        <member name=
             <summary>
             Helper method to verify that LocalDB is installed - it will throw if not installed.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.GetFunc``1(Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.SafeLibraryHandle,System.String)">
+        <member name=
             <summary>
             Helper to return back the specified delegate to PInvoke the specified function
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.TryRetrieveApiLibPath(System.String,System.String@)">
+        <member name=
             <summary>
             Helper method that looks in the registry to find the path to the control LocalDB library.
             The control library's constract specifies that the control library must be backwards compatible
@@ -2871,130 +2871,130 @@
             control library 12 and then specify that we want version 11 in a CreateInstance call.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.Installed">
+        <member name=
             <summary>
             Returns true is LocalDB is installed
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.ReturnCodes">
+        <member name=
             <summary>
             Encapsulates return codes from LocalDB
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.SafeLibraryHandle">
+        <member name=
             <summary>
             Wraps the safe handle to the native library
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.LocalDBApi">
+        <member name=
             <summary>
             Encapsulates the delegates that define the signatures of the functions on the control library.  These
             delegates are used to successfully PInvoke into the .dll
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.LocalDBFunctionNames">
+        <member name=
             <summary>
             Encapsulates the names of the functions on the controller .dll
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Data.LocalDb.LocalDbInstanceManager.LocalDbWrapper.NativeMethods">
+        <member name=
             <summary>
             Additional functions that we PInvoke to manage loading the control .dll and
             find the control function addresses.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DeployOperation.UpdateDatabaseData(Microsoft.Data.Tools.Schema.Sql.Dac.LoggingContext,System.Threading.CancellationToken)">
+        <member name=
             <summary>
             Update's the target database's data using the model's / data that has already be created.  Assumption - this
             method is called after the controller has been initialized and used to update the target database
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.DeployOperation.SnapshotConstraintState">
+        <member name=
             <summary>
             Snapshots constraint state in the target database prior to the database being updated
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.Extensions.DacExtensions">
+        <member name=
             <summary>
-            Provides extensions for interacting with DAC packages represented by <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> or <see cref="T:Microsoft.SqlServer.Dac.BacPackage"/> instances.
+            Provides extensions for interacting with DAC packages represented by <see cref=
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Extensions.DacExtensions.GetCollationString(Microsoft.SqlServer.Dac.DacPackage)">
+        <member name=
             <summary>
             Returns the database collation for the package.
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.DacPackage"/> containing collation information.
+            <param name=
+            <see cref=
             </param>
             <returns>
             The SQL Server collation string, or null if the collation cannot be retrieved.
             </returns>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Extensions.DacExtensions.GetCollationString(Microsoft.SqlServer.Dac.BacPackage)">
+        <member name=
             <summary>
             Returns the database collation for the package.
             </summary>
-            <param name="package">
-            <see cref="T:Microsoft.SqlServer.Dac.BacPackage"/> containing collation information.
+            <param name=
+            <see cref=
             </param>
             <returns>
             The SQL Server collation string, or null if the collation cannot be retrieved.
             </returns>
-            <exception cref="T:System.ArgumentException">
+            <exception cref=
             If the value for any of the required parameters is a null reference.
             </exception>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Extensions.DacExtensions.SetServiceSetting(Microsoft.SqlServer.Dac.DacServices,System.String,System.Object)">
+        <member name=
             <summary>
             Configures a setting on the supplied DacServices instance.
             </summary>
-            <param name="service">The services instance to apply the setting</param>
-            <param name="settingName">The name of the setting</param>
-            <param name="settingValue">The value of the setting or null to remove the setting</param>
+            <param name=
+            <param name=
+            <param name=
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.ExtractOperation.SchemaModel">
+        <member name=
             <summary>
-            Get <see cref="T:Microsoft.Data.Tools.Schema.SchemaModel.DataSchemaModel"/> instance that represents the extracted database schema.
+            Get <see cref=
             </summary>
             <value>
-            <see cref="T:Microsoft.Data.Tools.Schema.SchemaModel.DataSchemaModel"/> instance created from extracted database schema.
+            <see cref=
             </value>
             <remarks>
             Use this property after executing this operation to retrieve the resulting model.
             Callers must handle disposal of this instance, as its lifetime is not managed by this class.
             </remarks>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.ModelValidation.CheckForUnsupportedSchemaForBacpacData(Microsoft.Data.Tools.Schema.SchemaModel.DataSchemaModel,System.Collections.Generic.IEnumerable{Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTableBase},System.Threading.CancellationToken,System.Action{Microsoft.SqlServer.Dac.DacMessage})">
+        <member name=
             <summary>
             Determine if the supplied schema model contains any elements that are problematic
             when used with a package that contains data.
             </summary>
-            <param name="model">
-            <see cref="T:Microsoft.Data.Tools.Schema.SchemaModel.DataSchemaModel"/> to query for elements.
+            <param name=
+            <see cref=
             </param>
-            <param name="tables">
+            <param name=
             Enumerable of data tables.
             </param>
-            <param name="cancellationToken">
-            <see cref="T:System.Threading.CancellationToken"/> that can be used to indicate that the operation should be cancelled.
+            <param name=
+            <see cref=
             Use of this object does not guarantee that the operation will be cancelled.
             </param>
-            <param name="errorHandler">
+            <param name=
             Callback invoked when problematic elements are identified.
-            A <see cref="T:Microsoft.SqlServer.Dac.DacMessage"/> instance is supplied that contains the details for the unsupported element.
+            A <see cref=
             </param>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Operation.#ctor(System.String,System.Action{System.Object,System.Threading.CancellationToken})">
+        <member name=
             <summary>
-            Construct a new instance of the <see cref="T:Microsoft.SqlServer.Dac.Operation"/> class.
+            Construct a new instance of the <see cref=
             </summary>
-            <param name="caption">
+            <param name=
             String describing the operation, suitable for display to user.
             </param>
-            <param name="action">
+            <param name=
             Delegate to invoke when the operation is executed.
             
             <para>
@@ -3003,20 +3003,20 @@
             in order to correlate these events to the operation.
             </para>
             <para>
-            The second parameter is a nullable <see cref="T:System.Threading.CancellationToken"/> that can be used
+            The second parameter is a nullable <see cref=
             to signal that the operation should be cancelled.
             </para>
             </param>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.Operation.ToString">
+        <member name=
             <summary>
             Return string representation of this instalce.
             </summary>
             <returns>
-            String caption for this <see cref="T:Microsoft.SqlServer.Dac.Operation"/> instance.
+            String caption for this <see cref=
             </returns>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationContext.OperationCancelled">
+        <member name=
             <summary>
             Get boolean that indicates whether any operation associated with this context reported a cancellation.
             </summary>
@@ -3024,202 +3024,202 @@
             True if an operation reported being cancelled; otherwise false.
             </value>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.OperationResources">
+        <member name=
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ResourceManager">
+        <member name=
             <summary>
               Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.Culture">
+        <member name=
             <summary>
               Overrides the current thread's CurrentUICulture property for all
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.BacpacModelValidationCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Validating schema model for data package.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.CreatingDeploymentPlanCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Creating deployment plan.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.DeployCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Deploying package to database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.DisablingIndexesCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Disabling indexes.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.EnablingIndexesCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Enabling indexes.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ExecutingDeploymentPlanCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Executing deployment plan.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ExportCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Exporting data from database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.GenerateDeployReportCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Generating deployment report.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.GenerateDeployScriptCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Generating deployment script.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.GenerateDriftReportCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Generating drift report.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.HistoryUpdateDisabled">
+        <member name=
             <summary>
               Looks up a localized string similar to The dac history table will not be updated..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ImportCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Importing package schema and data into database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ProcessingTable">
+        <member name=
             <summary>
               Looks up a localized string similar to Processing table: {0}.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.RegisterCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Registering metadata for database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.RemoveLoginsMessage">
+        <member name=
             <summary>
               Looks up a localized string similar to Removing references from users to logins.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ResolverCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Resolving references in schema model.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ReverseEngineerCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Extracting schema from database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.UnregisterCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Unregistering metadata for database.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.ValidationCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Validating schema model.
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OperationResources.VerifyingDeploymentPlanCaption">
+        <member name=
             <summary>
               Looks up a localized string similar to Verifying deployment plan.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.OptionDescriptionAttribute">
+        <member name=
             <summary>
             Customizes the description of an option.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.OptionDescriptionAttribute.#ctor(System.Type,System.String)">
+        <member name=
             <summary>
             Creates a description for an option.
             </summary>
-            <param name="resourceClassType">The resource class to extract the resource string from.</param>
-            <param name="resourcePropertyName">The resource name to extract.</param>
+            <param name=
+            <param name=
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OptionDescriptionAttribute.Description">
+        <member name=
             <summary>
             The description of the property.    
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.OptionDisplayNameAttribute">
+        <member name=
             <summary>
             Customizes the display name of an option.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.OptionDisplayNameAttribute.#ctor(System.Type,System.String)">
+        <member name=
             <summary>
             Creates a display name for an option.
             </summary>
-            <param name="resourceClassType">The resource class to extract the resource string from.</param>
-            <param name="resourcePropertyName">The resource name to extract.</param>        
+            <param name=
+            <param name=
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.OptionDisplayNameAttribute.DisplayName">
+        <member name=
             <summary>
             The display name for the property.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.IPackageSource">
+        <member name=
             <summary>
             Encapsulates the sourcing of package content, 
             and exposes methods to instantiate various types of objects used to read the package content.
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.IPackageSource.OpenSqlPackage">
+        <member name=
             <summary>
-            Opens a readonly <see cref="T:Microsoft.Data.Tools.Schema.Sql.Build.SqlPackage"/> for the source
+            Opens a readonly <see cref=
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.IPackageSource.OpenSqlPackageForUpdate">
+        <member name=
             <summary>
-            Opens a <see cref="T:Microsoft.Data.Tools.Schema.Sql.Build.SqlPackage"/> for the source, with the
+            Opens a <see cref=
             package set to an updateable state
             </summary>
         </member>
-        <member name="M:Microsoft.SqlServer.Dac.IPackageSource.GetInputStream">
+        <member name=
             <summary>
             Return a stream that can be used to read the package content.
             This stream must be disposed when it is no longer needed.
             </summary>
             <returns>
-            <see cref="T:System.IO.Stream"/> used to read package content.
+            <see cref=
             </returns>
             <remarks>
-            This method is a workaround for creating <see cref="T:Microsoft.Data.Tools.Schema.Sql.Dac.Data.BacpacPackage"/> instances from streams.
+            This method is a workaround for creating <see cref=
             It should not be used to create objects that are returned from other methods in this interface.
             </remarks>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.ReportMessageOperation">
+        <member name=
             <summary>
             Reports all DataSchemaErrors added to an ErrorManager through the supplied MessageHandler.
             </summary>
         </member>
-        <member name="T:Microsoft.SqlServer.Dac.UnownedStream">
+        <member name=
             <summary>
-            Decorator for <see cref="T:System.IO.Stream"/> that avoids disposal of the underlying stream.
+            Decorator for <see cref=
             </summary>
         </member>
-        <member name="T:AssemblyRef">
+        <member name=
             <summary>
             Sets public key string for friend assemblies.
             </summary>
         </member>
-        <member name="F:AssemblyRef.ProductPublicKey">
+        <member name=
             <summary>No signing</summary>
         </member>
     </members>

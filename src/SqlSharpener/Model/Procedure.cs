@@ -56,10 +56,14 @@ namespace SqlSharpener.Model
                 .Select(grp => grp.First())
                 .ToDictionary(
                     key => string.Join(".", key.Name.Parts),
-                    val => val.GetReferenced(dac.Column.DataType).First().Name.Parts.Last(),
+                    val => new DataType
+                    {
+                        Map = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, val.GetReferenced(dac.Column.DataType).First().Name.Parts.Last()),
+                        Nullable = dac.Column.Nullable.GetValue<bool>(val)
+                    },
                     StringComparer.InvariantCultureIgnoreCase);
 
-            this.Selects = selectVisitor.Nodes.OfType<QuerySpecification>().Select(s => new Select(s, bodyColumnTypes));
+            this.Selects = selectVisitor.Nodes.OfType<QuerySpecification>().Select(s => new Select(s, bodyColumnTypes)).ToList();
         }
 
         /// <summary>

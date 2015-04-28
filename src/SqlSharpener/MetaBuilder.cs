@@ -18,6 +18,11 @@ namespace SqlSharpener
     [Serializable]
     public class MetaBuilder
     {
+        private IEnumerable<Procedure> _procedures;
+        private bool _modelLoaded = false;
+        private IEnumerable<Table> _tables;
+        private IEnumerable<View> _views;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MetaBuilder"/> class.
         /// </summary>
@@ -55,12 +60,11 @@ namespace SqlSharpener
         {
             get
             {
-                if (!modelLoaded) LoadModel();
+                if (!_modelLoaded) LoadModel();
                 return _procedures;
             }
         }
-        private IEnumerable<Procedure> _procedures;
-
+        
         /// <summary>
         /// Objects representing the meta data parsed from the tables in the model.
         /// </summary>
@@ -71,11 +75,26 @@ namespace SqlSharpener
         {
             get
             {
-                if (!modelLoaded) LoadModel();
+                if (!_modelLoaded) LoadModel();
                 return _tables;
             }
         }
-        private IEnumerable<Table> _tables;
+
+        /// <summary>
+        /// Objects representing the meta data parsed from the views in the model.
+        /// </summary>
+        /// <value>
+        /// The views.
+        /// </value>
+        public IEnumerable<View> Views
+        {
+            get
+            {
+                if (!_modelLoaded) LoadModel();
+                return _views;
+            }
+        }
+        
 
         /// <summary>
         /// Creates a new TSqlModel, loads all *.sql files specified in the SqlPaths property
@@ -90,7 +109,14 @@ namespace SqlSharpener
             var procFiles = new List<string>();
             foreach (var sqlPath in this.SqlPaths)
             {
-                procFiles.AddRange(Directory.GetFiles(sqlPath, "*.sql", SearchOption.AllDirectories));
+                if (sqlPath.EndsWith(".sql"))
+                {
+                    procFiles.Add(sqlPath);
+                }
+                else
+                {
+                    procFiles.AddRange(Directory.GetFiles(sqlPath, "*.sql", SearchOption.AllDirectories));
+                }
             }
 
             var model = new dac.TSqlModel(dac.SqlServerVersion.Sql100, new dac.TSqlModelOptions());
@@ -100,7 +126,7 @@ namespace SqlSharpener
             }
             LoadModel(model);
         }
-        private bool modelLoaded = false;
+        
 
         /// <summary>
         /// Creates a new TSqlModel, loads each specified sql statement into the new model,
@@ -124,32 +150,29 @@ namespace SqlSharpener
         public void LoadModel(dac.TSqlModel model)
         {
             ParseTables(model);
+            //ParseViews(model);
             ParseProcedures(model);
-            modelLoaded = true;
+            _modelLoaded = true;
         }
 
         private void ParseTables(dac.TSqlModel model)
         {
-            var tables = new List<Table>();
-            var sqlTables = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Table.TypeClass);
-            foreach (var sqlTable in sqlTables)
-            {
-                var table = new Table(sqlTable);
-                tables.Add(table);
-            }
-            _tables = tables;
+            _tables = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Table.TypeClass).Select(sqlTable => new Table(sqlTable)).ToList();
+
+            var sqlPrimaryKeys = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.PrimaryKeyConstraint.TypeClass);
+            var sqlForeignKeys = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.ForeignKeyConstraint.TypeClass);
+            var sqlSynonyms = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Synonym.TypeClass);
+            
+        }
+
+        private void ParseViews(dac.TSqlModel model)
+        {
+            _views = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.View.TypeClass).Select(sqlView => new View(sqlView));
         }
 
         private void ParseProcedures(dac.TSqlModel model)
         {
-            var procedures = new List<Procedure>();
-            var sqlProcs = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Procedure.TypeClass);
-            foreach (var sqlProc in sqlProcs)
-            {
-                var procedure = new Procedure(sqlProc, this.ProcedurePrefix);
-                procedures.Add(procedure);
-            }
-            _procedures = procedures;
+            _procedures = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Procedure.TypeClass).Select(sqlProc => new Procedure(sqlProc, this.ProcedurePrefix)).ToList();
         }
     }
 }

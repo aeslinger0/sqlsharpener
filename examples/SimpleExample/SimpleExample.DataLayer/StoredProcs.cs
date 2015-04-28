@@ -21,7 +21,7 @@ namespace SimpleExample.DataLayer
 	public partial interface IStoredProcedures
 	{
 		int TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId );
-		TaskGetDto TaskGet( Int32? TaskId );
+		Result<TaskGetDto> TaskGet( Int32? TaskId );
 		int TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy );
 	}
 
@@ -30,6 +30,14 @@ namespace SimpleExample.DataLayer
 	/// </summary>
 	public partial class StoredProcedures : IStoredProcedures
 	{
+		private string connectionString;
+
+		public StoredProcedures(string connectionString)
+		{
+			this.connectionString = connectionString;
+		}
+
+
 		/// <summary>
 		/// Calls the "usp_TaskCreate" stored procedure
 		/// </summary>
@@ -38,7 +46,6 @@ namespace SimpleExample.DataLayer
 		{
 			OnTaskCreateBegin();
 			int result;
-			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
 			using(var conn = new SqlConnection(connectionString))
 			{
 				conn.Open();
@@ -73,11 +80,10 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskGet" stored procedure
 		/// </summary>
 		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
-		public TaskGetDto TaskGet( Int32? TaskId )
+		public Result<TaskGetDto> TaskGet( Int32? TaskId )
 		{
 			OnTaskGetBegin();
-			TaskGetDto result = null;
-			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
+			Result<TaskGetDto> result = new Result<TaskGetDto>();
 			using(var conn = new SqlConnection(connectionString))
 			{
 				conn.Open();
@@ -89,6 +95,7 @@ namespace SimpleExample.DataLayer
 
 					using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
 					{
+						result.RecordsAffected = reader.RecordsAffected;
 						while (reader.Read())
 						{
 							var item = new TaskGetDto();
@@ -99,7 +106,7 @@ namespace SimpleExample.DataLayer
 							item.CreatedBy = reader.GetString(4);
 							item.Updated = reader.GetDateTime(5);
 							item.UpdatedBy = reader.GetString(6);
-							result = item;
+							result.Data = item;
 						}
 						reader.Close();
 					}
@@ -112,7 +119,7 @@ namespace SimpleExample.DataLayer
 		}
 
 		partial void OnTaskGetBegin();
-		partial void OnTaskGetEnd(TaskGetDto result);
+		partial void OnTaskGetEnd(Result<TaskGetDto> result);
 
 		/// <summary>
 		/// Calls the "usp_TaskUpdate" stored procedure
@@ -122,7 +129,6 @@ namespace SimpleExample.DataLayer
 		{
 			OnTaskUpdateBegin();
 			int result;
-			var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
 			using(var conn = new SqlConnection(connectionString))
 			{
 				conn.Open();
@@ -170,16 +176,27 @@ namespace SimpleExample.DataLayer
 		}
 	}
 
+	/// <summary>
+	/// The return value of the stored procedure functions.
+	/// </summary>
+	public partial class Result<T>
+	{
+		public T Data { get; set; }
+		public int RecordsAffected { get; set; }
+	}
 
-	/// <summary>DTO for the output of the "usp_TaskGet" stored procedure.</summary>
+
+	/// <summary>
+	/// DTO for the output of the "usp_TaskGet" stored procedure.
+	/// </summary>
 	public partial class TaskGetDto	
 	{
 		public String Name { get; set; }
 		public String Description { get; set; }
 		public String Status { get; set; }
-		public DateTime? Created { get; set; }
+		public DateTime Created { get; set; }
 		public String CreatedBy { get; set; }
-		public DateTime? Updated { get; set; }
+		public DateTime Updated { get; set; }
 		public String UpdatedBy { get; set; }
 	}
 

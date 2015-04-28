@@ -52,7 +52,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ManualExample.txt</LastGenOutput>
     </None>
-    <None Include="packages.config" />
     <None Include="StoredProcs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>StoredProcs.cs</LastGenOutput>

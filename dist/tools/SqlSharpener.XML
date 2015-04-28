@@ -117,19 +117,54 @@
             The columns.
             </value>
         </member>
+        <member name="T:SqlSharpener.Model.View">
+            <summary>
+            Represents a view in the model.
+            </summary>
+        </member>
+        <member name="M:SqlSharpener.Model.View.#ctor(System.String,System.Collections.Generic.IEnumerable{SqlSharpener.Model.Column})">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.View"/> class.
+            </summary>
+            <param name="name">The name of the view.</param>
+            <param name="columns">The columns.</param>
+        </member>
+        <member name="M:SqlSharpener.Model.View.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlSharpener.Model.View"/> class.
+            </summary>
+            <param name="tSqlObject">The TSqlObject representing the view.</param>
+        </member>
+        <member name="P:SqlSharpener.Model.View.Name">
+            <summary>
+            Gets the name of the view.
+            </summary>
+            <value>
+            The name of the view.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.View.Columns">
+            <summary>
+            Gets the columns.
+            </summary>
+            <value>
+            The columns.
+            </value>
+        </member>
         <member name="T:SqlSharpener.Model.SelectColumn">
             <summary>
             Represents a column in a SELECT statement in a stored procedure.
             </summary>
         </member>
-        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String})">
+        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String},System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.SelectColumn"/> class.
             </summary>
             <param name="name">The name or alias.</param>
             <param name="dataTypes">The data types.</param>
+            <param name="isNullable">if set to <c>true</c> [is nullable].</param>
         </member>
-        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.SelectScalarExpression,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.SelectScalarExpression,System.Collections.Generic.IDictionary{System.String,SqlSharpener.DataType},System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.SelectColumn"/> class.
             </summary>
@@ -137,15 +172,12 @@
             <param name="bodyColumnTypes">The body column types.</param>
             <param name="tableAliases">The table aliases.</param>
         </member>
-        <member name="M:SqlSharpener.Model.SelectColumn.GetDataType(System.Collections.Generic.IDictionary{System.String,System.String},System.String)">
+        <member name="M:SqlSharpener.Model.SelectColumn.SetDataType(System.Collections.Generic.IDictionary{System.String,SqlSharpener.DataType},System.String)">
             <summary>
-            Gets the data type from the MultiPartIdentifier
+            Sets the data type from the MultiPartIdentifier.
             </summary>
             <param name="bodyColumnTypes">The body column types.</param>
             <param name="fullColName">Full name of the col.</param>
-            <returns>
-            The data type
-            </returns>
             <exception cref="T:System.InvalidOperationException">Could not find column within BodyDependencies:  + fullColName</exception>
         </member>
         <member name="M:SqlSharpener.Model.SelectColumn.GetFullColumnName(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IList{Microsoft.SqlServer.TransactSql.ScriptDom.Identifier})">
@@ -172,6 +204,14 @@
             </summary>
             <value>
             The data types.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.SelectColumn.IsNullable">
+            <summary>
+            Gets or sets a value indicating whether this instance is nullable.
+            </summary>
+            <value>
+            <c>true</c> if this instance is nullable; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="T:SqlSharpener.DataTypeHelper">
@@ -206,6 +246,13 @@
             <returns>
             The first data type dictionary that contains the specified TypeFormat and value.
             </returns>
+        </member>
+        <member name="M:SqlSharpener.DataTypeHelper.GetMap(SqlSharpener.DataTypes)">
+            <summary>
+            Gets a single data type dictionary with values for each TypeFormat 
+            </summary>
+            <param name="dataType">Type of the data.</param>
+            <returns></returns>
         </member>
         <member name="P:SqlSharpener.DataTypeHelper.Instance">
             <summary>
@@ -424,6 +471,14 @@
             The tables.
             </value>
         </member>
+        <member name="P:SqlSharpener.MetaBuilder.Views">
+            <summary>
+            Objects representing the meta data parsed from the views in the model.
+            </summary>
+            <value>
+            The views.
+            </value>
+        </member>
         <member name="T:SqlSharpener.Model.Select">
             <summary>
             Represents a SELECT statement in a stored procedure.
@@ -434,10 +489,10 @@
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Select"/> class.
             </summary>
             <param name="columns">The columns.</param>
-            <param name="isTopOne">if set to <c>true</c> the select statement uses a TOP 1 clause.</param>
+            <param name="isSingleRow">if set to <c>true</c> the select statement uses a TOP 1 clause or is a function call.</param>
             <param name="tableAliases">The table aliases.</param>
         </member>
-        <member name="M:SqlSharpener.Model.Select.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.QuerySpecification,System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:SqlSharpener.Model.Select.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.QuerySpecification,System.Collections.Generic.IDictionary{System.String,SqlSharpener.DataType})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Select"/> class.
             </summary>
@@ -452,12 +507,12 @@
             The columns.
             </value>
         </member>
-        <member name="P:SqlSharpener.Model.Select.IsTopOne">
+        <member name="P:SqlSharpener.Model.Select.IsSingleRow">
             <summary>
-            Gets a value indicating whether this instance uses a TOP 1 clause.
+            Gets a value indicating whether this SELECT uses a TOP 1 clause or is a function call.
             </summary>
             <value>
-            <c>true</c> if this instance uses a TOP 1 clause; otherwise, <c>false</c>.
+            <c>true</c> if this instance uses a TOP 1 clause or is a function call; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="P:SqlSharpener.Model.Select.TableAliases">
@@ -482,16 +537,6 @@
             The value of outputNameSpace if not null.
             </returns>
             <exception cref="T:System.ArgumentNullException">outputNamespace cannot be null.</exception>
-        </member>
-        <member name="M:SqlSharpener.ProcedureHelper.GetConnStrVar(System.String)">
-            <summary>
-            Scrubs the connectionStringVariableName parameter to ensure it is not null.
-            </summary>
-            <param name="connectionStringVariableName">The connectionStringVariableName T4 parameter.</param>
-            <returns>
-            The value of connectionStringVariableName if not null.
-            </returns>
-            <exception cref="T:System.ArgumentNullException">connectionStringVariableName cannot be null.</exception>
         </member>
         <member name="M:SqlSharpener.ProcedureHelper.GetDtoObject(SqlSharpener.Model.Procedure,System.Int32)">
             <summary>
@@ -673,11 +718,6 @@
         <member name="P:SqlSharpener.StoredProceduresTemplate.outputNamespace">
             <summary>
             Access the outputNamespace parameter of the template.
-            </summary>
-        </member>
-        <member name="P:SqlSharpener.StoredProceduresTemplate.connectionStringVariableName">
-            <summary>
-            Access the connectionStringVariableName parameter of the template.
             </summary>
         </member>
         <member name="P:SqlSharpener.StoredProceduresTemplate.procedurePrefix">

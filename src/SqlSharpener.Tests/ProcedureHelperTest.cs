@@ -20,13 +20,27 @@ namespace SqlSharpener.Tests
         }
 
         [TestMethod]
+        public void Test()
+        {
+            var builder = new MetaBuilder();
+            builder.SqlPaths.Add(@"C:\WorkGPS\DTCServices\main\Mayo.DTCServices\Mayo.DTCServices.Database\dbo\Tables");
+            builder.SqlPaths.Add(@"C:\WorkGPS\DTCServices\main\Mayo.DTCServices\Mayo.DTCServices.Database\dbo\Stored Procedures");
+            var helper = new ProcedureHelper();
+            foreach (var proc in builder.Procedures)
+            {
+                var y = helper.GetSqlParamList(proc);
+                var x = helper.GetReturnVariable(proc);
+            }
+        }
+        
+        [TestMethod]
         public void ReturnTypeSingleRowSingleColumnTest()
         {
             // Arrange
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true)
                 }, true, null)
             });
 
@@ -44,8 +58,9 @@ namespace SqlSharpener.Tests
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32"), false),
+                  new SelectColumn("col3", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, true, null)
             });
 
@@ -53,7 +68,7 @@ namespace SqlSharpener.Tests
             var result = helper.GetReturnType(procedure);
 
             // Assert
-            Assert.AreEqual("procDto", result);
+            Assert.AreEqual("Result<procDto>", result);
         }
 
         [TestMethod]
@@ -63,7 +78,7 @@ namespace SqlSharpener.Tests
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), false)
                 }, false, null)
             });
 
@@ -71,7 +86,7 @@ namespace SqlSharpener.Tests
             var result = helper.GetReturnType(procedure);
 
             // Assert
-            Assert.AreEqual("IEnumerable<Int32?>", result);
+            Assert.AreEqual("Result<IEnumerable<Int32>>", result);
         }
 
         [TestMethod]
@@ -81,8 +96,8 @@ namespace SqlSharpener.Tests
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, false, null)
             });
 
@@ -90,7 +105,7 @@ namespace SqlSharpener.Tests
             var result = helper.GetReturnType(procedure);
 
             // Assert
-            Assert.AreEqual("IEnumerable<procDto>", result);
+            Assert.AreEqual("Result<IEnumerable<procDto>>", result);
         }
 
         [TestMethod]
@@ -100,12 +115,12 @@ namespace SqlSharpener.Tests
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, false, null),
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, true, null)
             });
 
@@ -123,8 +138,8 @@ namespace SqlSharpener.Tests
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, false, null)
             });
 
@@ -132,7 +147,7 @@ namespace SqlSharpener.Tests
             var result = helper.GetReturnVariable(procedure);
 
             // Assert
-            Assert.AreEqual("IEnumerable<procDto> result = null;", result);
+            Assert.AreEqual("Result<IEnumerable<procDto>> result = new Result<IEnumerable<procDto>>();", result);
         }
 
         [TestMethod]
@@ -142,12 +157,12 @@ namespace SqlSharpener.Tests
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, false, null),
                 new Select(new List<SelectColumn>{
-                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                  new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                  new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, true, null)
             });
 
@@ -230,7 +245,7 @@ cmd.Parameters.Add(param2OutputParameter);
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"))
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true)
                 }, true, null)
             });
 
@@ -248,8 +263,9 @@ cmd.Parameters.Add(param2OutputParameter);
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String")),
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), false),
+                    new SelectColumn("col3", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true),
                 }, true, null)
             });
 
@@ -257,11 +273,14 @@ cmd.Parameters.Add(param2OutputParameter);
             var result = helper.GetDtoObject(procedure);
 
             // Assert
-            Assert.AreEqual(@"/// <summary>DTO for the output of the ""proc"" stored procedure.</summary>
+            Assert.AreEqual(@"/// <summary>
+/// DTO for the output of the ""proc"" stored procedure.
+/// </summary>
 public partial class procDto
 {
 	public Int32? col1 { get; set; }
-	public String col2 { get; set; }
+	public Int32 col2 { get; set; }
+	public String col3 { get; set; }
 }
 ", result);
         }
@@ -273,7 +292,7 @@ public partial class procDto
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"))
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true)
                 }, false, null)
             });
 
@@ -291,8 +310,8 @@ public partial class procDto
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"))
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true)
                 }, false, null)
             });
 
@@ -300,7 +319,9 @@ public partial class procDto
             var result = helper.GetDtoObject(procedure);
 
             // Assert
-            Assert.AreEqual(@"/// <summary>DTO for the output of the ""proc"" stored procedure.</summary>
+            Assert.AreEqual(@"/// <summary>
+/// DTO for the output of the ""proc"" stored procedure.
+/// </summary>
 public partial class procDto
 {
 	public Int32? col1 { get; set; }
@@ -316,7 +337,7 @@ public partial class procDto
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"))
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), false)
                 }, true, null)
             });
 
@@ -324,7 +345,7 @@ public partial class procDto
             var result = helper.GetExecuteStatement(procedure);
 
             // Assert
-            Assert.AreEqual("result = cmd.ExecuteScalar() as Int32?;\r\n", result);
+            Assert.AreEqual("result = (Int32)cmd.ExecuteScalar();\r\n", result);
         }
 
         [TestMethod]
@@ -348,8 +369,8 @@ public partial class procDto
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String")),
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true),
                 }, true, null)
             });
 
@@ -359,12 +380,13 @@ public partial class procDto
             // Assert
             Assert.AreEqual(@"using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
 {
+	result.RecordsAffected = reader.RecordsAffected;
 	while (reader.Read())
 	{
 		var item = new procDto();
 		item.col1 = reader.GetInt32(0);
 		item.col2 = reader.GetString(1);
-		result = item;
+		result.Data = item;
 	}
 	reader.Close();
 }
@@ -372,14 +394,14 @@ public partial class procDto
         }
 
         [TestMethod]
-        public void ExecuteStatementMultipleRowMulipleColumnTest()
+        public void ExecuteStatementMultipleRowMultipleColumnTest()
         {
             // Arrange
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String")),
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true),
                 }, false, null)
             });
 
@@ -389,6 +411,7 @@ public partial class procDto
             // Assert
             Assert.AreEqual(@"using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
 {
+	result.RecordsAffected = reader.RecordsAffected;
 	var list = new List<procDto>();
 	while (reader.Read())
 	{
@@ -397,7 +420,7 @@ public partial class procDto
 		item.col2 = reader.GetString(1);
 		list.Add(item);
 	}
-	result = list;
+	result.Data = list;
 	reader.Close();
 }
 ", result);
@@ -410,12 +433,12 @@ public partial class procDto
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, null, new List<Select>{
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String")),
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true),
                 }, false, null),
                 new Select(new List<SelectColumn>{
-                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?")),
-                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String")),
+                    new SelectColumn("col1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true),
+                    new SelectColumn("col2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "String"), true),
                 }, false, null)
             });
 
@@ -425,6 +448,7 @@ public partial class procDto
             // Assert
             Assert.AreEqual(@"using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
 {
+	result.RecordsAffected = reader.RecordsAffected;
 	var list = new List<procDto>();
 	while (reader.Read())
 	{

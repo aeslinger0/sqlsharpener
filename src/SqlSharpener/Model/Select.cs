@@ -16,13 +16,13 @@ namespace SqlSharpener.Model
         /// Initializes a new instance of the <see cref="Select"/> class.
         /// </summary>
         /// <param name="columns">The columns.</param>
-        /// <param name="isTopOne">if set to <c>true</c> the select statement uses a TOP 1 clause.</param>
+        /// <param name="isSingleRow">if set to <c>true</c> the select statement uses a TOP 1 clause or is a function call.</param>
         /// <param name="tableAliases">The table aliases.</param>
-        public Select(IEnumerable<SelectColumn> columns, bool isTopOne, IDictionary<string, string> tableAliases)
+        public Select(IEnumerable<SelectColumn> columns, bool isSingleRow, IDictionary<string, string> tableAliases)
         {
             this.Columns = columns ?? new List<SelectColumn>();
-            this.IsTopOne = isTopOne;
-            this.TableAliases = tableAliases ?? new Dictionary<string,string>();
+            this.IsSingleRow = isSingleRow;
+            this.TableAliases = tableAliases ?? new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace SqlSharpener.Model
         /// </summary>
         /// <param name="querySpecification">The query specification.</param>
         /// <param name="bodyColumnTypes">The body column types.</param>
-        public Select(QuerySpecification querySpecification, IDictionary<string, string> bodyColumnTypes)
+        public Select(QuerySpecification querySpecification, IDictionary<string, DataType> bodyColumnTypes)
         {
             // Get any table aliases.
             var aliasResolutionVisitor = new AliasResolutionVisitor();
@@ -38,8 +38,8 @@ namespace SqlSharpener.Model
             this.TableAliases = aliasResolutionVisitor.Aliases;
 
             var topInt = querySpecification.TopRowFilter != null ? querySpecification.TopRowFilter.Expression as IntegerLiteral : null;
-            this.IsTopOne = topInt != null && topInt.Value == "1" && querySpecification.TopRowFilter.Percent == false;
-            this.Columns = querySpecification.SelectElements.OfType<SelectScalarExpression>().Select(x => new SelectColumn(x, bodyColumnTypes, this.TableAliases));
+            this.IsSingleRow = topInt != null && topInt.Value == "1" && querySpecification.TopRowFilter.Percent == false;
+            this.Columns = querySpecification.SelectElements.OfType<SelectScalarExpression>().Select(x => new SelectColumn(x, bodyColumnTypes, this.TableAliases)).ToList();
         }
 
         /// <summary>
@@ -51,12 +51,12 @@ namespace SqlSharpener.Model
         public IEnumerable<SelectColumn> Columns { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether this instance uses a TOP 1 clause.
+        /// Gets a value indicating whether this SELECT uses a TOP 1 clause or is a function call.
         /// </summary>
         /// <value>
-        /// <c>true</c> if this instance uses a TOP 1 clause; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance uses a TOP 1 clause or is a function call; otherwise, <c>false</c>.
         /// </value>
-        public bool IsTopOne { get; private set; }
+        public bool IsSingleRow { get; private set; }
 
         /// <summary>
         /// Gets the table aliases.
