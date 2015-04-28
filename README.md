@@ -15,13 +15,8 @@ Here is one way you can use SqlSharpener...
     AS
   	-- Specifying "TOP 1" makes the generated return value a single instance instead of an array.
   	SELECT TOP 1
-  		t.Name,
-  		t.[Description],
-  		ts.Name as [Status],
-  		t.Created,
-  		t.CreatedBy,
-  		t.Updated,
-  		t.UpdatedBy
+  		t.Name, t.[Description], t.Created, t.CreatedBy, t.Updated, t.UpdatedBy,
+        ts.Name as [Status]
   	FROM Tasks t
   	JOIN TaskStatus ts ON t.TaskStatusId = ts.Id
   	WHERE t.Id = @TaskId
@@ -50,7 +45,7 @@ Here is one way you can use SqlSharpener...
         /// </summary>
         public partial interface IStoredProcedures
         {
-            TaskGetDto TaskGet( Int32? TaskId );
+            Result<TaskGetDto> TaskGet( Int32? TaskId );
         }
 
         /// <summary>
@@ -58,15 +53,21 @@ Here is one way you can use SqlSharpener...
         /// </summary>
         public partial class StoredProcedures : IStoredProcedures
         {
+            private string connectionString;
+
+            public StoredProcedures(string connectionString)
+            {
+                this.connectionString = connectionString;
+            }
+
             /// <summary>
             /// Calls the "usp_TaskGet" stored procedure
             /// </summary>
             /// <returns>A DTO filled with the results of the SELECT statement.</returns>
-            public TaskGetDto TaskGet( Int32? TaskId )
+            public Result<TaskGetDto> TaskGet( Int32? TaskId )
             {
                 OnTaskGetBegin();
-                TaskGetDto result = null;
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString1"].ConnectionString;
+                Result<TaskGetDto> result = new Result<TaskGetDto>();
                 using(var conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
@@ -78,6 +79,7 @@ Here is one way you can use SqlSharpener...
 
                         using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
                         {
+                            result.RecordsAffected = reader.RecordsAffected;
                             while (reader.Read())
                             {
                                 var item = new TaskGetDto();
@@ -88,55 +90,44 @@ Here is one way you can use SqlSharpener...
                                 item.CreatedBy = reader.GetString(4);
                                 item.Updated = reader.GetDateTime(5);
                                 item.UpdatedBy = reader.GetString(6);
-                                result = item;
+                                result.Data = item;
                             }
                             reader.Close();
                         }
-
                     }
                     conn.Close();
                 }
                 OnTaskGetEnd(result);
                 return result;
             }
-
             partial void OnTaskGetBegin();
-            partial void OnTaskGetEnd(TaskGetDto result);
-
-
-            /// <summary>
-            /// Helper function to get the bytes out of varbinary columns
-            /// </summary>
-            private byte[] GetBytes(IDataReader reader, int ordinal)
-            {
-                MemoryStream ms = new MemoryStream();
-                BinaryWriter writer = new BinaryWriter(ms);
-                byte[] buffer = new byte[1024];
-                long blobSize = reader.GetBytes(ordinal, 0, null, 0, 0);
-                long currPos = 0;
-                while (currPos < blobSize) {
-                    currPos += reader.GetBytes(ordinal, currPos, buffer, 0, 1024);
-                    writer.Write(buffer);
-                    writer.Flush();
-                }
-                writer.Close();
-                return ms.ToArray();
-            }
+            partial void OnTaskGetEnd(Result<TaskGetDto> result);
         }
 
+        /// <summary>
+        /// The return value of the stored procedure functions.
+        /// </summary>
+        public partial class Result<T>
+        {
+            public T Data { get; set; }
+            public int RecordsAffected { get; set; }
+        }
 
-        /// <summary>DTO for the output of the "usp_TaskGet" stored procedure.</summary>
+        /// <summary>
+        /// DTO for the output of the "usp_TaskGet" stored procedure.
+        /// </summary>
         public partial class TaskGetDto 
         {
             public String Name { get; set; }
             public String Description { get; set; }
             public String Status { get; set; }
-            public DateTime? Created { get; set; }
+            public DateTime Created { get; set; }
             public String CreatedBy { get; set; }
-            public DateTime? Updated { get; set; }
+            public DateTime Updated { get; set; }
             public String UpdatedBy { get; set; }
         }
     }
+
 
 # Performance
 
@@ -171,7 +162,6 @@ The fastest way to get up and running is to call one of SqlSharpener's included 
     	// Set parameters for the template.
     	var session = new TextTemplatingSession();
     	session["outputNamespace"] = "SimpleExample.DataLayer";
-    	session["connectionStringVariableName"] = "ConnectionString1";
     	session["procedurePrefix"] = "usp_";
     	session["sqlPaths"] = sqlPaths;
     
@@ -188,19 +178,9 @@ The generated .cs file will contain a class with functions for all your stored p
 
 Once the code is generated, your business layer can call it like any other function. Here is one example:
 
-        public int? Create(Task task)
+        public TaskGetDto Get(int id)
         {
-            int? taskId;
-            storedProcedures.TaskCreate(
-                task.Name,
-                task.Description,
-                task.TaskStatusId,
-                task.Created,
-                task.CreatedBy,
-                task.Updated,
-                task.UpdatedBy,
-                out taskId);
-            return taskId;
+            return storedProcedures.TaskGet(id);
         }
         
 # Dependency Injection
