@@ -191,7 +191,7 @@ If you use a dependency-injection framework such as Ninject, you can use the int
     {
         public override void Load()
         {
-            Bind<IStoredProcedures>().To<StoredProcedures>().InSingletonScope();
+            Bind<IStoredProcedures>().To<StoredProcedures>();
         }
     }
     
