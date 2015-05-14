@@ -5,7 +5,9 @@ SqlSharpener accomplishes this by parsing the SQL files to create a meta-object 
 
 # Example
 
-Here is one way you can use SqlSharpener...
+A solution with a [simple example](https://github.com/aeslinger0/sqlsharpener/tree/master/examples/SimpleExample) is included with the code for you to download.
+
+To give you an idea of how you can use SqlSharpener...
 
 **Given a stored procedure that looks like this:**
 
