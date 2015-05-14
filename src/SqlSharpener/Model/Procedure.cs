@@ -44,7 +44,7 @@ namespace SqlSharpener.Model
             this.RawName = tSqlObject.Name.Parts.Last();
             this.Name = this.RawName.Substring(this.Prefix.Length);
             this.Parameters = tSqlObject.GetReferenced(dac.Procedure.Parameters).Select(x => new Parameter(x));
-
+            
             TSqlFragment fragment;
             TSqlModelUtils.TryGetFragmentForAnalysis(tSqlObject, out fragment);
             var selectVisitor = new SelectVisitor();
@@ -63,7 +63,10 @@ namespace SqlSharpener.Model
                     },
                     StringComparer.InvariantCultureIgnoreCase);
 
-            this.Selects = selectVisitor.Nodes.OfType<QuerySpecification>().Select(s => new Select(s, bodyColumnTypes)).ToList();
+            var unions = selectVisitor.Nodes.OfType<BinaryQueryExpression>().Select(bq => GetQueryFromUnion(bq)).Where(x => x != null);
+            var selects = selectVisitor.Nodes.OfType<QuerySpecification>().Concat(unions);
+                        
+            this.Selects = selects.Select(s => new Select(s, bodyColumnTypes)).ToList();
         }
 
         /// <summary>
@@ -105,5 +108,14 @@ namespace SqlSharpener.Model
         /// The selects.
         /// </value>
         public IEnumerable<Select> Selects { get; private set; }
+
+        private QuerySpecification GetQueryFromUnion(BinaryQueryExpression binaryQueryExpression)
+        {
+            while (binaryQueryExpression.FirstQueryExpression as BinaryQueryExpression != null)
+            {
+                binaryQueryExpression = binaryQueryExpression.FirstQueryExpression as BinaryQueryExpression;
+            }
+            return binaryQueryExpression.FirstQueryExpression as QuerySpecification;
+        }
     }
 }

@@ -42,6 +42,7 @@ namespace SqlSharpener
 
             if (proc.Parameters.Any())
             {
+                // Create the input DTO.
                 b.AppendLine("/// <summary>");
                 b.AppendFormatLine("/// DTO for the input of the \"{0}\" stored procedure.", proc.RawName);
                 b.AppendLine("/// </summary>");
@@ -55,25 +56,80 @@ namespace SqlSharpener
                         "/// Property that gets filled with the {0} output parameter." :
                         "/// Property that fills the {0} input parameter.", p.Name);
                     b.AppendLine("/// </summary>");
-                    var cSharpType = p.DataTypes[TypeFormat.DotNetFrameworkType];
-                    b.AppendFormatLine("public {0} {1} {{ get; {2}set; }}", cSharpType, p.Name, p.IsOutput ? "internal " : "");
+                    if (p.IsTableValue)
+                    {
+                        b.AppendFormatLine("public IEnumerable<{0}_{1}ParamDto> {1} {{ get; set; }}", proc.Name, p.Name);
+                    }
+                    else
+                    {
+                        var cSharpType = p.DataTypes[TypeFormat.DotNetFrameworkType];
+                        b.AppendFormatLine("public {0} {1} {{ get; {2}set; }}", cSharpType, p.Name, p.IsOutput ? "internal " : "");
+                    }
+
                 }
                 b.Unindent();
                 b.AppendLine("}");
                 b.AppendLine();
+
+                // Create DTOs for any table-valued parameters.
+                foreach (var p in proc.Parameters.Where(x => x.IsTableValue))
+                {
+                    b.AppendLine("/// <summary>");
+                    b.AppendFormatLine("/// DTO for the input of the \"{0}\" table-valued parameter of the \"{1}\" stored procedure.", p.Name, proc.RawName);
+                    b.AppendLine("/// </summary>");
+                    b.AppendFormatLine("public partial class {0}_{1}ParamDto : ITableValuedParamRow", proc.Name, p.Name);
+                    b.AppendLine("{");
+                    b.Indent();
+                    foreach (var c in p.TableValue.Columns)
+                    {
+                        var cSharpType = c.DataTypes[TypeFormat.DotNetFrameworkType];
+                        if (!c.IsNullable) cSharpType = cSharpType.TrimEnd('?');
+                        b.AppendFormatLine("public {0} {1} {{ get; set; }}", cSharpType, c.Name);
+                    }
+                    b.AppendLine();
+                    b.AppendLine("public SqlDataRecord ToSqlDataRecord()");
+                    b.AppendLine("{");
+                    b.Indent();
+                    b.AppendLine("var sdr = new SqlDataRecord(");
+                    b.Indent();
+                    for (var i = 0; i < p.TableValue.Columns.Count(); i++)
+                    {
+                        var c = p.TableValue.Columns.ElementAt(i);
+                        var comma = i == p.TableValue.Columns.Count() - 1 ? "" : ",";
+                        b.AppendFormatLine("new SqlMetaData(\"{0}\", SqlDbType.{1}){2}", c.Name, c.DataTypes[TypeFormat.SqlDbTypeEnum], comma);
+                    }
+                    b.Unindent();
+                    b.AppendLine(");");
+                    for (var i = 0; i < p.TableValue.Columns.Count(); i++)
+                    {
+                        var c = p.TableValue.Columns.ElementAt(i);
+                        var setFn = "Set" + c.DataTypes[TypeFormat.SqlDataReaderDbType].Substring(3);
+                        if (c.IsNullable && c.DataTypes[TypeFormat.DotNetFrameworkType].EndsWith("?"))
+                            b.AppendFormatLine("if({2}.HasValue) sdr.{0}({1}, {2}.GetValueOrDefault()); else sdr.SetDBNull({1});", setFn, i.ToString(), c.Name);
+                        else
+                            b.AppendFormatLine("sdr.{0}({1}, {2});", setFn, i.ToString(), c.Name);
+                    }
+                    b.AppendLine("return sdr;");
+                    b.Unindent();
+                    b.AppendLine("}");
+                    b.Unindent();
+                    b.AppendLine("}");
+                    b.AppendLine();
+                }
             }
 
             // If only one select and one column, no output DTO is needed.
             if (proc.Selects.Count() == 1 && proc.Selects.First().Columns.Count() == 1)
                 return b.ToString();
 
+            // Create output DTOs.
             for (var i = 0; i < proc.Selects.Count(); i++)
             {
                 b.AppendLine("/// <summary>");
                 b.AppendFormatLine("/// DTO for the output of the \"{0}\" stored procedure.", proc.RawName);
                 b.AppendLine("/// </summary>");
                 b.AppendFormat("public partial class {0}OutputDto", proc.Name);
-                if (i > 0) b.Append((i + 1).ToString());
+                if (i > 0) b.StringBuilder.Append((i + 1).ToString());
                 b.AppendLine();
                 b.AppendLine("{");
                 b.Indent();
@@ -87,6 +143,8 @@ namespace SqlSharpener
                 b.AppendLine("}");
                 b.AppendLine();
             }
+
+            // If multiple selects, create an object to hold all the results.
             if (proc.Selects.Count() > 1)
             {
                 b.AppendFormatLine("public partial class {0}Results", proc.Name);
@@ -180,23 +238,58 @@ namespace SqlSharpener
         /// Gets the parameter list for the method.
         /// </summary>
         /// <param name="proc">The procedure to get the parameter list for.</param>
+        /// <param name="genericTableValue">if set to <c>true</c> [generic table value].</param>
+        /// <param name="includeType">if set to <c>true</c> [include type].</param>
+        /// <param name="convertType">if set to <c>true</c> [convert type].</param>
         /// <returns>
         /// The generated parameter list.
         /// </returns>
-        public string GetMethodParamList(Procedure proc)
+        public string GetMethodParamList(Procedure proc, bool genericTableValue, bool includeType, bool convertType)
         {
             var b = new TextBuilder();
             for (var i = 0; i < proc.Parameters.Count(); i++)
             {
                 var parameter = proc.Parameters.ElementAt(i);
                 if (i != 0) b.Append(", ");
-                if (parameter.IsOutput) b.Append("out ");
-                b.AppendFormat("{0} {1}", parameter.DataTypes[TypeFormat.DotNetFrameworkType], parameter.Name);
+                if (parameter.IsTableValue)
+                {
+                    if (includeType)
+                    {
+                        if (genericTableValue)
+                        {
+                            var format = convertType ? "(IEnumerable<ITableValuedParamRow>){0}" : "IEnumerable<ITableValuedParamRow> {0}";
+                            b.AppendFormat(format, parameter.Name);
+                        }
+                        else
+                        {
+                            var format = convertType ? "(IEnumerable<{0}_{1}ParamDto>){1}" : "IEnumerable<{0}_{1}ParamDto> {1}";
+                            b.AppendFormat(format, proc.Name, parameter.Name);
+                        }
+                    }
+                    else b.Append(parameter.Name);
+                }
+                else
+                {
+                    if (parameter.IsOutput) b.Append("out ");
+
+                    if (includeType)
+                    {
+                        var format = convertType ? "({0}){1}" : "{0} {1}";
+                        b.AppendFormat(format, parameter.DataTypes[TypeFormat.DotNetFrameworkType], parameter.Name);
+                    }
+                    else b.Append(parameter.Name);
+                }
             }
             return b.ToString();
         }
 
-        public string GetMethodParamListForOverload(Procedure proc)
+        /// <summary>
+        /// Gets the method parameter list for methods that call an overload
+        /// with input DTO properties as parameters.
+        /// </summary>
+        /// <param name="proc">The proc.</param>
+        /// <returns></returns>
+        public string GetMethodParamListForInputDto(Procedure proc)
         {
             var b = new TextBuilder();
             for (var i = 0; i < proc.Parameters.Count(); i++)
@@ -204,6 +297,38 @@ namespace SqlSharpener
                 var parameter = proc.Parameters.ElementAt(i);
                 if (i != 0) b.Append(", ");
                 b.AppendFormat(parameter.IsOutput ? "out {0}Output" : "input.{0}", parameter.Name);
+            }
+            return b.ToString();
+        }
+
+        /// <summary>
+        /// Gets the method parameter list for object array.
+        /// </summary>
+        /// <param name="proc">The proc.</param>
+        /// <returns></returns>
+        public string GetMethodParamListForObjectArray(Procedure proc)
+        {
+            var b = new TextBuilder();
+            var objectIndex = 0;
+            for (var i = 0; i < proc.Parameters.Count(); i++)
+            {
+                var parameter = proc.Parameters.ElementAt(i);
+                if (i != 0) b.Append(", ");
+
+                if (parameter.IsOutput)
+                    b.AppendFormat("out {0}Output", parameter.Name);
+                else
+                {
+                    if (parameter.IsTableValue)
+                    {
+                        b.AppendFormat("(IEnumerable<ITableValuedParamRow>)parameters[{0}]", objectIndex.ToString());
+                    }
+                    else
+                    {
+                        b.AppendFormat("({1})parameters[{0}]", objectIndex.ToString(), parameter.DataTypes[TypeFormat.DotNetFrameworkType]);
+                    }
+                    objectIndex++;
+                }
             }
             return b.ToString();
         }
@@ -223,14 +348,21 @@ namespace SqlSharpener
             for (var i = 0; i < proc.Parameters.Count(); i++)
             {
                 var parameter = proc.Parameters.ElementAt(i);
-                if (!parameter.IsOutput)
+                if (parameter.IsTableValue)
                 {
-                    b.AppendFormatLine("cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Value = (object){0} ?? DBNull.Value;", parameter.Name, parameter.DataTypes[TypeFormat.SqlDbTypeEnum]);
+                    b.AppendFormatLine("cmd.Parameters.Add(\"{0}\", SqlDbType.Structured).Value = {0}.Select(s => s.ToSqlDataRecord());", parameter.Name);
                 }
                 else
                 {
-                    b.AppendFormatLine("var {0}OutputParameter = new SqlParameter(\"{0}\", SqlDbType.{1}) {{ Direction = ParameterDirection.Output }};", parameter.Name, parameter.DataTypes[TypeFormat.SqlDbTypeEnum]);
-                    b.AppendFormatLine("cmd.Parameters.Add({0}OutputParameter);", parameter.Name);
+                    if (!parameter.IsOutput)
+                    {
+                        b.AppendFormatLine("cmd.Parameters.Add(\"{0}\", SqlDbType.{1}).Value = (object){0} ?? DBNull.Value;", parameter.Name, parameter.DataTypes[TypeFormat.SqlDbTypeEnum]);
+                    }
+                    else
+                    {
+                        b.AppendFormatLine("var {0}OutputParameter = new SqlParameter(\"{0}\", SqlDbType.{1}) {{ Direction = ParameterDirection.Output }};", parameter.Name, parameter.DataTypes[TypeFormat.SqlDbTypeEnum]);
+                        b.AppendFormatLine("cmd.Parameters.Add({0}OutputParameter);", parameter.Name);
+                    }
                 }
             }
             return b.ToString();
@@ -283,7 +415,13 @@ namespace SqlSharpener
                     if (proc.Selects.Count() > 1 || !select.IsSingleRow)
                     {
                         // If only one select with one column, use a primitive list, else use a DTO list.
-                        if (singleColumn) b.AppendFormatLine("var list = new List<{0}>();", select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+                        if (singleColumn)
+                        {
+                            var col = select.Columns.First();
+                            var cSharpType = col.DataTypes[TypeFormat.DotNetFrameworkType];
+                            if (!col.IsNullable) cSharpType = cSharpType.TrimEnd('?');
+                            b.AppendFormatLine("var list = new List<{0}>();", cSharpType);
+                        }
                         else b.AppendFormatLine("var list{1} = new List<{0}OutputDto{1}>();", proc.Name, inc);
                     }
 
@@ -294,7 +432,12 @@ namespace SqlSharpener
                     b.Indent();
                     // If only one select with one column, use a primitive, else use a DTO.
                     if (singleColumn)
-                        b.AppendFormatLine("{0} item;", select.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+                    {
+                        var col = select.Columns.First();
+                        var cSharpType = col.DataTypes[TypeFormat.DotNetFrameworkType];
+                        if (!col.IsNullable) cSharpType = cSharpType.TrimEnd('?');
+                        b.AppendFormatLine("{0} item;", cSharpType);
+                    }
                     else
                         b.AppendFormatLine("var item = new {0}OutputDto{1}();", proc.Name, inc);
 
@@ -309,8 +452,16 @@ namespace SqlSharpener
                         }
                         else
                         {
-                            if (singleColumn) b.AppendFormatLine("item = reader.{0}({1});", col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString());
-                            else b.AppendFormatLine("item.{0} = reader.{1}({2});", col.Name, col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString());
+                            if (col.IsNullable)
+                            {
+                                if (singleColumn) b.AppendFormatLine("item = !reader.IsDBNull({1}) ? reader.{0}({1}) : default({2});", col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString(), col.DataTypes[TypeFormat.DotNetFrameworkType]);
+                                else b.AppendFormatLine("item.{0} = !reader.IsDBNull({2}) ? reader.{1}({2}) : default({3});", col.Name, col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString(), col.DataTypes[TypeFormat.DotNetFrameworkType]);
+                            }
+                            else
+                            {
+                                if (singleColumn) b.AppendFormatLine("item = reader.{0}({1});", col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString());
+                                else b.AppendFormatLine("item.{0} = reader.{1}({2});", col.Name, col.DataTypes[TypeFormat.SqlDataReaderDbType], j.ToString());
+                            }
                         }
                     }
 

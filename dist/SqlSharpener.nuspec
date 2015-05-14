@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SqlSharpener</id>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <title>SqlSharpener</title>
     <authors>Adam Eslinger</authors>
     <owners>Adam Eslinger</owners>
@@ -10,7 +10,33 @@
     <projectUrl>https://github.com/aeslinger0/sqlsharpener</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Parses SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers or Entity Framework entities. Includes templates. Go to https://github.com/aeslinger0/sqlsharpener for more info!</description>
-    <releaseNotes>Added overloads that accept an object parameter with many properties instead of many parameters.</releaseNotes>
+    <releaseNotes>05/14/2015 : version 1.0.9
+-- Added support for UNION clauses.
+-- Added support for table-valued parameters.
+-- Added support for generic POCO objects.
+-- Fixed bugs with multi-set results.
+-- Added null-check for SqlReader when reading nullable columns.
+-- Made all methods virtual.
+
+04/28/2015 : version 1.0.8
+-- Added function overloads that accept an object with a property for each parameter.
+-- Added views to the meta builder.
+-- Made primatives nullable only if database column is nullable.
+-- Made connection string a constructor parameter (so it can be injected with Ninject) instead of using ConfigurationManager.
+-- Changed return value to be an object with Data&lt;T&gt; and RecordsAffected as properties.
+
+04/23/2015 : version 1.0.6 - 1.0.7
+-- Added tables to the meta builder.
+-- Refactored code to be more object-oriented.
+-- Added more XML comments to generated code.
+
+04/21/2015 :version 1.0.0 - 1.0.5
+-- Fixed bugs with partial methods and DTO object.
+-- Added support for ExecuteScalar(). 
+-- Added partial method hooks. 
+-- Added support for returning an array of primitives. 
+-- Added XML comments to generated functions.
+</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>dac ScriptDom SSDT C# CodeGen T4</tags>
   </metadata>

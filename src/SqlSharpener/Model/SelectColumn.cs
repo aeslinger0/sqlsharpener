@@ -28,12 +28,14 @@ namespace SqlSharpener.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SelectColumn"/> class.
+        /// Initializes a new instance of the <see cref="SelectColumn" /> class.
         /// </summary>
         /// <param name="selectScalarExpression">The select scalar expression.</param>
         /// <param name="bodyColumnTypes">The body column types.</param>
         /// <param name="tableAliases">The table aliases.</param>
-        public SelectColumn(SelectScalarExpression selectScalarExpression, IDictionary<string, DataType> bodyColumnTypes, IDictionary<string, string> tableAliases)
+        /// <param name="outerJoinedTables">The aliases or names of tables that were outer joined. Used to determine if a non-nulllable column could still be null.</param>
+        /// <exception cref="System.InvalidOperationException">Could not find column within BodyDependencies:  + fullColName</exception>
+        public SelectColumn(SelectScalarExpression selectScalarExpression, IDictionary<string, DataType> bodyColumnTypes, IDictionary<string, string> tableAliases, IEnumerable<string> outerJoinedTables)
         {
             if (selectScalarExpression.Expression is ColumnReferenceExpression)
             {
@@ -48,9 +50,28 @@ namespace SqlSharpener.Model
                 var key = bodyColumnTypes.Keys.FirstOrDefault(x => x.EndsWith(fullColName, StringComparison.InvariantCultureIgnoreCase));
                 if (key == null) throw new InvalidOperationException("Could not find column within BodyDependencies: " + fullColName);
 
+                
+                bool outerJoined = false;
+                // If the column was defined in the SELECT with the table alias or name, check if the table was outer joined.
+                if (identifiers.Count() > 1)
+                {
+                    var tableAliasOrName = identifiers.ElementAt(identifiers.Count() - 2).Value;
+                    outerJoined = outerJoinedTables.Contains(tableAliasOrName);
+                }
+                else // If the column was defined in the SELECT without any qualification, then there must
+                    // be only one column in the list of tables with that name. Look it up in the bodyColumnTypes.
+                {
+                    var keyParts = key.Split('.');
+                    if (keyParts.Count() > 1)
+                    {
+                        var tableAliasOrName = keyParts.ElementAt(keyParts.Count() - 2);
+                        outerJoined = outerJoinedTables.Contains(tableAliasOrName);
+                    }
+                }
+                
                 var bodyColumnType = bodyColumnTypes[key];
                 this.DataTypes = bodyColumnType.Map;
-                this.IsNullable = bodyColumnType.Nullable;
+                this.IsNullable = bodyColumnType.Nullable || outerJoined;
             }
             else if (selectScalarExpression.Expression is ConvertCall)
             {

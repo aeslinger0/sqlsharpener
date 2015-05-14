@@ -37,9 +37,64 @@ namespace SqlSharpener.Model
             querySpecification.Accept(aliasResolutionVisitor);
             this.TableAliases = aliasResolutionVisitor.Aliases;
 
+            var outerJoinedTables = new List<string>();
+            if (querySpecification.FromClause != null)
+            {
+                foreach (var join in querySpecification.FromClause.TableReferences.OfType<QualifiedJoin>())
+                {
+                    FillOuterJoins(outerJoinedTables, join, false);
+                }
+            }
+
             var topInt = querySpecification.TopRowFilter != null ? querySpecification.TopRowFilter.Expression as IntegerLiteral : null;
             this.IsSingleRow = topInt != null && topInt.Value == "1" && querySpecification.TopRowFilter.Percent == false;
-            this.Columns = querySpecification.SelectElements.OfType<SelectScalarExpression>().Select(x => new SelectColumn(x, bodyColumnTypes, this.TableAliases)).ToList();
+            this.Columns = querySpecification.SelectElements.OfType<SelectScalarExpression>().Select(x => new SelectColumn(x, bodyColumnTypes, this.TableAliases, outerJoinedTables)).ToList();
+        }
+
+        /// <summary>
+        /// Traverses the joins and gets a list of tables that have been outer joined.
+        /// </summary>
+        /// <param name="outerJoinedTables">The outer joined tables list.</param>
+        /// <param name="qualifiedJoin">The qualified join.</param>
+        /// <param name="isParentOuterJoined">if set to <c>true</c> a parent join was outer joined.</param>
+        private void FillOuterJoins(List<string> outerJoinedTables, QualifiedJoin qualifiedJoin, bool isParentOuterJoined)
+        {
+            var tableReferences = new List<TableReference>();
+            if (qualifiedJoin.QualifiedJoinType == QualifiedJoinType.LeftOuter)
+            {
+                if (isParentOuterJoined) tableReferences.Add(qualifiedJoin.FirstTableReference);
+                tableReferences.Add(qualifiedJoin.SecondTableReference);
+            }
+            else if (qualifiedJoin.QualifiedJoinType == QualifiedJoinType.RightOuter)
+            {
+                if (isParentOuterJoined) tableReferences.Add(qualifiedJoin.SecondTableReference);
+                tableReferences.Add(qualifiedJoin.FirstTableReference);
+            }
+            else if (qualifiedJoin.QualifiedJoinType == QualifiedJoinType.FullOuter || qualifiedJoin.QualifiedJoinType == QualifiedJoinType.Inner)
+            {
+                if (isParentOuterJoined)
+                {
+                    tableReferences.Add(qualifiedJoin.FirstTableReference);
+                    tableReferences.Add(qualifiedJoin.SecondTableReference);
+                }
+            }
+
+            foreach (var tableReference in tableReferences)
+            {
+                var nestedQualifiedJoin = tableReference as QualifiedJoin;
+                var namedTableReference = tableReference as NamedTableReference;
+                if (nestedQualifiedJoin != null)
+                {
+                    FillOuterJoins(outerJoinedTables, nestedQualifiedJoin, true);
+                }
+                else if (namedTableReference != null)
+                {
+                    var aliasOrName = namedTableReference.Alias != null && !string.IsNullOrEmpty(namedTableReference.Alias.Value)
+                        ? namedTableReference.Alias.Value
+                        : namedTableReference.SchemaObject.BaseIdentifier.Value;
+                    outerJoinedTables.Add(aliasOrName);
+                }
+            }
         }
 
         /// <summary>

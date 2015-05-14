@@ -35,7 +35,7 @@ namespace SqlSharpener.Model
 
             // Get the columns
             var columns = new List<Column>();
-            var sqlColumns = tSqlObject.GetReferenced(dac.Table.Columns);
+            var sqlColumns = tSqlObject.ObjectType.Name == "TableType" ? tSqlObject.GetReferenced(dac.TableType.Columns) : tSqlObject.GetReferenced(dac.Table.Columns);
             foreach (var sqlColumn in sqlColumns)
             {
                 var column = new Column(sqlColumn);

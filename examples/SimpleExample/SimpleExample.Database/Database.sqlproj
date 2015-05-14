@@ -60,6 +60,7 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Types" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Tasks.sql" />
@@ -67,5 +68,7 @@
     <Build Include="dbo\Stored Procedures\usp_TaskGet.sql" />
     <Build Include="dbo\Stored Procedures\usp_TaskUpdate.sql" />
     <Build Include="dbo\Stored Procedures\usp_TaskCreate.sql" />
+    <Build Include="dbo\Stored Procedures\usp_TaskCreateMultiple.sql" />
+    <Build Include="dbo\Types\Tasks.sql" />
   </ItemGroup>
 </Project>

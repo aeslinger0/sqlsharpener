@@ -18,7 +18,7 @@ namespace SqlSharpener.Tests
             Assert.AreEqual("tb1", builder.Tables.First().Name);
             var columns = builder.Tables.First().Columns;
             Assert.AreEqual(3, columns.Count());
-            
+
             Assert.AreEqual("col1", columns.First().Name);
             Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.First().IsIdentity);
@@ -70,7 +70,7 @@ namespace SqlSharpener.Tests
             Assert.AreEqual(1, builder.Procedures.First().Selects.First().Columns.Count());
             Assert.AreEqual("id", builder.Procedures.First().Selects.First().Columns.First().Name);
             Assert.AreEqual("Object", builder.Procedures.First().Selects.First().Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
-            Assert.AreEqual(false, builder.Procedures.First().Selects.First().Columns.First().IsNullable);
+            Assert.AreEqual(true, builder.Procedures.First().Selects.First().Columns.First().IsNullable);
         }
 
         [TestMethod]
@@ -209,19 +209,138 @@ namespace SqlSharpener.Tests
         }
 
         [TestMethod]
-        public void TableVariableTest()
+        public void TableValueTest()
         {
             var builder = new MetaBuilder();
             builder.LoadModel(
-                "create table tb1(id int, col1 int)",
                 "create type tbInput as table(id int not null, col1 int null)",
                 "create procedure blah (@tbInput tbInput READONLY) as select col1 from @tbInput");
             Assert.AreEqual(1, builder.Procedures.Count());
+            var proc = builder.Procedures.First();
+            Assert.AreEqual("blah", proc.Name);
+            Assert.AreEqual(1, proc.Parameters.Count());
+            var param = proc.Parameters.First();
+            Assert.AreEqual("tbInput", param.Name);
+            Assert.AreEqual(false, param.IsOutput);
+            Assert.AreEqual(null, param.DataTypes);
+            Assert.AreEqual("tbInput", param.TableValue.Name);
+            Assert.AreEqual(2, param.TableValue.Columns.Count());
+            Assert.AreEqual("id", param.TableValue.Columns.First().Name);
+            Assert.AreEqual(false, param.TableValue.Columns.First().IsIdentity);
+            Assert.AreEqual(false, param.TableValue.Columns.First().IsNullable);
+            Assert.AreEqual("Int32?", param.TableValue.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("col1", param.TableValue.Columns.ElementAt(1).Name);
+            Assert.AreEqual(false, param.TableValue.Columns.ElementAt(1).IsIdentity);
+            Assert.AreEqual(true, param.TableValue.Columns.ElementAt(1).IsNullable);
+            Assert.AreEqual("Int32?", param.TableValue.Columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+        }
+
+        [TestMethod]
+        public void UnionSelectTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(id1 int, col1 varchar(50))",
+                "create table tb2(id2 int, col2 varchar(50))",
+                "create table tb3(id3 int, col3 varchar(50))",
+                "create procedure blah as select id1, col1 from tb1 union select id2, col2 from tb2 union select id3, col3 from tb3");
+            Assert.AreEqual(1, builder.Procedures.Count());
+            var proc = builder.Procedures.First();
+            Assert.AreEqual("blah", proc.Name);
+            Assert.AreEqual(0, proc.Parameters.Count());
+            Assert.AreEqual(1, proc.Selects.Count());
+            var select = proc.Selects.First();
+            Assert.AreEqual(2, select.Columns.Count());
+            Assert.AreEqual("id1", select.Columns.First().Name);
+            Assert.AreEqual("col1", select.Columns.ElementAt(1).Name);
+        }
+
+        [TestMethod]
+        public void LeftJoinTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(id int, col1 int not null)",
+                "create table tb2(tb1Id int, col2 int not null)",
+                "create procedure blah as select col1, col2 from tb1 left join tb2 on tb1.id = tb2.tb1Id");
+            Assert.AreEqual(1, builder.Procedures.Count());
             Assert.AreEqual("blah", builder.Procedures.First().Name);
-            Assert.AreEqual(1, builder.Procedures.First().Parameters.Count());
-            Assert.AreEqual("tbInput", builder.Procedures.First().Parameters.First().Name);
-            Assert.AreEqual(false, builder.Procedures.First().Parameters.First().IsOutput);
-            Assert.AreEqual("", builder.Procedures.First().Parameters.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(1, builder.Procedures.First().Selects.Count());
+            var columns = builder.Procedures.First().Selects.First().Columns;
+            Assert.AreEqual(2, columns.Count());
+            Assert.AreEqual("col1", columns.First().Name);
+            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(false, columns.First().IsNullable);
+            Assert.AreEqual("col2", columns.ElementAt(1).Name);
+            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(true, columns.ElementAt(1).IsNullable);
+        }
+
+        [TestMethod]
+        public void LeftJoinWithAliasesTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(id int, col1 int not null)",
+                "create table tb2(tb1Id int, col2 int not null)",
+                "create procedure blah as select t1.col1, t2.col2 from tb1 t1 left join tb2 t2 on t1.id = t2.tb1Id");
+            Assert.AreEqual(1, builder.Procedures.Count());
+            Assert.AreEqual("blah", builder.Procedures.First().Name);
+            Assert.AreEqual(1, builder.Procedures.First().Selects.Count());
+            var columns = builder.Procedures.First().Selects.First().Columns;
+            Assert.AreEqual(2, columns.Count());
+            Assert.AreEqual("col1", columns.First().Name);
+            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(false, columns.First().IsNullable);
+            Assert.AreEqual("col2", columns.ElementAt(1).Name);
+            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(true, columns.ElementAt(1).IsNullable);
+        }
+
+        [TestMethod]
+        public void RightJoinTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(id int, col1 int not null)",
+                "create table tb2(tb1Id int, col2 int not null)",
+                "create procedure blah as select col1, col2 from tb1 right join tb2 on tb1.id = tb2.tb1Id");
+            Assert.AreEqual(1, builder.Procedures.Count());
+            Assert.AreEqual("blah", builder.Procedures.First().Name);
+            Assert.AreEqual(1, builder.Procedures.First().Selects.Count());
+            var columns = builder.Procedures.First().Selects.First().Columns;
+            Assert.AreEqual(2, columns.Count());
+            Assert.AreEqual("col1", columns.First().Name);
+            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(true, columns.First().IsNullable);
+            Assert.AreEqual("col2", columns.ElementAt(1).Name);
+            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(false, columns.ElementAt(1).IsNullable);
+        }
+
+        [TestMethod]
+        public void LeftJoinToInnerJoinSetTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                "create table tb1(id int, col1 int not null)",
+                "create table tb2(id int, col2 int not null)",
+                "create table tb3(id int, col3 int not null)",
+                "create procedure blah as select col1, col2, col3 from tb1 left join tb2 join tb3 on tb2.id = tb3.id on tb1.id = tb2.id");
+            Assert.AreEqual(1, builder.Procedures.Count());
+            Assert.AreEqual("blah", builder.Procedures.First().Name);
+            Assert.AreEqual(1, builder.Procedures.First().Selects.Count());
+            var columns = builder.Procedures.First().Selects.First().Columns;
+            Assert.AreEqual(3, columns.Count());
+            Assert.AreEqual("col1", columns.First().Name);
+            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(false, columns.First().IsNullable);
+            Assert.AreEqual("col2", columns.ElementAt(1).Name);
+            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(true, columns.ElementAt(1).IsNullable);
+            Assert.AreEqual("col3", columns.ElementAt(2).Name);
+            Assert.AreEqual("Int32?", columns.ElementAt(2).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual(true, columns.ElementAt(2).IsNullable);
         }
     }
 }

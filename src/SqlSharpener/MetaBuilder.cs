@@ -150,7 +150,7 @@ namespace SqlSharpener
         public void LoadModel(dac.TSqlModel model)
         {
             ParseTables(model);
-            //ParseViews(model);
+            ParseViews(model);
             ParseProcedures(model);
             _modelLoaded = true;
         }
@@ -167,7 +167,7 @@ namespace SqlSharpener
 
         private void ParseViews(dac.TSqlModel model)
         {
-            _views = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.View.TypeClass).Select(sqlView => new View(sqlView));
+            _views = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.View.TypeClass).Select(sqlView => new View(sqlView)).ToList();
         }
 
         private void ParseProcedures(dac.TSqlModel model)

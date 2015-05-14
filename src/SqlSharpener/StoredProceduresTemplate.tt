@@ -29,10 +29,12 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 {
 	using System;
 	using System.IO;
+	using System.Linq;
 	using System.Data;
 	using System.Data.SqlClient;
 	using System.Configuration;
 	using System.Collections.Generic;
+	using Microsoft.SqlServer.Server;
 
 	/// <summary>
 	/// Interface of the wrapper class for calling stored procedures. 
@@ -47,12 +49,71 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 		<#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=proc.Name#>InputDto input );
 		
 		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure using POCO objects
+		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
+		TPocoOutputDto <#=proc.Name#><TPocoOutputDto>( IProcedureInputDto input )
+			where TPocoOutputDto : IProcedureOutputDto<<#=helper.GetReturnType(proc)#>>, new();
+
+<# if(proc.Parameters.Any(x => x.IsTableValue)) { #>
+		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure using generated objects for table-valued parameters.
+		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
+		<#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc, false, true, false)#> );
+<# } #>
+
+		/// <summary>
 		/// Calls the "<#=proc.RawName#>" stored procedure
 		/// </summary>
 		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
-		<#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc)#> );
+		<#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc, true, true, false)#> );
 
 <# } #>
+	}
+
+	/// <summary>
+	/// Interface that a POCO can implement to be able to pass it in as the input DTO of a stored procedure
+	/// if you prefer not to use the generated input dto. 
+	/// </summary>
+	public partial interface IProcedureInputDto
+	{
+		/// <summary>
+		/// Converts the property values of the POCO into an array of objects.
+		/// The order of values in the array should match the parameters of the 
+		/// stored procedure (excluding any output parameters).
+		/// </summary>
+		object[] ToObjectArray();
+
+		/// <summary>
+		/// Sets property values of the POCO with values from any output parameters
+		/// of the stored procedure. Value will be passed in the same order as the 
+		/// output parameters appear in the stored procedure.
+		/// </summary>
+		void SetFromOutputParameters(object[] outputValues);
+	}
+
+	/// <summary>
+	/// Interface that a POCO can implement to be used as the output DTO of a stored procedure
+	/// if you prefer not to use the generated output dto. 
+	/// </summary>
+	public partial interface IProcedureOutputDto<TGeneratedOutput>
+	{
+		/// <summary>
+		/// Sets property values of the POCO with values from any output parameters
+		/// of the stored procedure. Value will be passed in the same order as the 
+		/// output parameters appear in the stored procedure.
+		/// </summary>
+		void SetFromResult(TGeneratedOutput result);
+	}
+
+	/// <summary>
+	/// Interface that a POCO can implement to be able to pass it into a table-valued parameter
+	/// if you prefer not to use the generated parameter dto. 
+	/// </summary>
+	public partial interface ITableValuedParamRow
+	{
+		SqlDataRecord ToSqlDataRecord();
 	}
 
 	/// <summary>
@@ -70,26 +131,60 @@ namespace <#=helper.GetNamespace(outputNamespace)#>
 
 <#foreach(var proc in meta.Procedures){ #>
 		/// <summary>
-		/// Calls the "<#=proc.RawName#>" stored procedure
+		/// Calls the "<#=proc.RawName#>" stored procedure using a generated input DTO
 		/// </summary>
 		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
-		public <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=proc.Name#>InputDto input )
+		public virtual <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=proc.Name#>InputDto input )
 		{
 <# foreach(var outputParam in proc.Parameters.Where(x => x.IsOutput)){ #>
 			<#=outputParam.DataTypes[TypeFormat.DotNetFrameworkType]#> <#=outputParam.Name#>Output;
 <# } #>
-			var result = this.<#=proc.Name#>(<#=helper.GetMethodParamListForOverload(proc)#>);
+			var result = this.<#=proc.Name#>(<#=helper.GetMethodParamListForInputDto(proc)#>);
 <# foreach(var outputParam in proc.Parameters.Where(x => x.IsOutput)){ #>
 			input.<#=outputParam.Name#> = <#=outputParam.Name#>Output;
 <# } #>
 			return result;
 		}
 
+
+		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure using POCO objects
+		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
+		public virtual TPocoOutputDto <#=proc.Name#><TPocoOutputDto>( IProcedureInputDto input ) 
+			where TPocoOutputDto : IProcedureOutputDto<<#=helper.GetReturnType(proc)#>>, new()
+		{
+			var parameters = input.ToObjectArray();
+<# foreach(var outputParam in proc.Parameters.Where(x => x.IsOutput)){ #>
+			<#=outputParam.DataTypes[TypeFormat.DotNetFrameworkType]#> <#=outputParam.Name#>Output;
+<# } #>
+			var result = this.<#=proc.Name#>(<#=helper.GetMethodParamListForObjectArray(proc)#>);
+			var outputValues = new List<object>();
+<# foreach(var outputParam in proc.Parameters.Where(x => x.IsOutput)){ #>
+			outputValues.Add(<#=outputParam.Name#>Output);
+<# } #>
+			input.SetFromOutputParameters(outputValues.ToArray());
+			var outputPoco = new TPocoOutputDto();
+            outputPoco.SetFromResult(result);
+			return outputPoco;
+		}
+
+<# if(proc.Parameters.Any(x => x.IsTableValue)) { #>
+		/// <summary>
+		/// Calls the "<#=proc.RawName#>" stored procedure using generated objects for table-valued parameters.
+		/// </summary>
+		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
+		public virtual <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc, false, true, false)#> )
+		{
+			return this.<#=proc.Name#>( <#=helper.GetMethodParamList(proc, true, true, true)#> );
+		}
+<# } #>
+
 		/// <summary>
 		/// Calls the "<#=proc.RawName#>" stored procedure
 		/// </summary>
 		/// <returns><#=helper.GetReturnXmlComment(proc)#></returns>
-		public <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc)#> )
+		public virtual <#=helper.GetReturnType(proc)#> <#=proc.Name#>( <#=helper.GetMethodParamList(proc, true, true, false)#> )
 		{
 			On<#=proc.Name#>Begin();
 			<#=helper.GetReturnVariable(proc)#>

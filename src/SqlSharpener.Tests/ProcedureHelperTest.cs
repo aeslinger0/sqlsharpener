@@ -20,20 +20,6 @@ namespace SqlSharpener.Tests
         }
 
         [TestMethod]
-        public void Test()
-        {
-            var builder = new MetaBuilder();
-            builder.SqlPaths.Add(@"C:\WorkGPS\DTCServices\main\Mayo.DTCServices\Mayo.DTCServices.Database\dbo\Tables");
-            builder.SqlPaths.Add(@"C:\WorkGPS\DTCServices\main\Mayo.DTCServices\Mayo.DTCServices.Database\dbo\Stored Procedures");
-            var helper = new ProcedureHelper();
-            foreach (var proc in builder.Procedures)
-            {
-                var y = helper.GetSqlParamList(proc);
-                var x = helper.GetReturnVariable(proc);
-            }
-        }
-        
-        [TestMethod]
         public void ReturnTypeSingleRowSingleColumnTest()
         {
             // Arrange
@@ -68,7 +54,7 @@ namespace SqlSharpener.Tests
             var result = helper.GetReturnType(procedure);
 
             // Assert
-            Assert.AreEqual("Result<procDto>", result);
+            Assert.AreEqual("Result<procOutputDto>", result);
         }
 
         [TestMethod]
@@ -105,7 +91,7 @@ namespace SqlSharpener.Tests
             var result = helper.GetReturnType(procedure);
 
             // Assert
-            Assert.AreEqual("Result<IEnumerable<procDto>>", result);
+            Assert.AreEqual("Result<IEnumerable<procOutputDto>>", result);
         }
 
         [TestMethod]
@@ -147,7 +133,7 @@ namespace SqlSharpener.Tests
             var result = helper.GetReturnVariable(procedure);
 
             // Assert
-            Assert.AreEqual("Result<IEnumerable<procDto>> result = new Result<IEnumerable<procDto>>();", result);
+            Assert.AreEqual("Result<IEnumerable<procOutputDto>> result = new Result<IEnumerable<procOutputDto>>();", result);
         }
 
         [TestMethod]
@@ -193,12 +179,12 @@ namespace SqlSharpener.Tests
             // Arrange
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, new List<Parameter> {
-                new Parameter("param1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), false),
-                new Parameter("param2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true)
+                new Parameter("param1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), false, null),
+                new Parameter("param2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true, null)
             }, null);
 
             // Act
-            var result = helper.GetMethodParamList(procedure);
+            var result = helper.GetMethodParamList(procedure, true, true, false);
 
             // Assert
             Assert.AreEqual("Int32? param1, out Int32? param2", result);
@@ -210,8 +196,8 @@ namespace SqlSharpener.Tests
             // Arrange
             var helper = new ProcedureHelper();
             var procedure = new Procedure("proc", "proc", null, new List<Parameter> {
-                new Parameter("param1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), false),
-                new Parameter("param2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true)
+                new Parameter("param1", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), false, null),
+                new Parameter("param2", DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Int32?"), true, null)
             }, null);
 
             // Act
@@ -276,12 +262,13 @@ cmd.Parameters.Add(param2OutputParameter);
             Assert.AreEqual(@"/// <summary>
 /// DTO for the output of the ""proc"" stored procedure.
 /// </summary>
-public partial class procDto
+public partial class procOutputDto
 {
 	public Int32? col1 { get; set; }
 	public Int32 col2 { get; set; }
 	public String col3 { get; set; }
 }
+
 ", result);
         }
 
@@ -322,11 +309,12 @@ public partial class procDto
             Assert.AreEqual(@"/// <summary>
 /// DTO for the output of the ""proc"" stored procedure.
 /// </summary>
-public partial class procDto
+public partial class procOutputDto
 {
 	public Int32? col1 { get; set; }
 	public String col2 { get; set; }
 }
+
 ", result);
         }
 
@@ -383,9 +371,9 @@ public partial class procDto
 	result.RecordsAffected = reader.RecordsAffected;
 	while (reader.Read())
 	{
-		var item = new procDto();
-		item.col1 = reader.GetInt32(0);
-		item.col2 = reader.GetString(1);
+		var item = new procOutputDto();
+		item.col1 = !reader.IsDBNull(0) ? reader.GetInt32(0) : default(Int32?);
+		item.col2 = !reader.IsDBNull(1) ? reader.GetString(1) : default(String);
 		result.Data = item;
 	}
 	reader.Close();
@@ -412,12 +400,12 @@ public partial class procDto
             Assert.AreEqual(@"using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
 {
 	result.RecordsAffected = reader.RecordsAffected;
-	var list = new List<procDto>();
+	var list = new List<procOutputDto>();
 	while (reader.Read())
 	{
-		var item = new procDto();
-		item.col1 = reader.GetInt32(0);
-		item.col2 = reader.GetString(1);
+		var item = new procOutputDto();
+		item.col1 = !reader.IsDBNull(0) ? reader.GetInt32(0) : default(Int32?);
+		item.col2 = !reader.IsDBNull(1) ? reader.GetString(1) : default(String);
 		list.Add(item);
 	}
 	result.Data = list;
@@ -449,22 +437,22 @@ public partial class procDto
             Assert.AreEqual(@"using(var reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
 {
 	result.RecordsAffected = reader.RecordsAffected;
-	var list = new List<procDto>();
+	var list = new List<procOutputDto>();
 	while (reader.Read())
 	{
-		var item = new procDto();
-		item.col1 = reader.GetInt32(0);
-		item.col2 = reader.GetString(1);
+		var item = new procOutputDto();
+		item.col1 = !reader.IsDBNull(0) ? reader.GetInt32(0) : default(Int32?);
+		item.col2 = !reader.IsDBNull(1) ? reader.GetString(1) : default(String);
 		list.Add(item);
 	}
 	result.Result = list;
 	reader.NextResult();
-	var list2 = new List<procDto2>();
+	var list2 = new List<procOutputDto2>();
 	while (reader.Read())
 	{
-		var item = new procDto2();
-		item.col1 = reader.GetInt32(0);
-		item.col2 = reader.GetString(1);
+		var item = new procOutputDto2();
+		item.col1 = !reader.IsDBNull(0) ? reader.GetInt32(0) : default(Int32?);
+		item.col2 = !reader.IsDBNull(1) ? reader.GetString(1) : default(String);
 		list2.Add(item);
 	}
 	result.Result2 = list2;

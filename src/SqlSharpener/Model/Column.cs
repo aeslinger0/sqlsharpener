@@ -42,13 +42,27 @@ namespace SqlSharpener.Model
         public Column(dac.TSqlObject tSqlObject)
         {
             this.Name = tSqlObject.Name.Parts.Last();
-            var sqlDataTypeName = tSqlObject.GetReferenced(dac.Column.DataType).ToList().First().Name.Parts.Last();
-            this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, sqlDataTypeName);
-            this.IsIdentity = dac.Column.IsIdentity.GetValue<bool>(tSqlObject);
-            this.IsNullable = dac.Column.Nullable.GetValue<bool>(tSqlObject);
-            this.Precision = dac.Column.Precision.GetValue<int>(tSqlObject);
-            this.Scale = dac.Column.Scale.GetValue<int>(tSqlObject);
-            this.Length = dac.Column.Length.GetValue<int>(tSqlObject);
+            if (tSqlObject.ObjectType.Name == "TableTypeColumn")
+            {
+                var sqlDataTypeName = tSqlObject.GetReferenced(dac.TableTypeColumn.DataType).ToList().First().Name.Parts.Last();
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, sqlDataTypeName);
+                this.IsIdentity = dac.TableTypeColumn.IsIdentity.GetValue<bool>(tSqlObject);
+                this.IsNullable = dac.TableTypeColumn.Nullable.GetValue<bool>(tSqlObject);
+                this.Precision = dac.TableTypeColumn.Precision.GetValue<int>(tSqlObject);
+                this.Scale = dac.TableTypeColumn.Scale.GetValue<int>(tSqlObject);
+                this.Length = dac.TableTypeColumn.Length.GetValue<int>(tSqlObject);
+            }
+            else
+            {
+                var sqlDataTypeName = tSqlObject.GetReferenced(dac.Column.DataType).ToList().First().Name.Parts.Last();
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, sqlDataTypeName);
+                this.IsIdentity = dac.Column.IsIdentity.GetValue<bool>(tSqlObject);
+                this.IsNullable = dac.Column.Nullable.GetValue<bool>(tSqlObject);
+                this.Precision = dac.Column.Precision.GetValue<int>(tSqlObject);
+                this.Scale = dac.Column.Scale.GetValue<int>(tSqlObject);
+                this.Length = dac.Column.Length.GetValue<int>(tSqlObject);
+            }
+
         }
 
         /// <summary>

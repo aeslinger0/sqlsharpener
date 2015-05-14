@@ -18,11 +18,12 @@ namespace SqlSharpener.Model
         /// <param name="name">The name.</param>
         /// <param name="dataTypes">The data types.</param>
         /// <param name="isOutput">if set to <c>true</c> [is output].</param>
-        public Parameter(string name, IDictionary<TypeFormat, string> dataTypes, bool isOutput)
+        public Parameter(string name, IDictionary<TypeFormat, string> dataTypes, bool isOutput, Table tableValue)
         {
             this.Name = name;
             this.DataTypes = dataTypes ?? new Dictionary<TypeFormat, string>();
             this.IsOutput = isOutput;
+            this.TableValue = tableValue;
         }
 
         /// <summary>
@@ -33,8 +34,16 @@ namespace SqlSharpener.Model
         {
             this.Name = tSqlObject.Name.Parts.Last().Trim('@');
             this.IsOutput = dac.Parameter.IsOutput.GetValue<bool>(tSqlObject);
-            var sqlDataTypeName = tSqlObject.GetReferenced(dac.Parameter.DataType).ToList().First().Name.Parts.Last();
-            this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, sqlDataTypeName);
+            var dataType = tSqlObject.GetReferenced(dac.Parameter.DataType).ToList().First();
+            if (dataType.ObjectType.Name == "TableType")
+            {
+                this.TableValue = new Table(dataType);
+            }
+            else
+            {
+                var sqlDataTypeName = dataType.Name.Parts.Last();
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, sqlDataTypeName);
+            }
         }
 
         /// <summary>
@@ -52,6 +61,16 @@ namespace SqlSharpener.Model
         /// The data types.
         /// </value>
         public IDictionary<TypeFormat, string> DataTypes { get; private set; }
+
+        /// <summary>
+        /// Gets the table representing this parameter if it is a table variable parameter.
+        /// </summary>
+        /// <value>
+        /// The table variable.
+        /// </value>
+        public Table TableValue { get; private set; }
+
+        public bool IsTableValue { get { return this.TableValue != null; } }
 
         /// <summary>
         /// Gets a value indicating whether this instance is an output parameter.

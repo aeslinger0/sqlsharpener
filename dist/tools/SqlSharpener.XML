@@ -164,13 +164,15 @@
             <param name="dataTypes">The data types.</param>
             <param name="isNullable">if set to <c>true</c> [is nullable].</param>
         </member>
-        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.SelectScalarExpression,System.Collections.Generic.IDictionary{System.String,SqlSharpener.DataType},System.Collections.Generic.IDictionary{System.String,System.String})">
+        <member name="M:SqlSharpener.Model.SelectColumn.#ctor(Microsoft.SqlServer.TransactSql.ScriptDom.SelectScalarExpression,System.Collections.Generic.IDictionary{System.String,SqlSharpener.DataType},System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.SelectColumn"/> class.
             </summary>
             <param name="selectScalarExpression">The select scalar expression.</param>
             <param name="bodyColumnTypes">The body column types.</param>
             <param name="tableAliases">The table aliases.</param>
+            <param name="outerJoinedTables">The aliases or names of tables that were outer joined. Used to determine if a non-nulllable column could still be null.</param>
+            <exception cref="T:System.InvalidOperationException">Could not find column within BodyDependencies:  + fullColName</exception>
         </member>
         <member name="M:SqlSharpener.Model.SelectColumn.GetFullColumnName(System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IList{Microsoft.SqlServer.TransactSql.ScriptDom.Identifier})">
             <summary>
@@ -300,7 +302,7 @@
             Represents a parameter of a stored procedure.
             </summary>
         </member>
-        <member name="M:SqlSharpener.Model.Parameter.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String},System.Boolean)">
+        <member name="M:SqlSharpener.Model.Parameter.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String},System.Boolean,SqlSharpener.Model.Table)">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Parameter"/> class.
             </summary>
@@ -328,6 +330,14 @@
             </summary>
             <value>
             The data types.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Parameter.TableValue">
+            <summary>
+            Gets the table representing this parameter if it is a table variable parameter.
+            </summary>
+            <value>
+            The table variable.
             </value>
         </member>
         <member name="P:SqlSharpener.Model.Parameter.IsOutput">
@@ -491,6 +501,14 @@
             <param name="querySpecification">The query specification.</param>
             <param name="bodyColumnTypes">The body column types.</param>
         </member>
+        <member name="M:SqlSharpener.Model.Select.FillOuterJoins(System.Collections.Generic.List{System.String},Microsoft.SqlServer.TransactSql.ScriptDom.QualifiedJoin,System.Boolean)">
+            <summary>
+            Traverses the joins and gets a list of tables that have been outer joined.
+            </summary>
+            <param name="outerJoinedTables">The outer joined tables list.</param>
+            <param name="qualifiedJoin">The qualified join.</param>
+            <param name="isParentOuterJoined">if set to <c>true</c> a parent join was outer joined.</param>
+        </member>
         <member name="P:SqlSharpener.Model.Select.Columns">
             <summary>
             Gets the columns.
@@ -567,14 +585,32 @@
             The Xml comment
             </returns>
         </member>
-        <member name="M:SqlSharpener.ProcedureHelper.GetMethodParamList(SqlSharpener.Model.Procedure)">
+        <member name="M:SqlSharpener.ProcedureHelper.GetMethodParamList(SqlSharpener.Model.Procedure,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             Gets the parameter list for the method.
             </summary>
             <param name="proc">The procedure to get the parameter list for.</param>
+            <param name="genericTableValue">if set to <c>true</c> [generic table value].</param>
+            <param name="includeType">if set to <c>true</c> [include type].</param>
+            <param name="convertType">if set to <c>true</c> [convert type].</param>
             <returns>
             The generated parameter list.
             </returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetMethodParamListForInputDto(SqlSharpener.Model.Procedure)">
+            <summary>
+            Gets the method parameter list for methods that call an overload
+            with input DTO properties as parameters.
+            </summary>
+            <param name="proc">The proc.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlSharpener.ProcedureHelper.GetMethodParamListForObjectArray(SqlSharpener.Model.Procedure)">
+            <summary>
+            Gets the method parameter list for object array.
+            </summary>
+            <param name="proc">The proc.</param>
+            <returns></returns>
         </member>
         <member name="M:SqlSharpener.ProcedureHelper.GetSqlParamList(SqlSharpener.Model.Procedure,System.Int32)">
             <summary>
