@@ -1,12 +1,13 @@
 # SqlSharpener
-Parses SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers or Entity Framework Code-First entities. Generate either manually or by invoking one of the included pre-compiled T4 templates.
+Rather than generating code from the database or using a heavy abstraction layer that might miss differences between the database and data access layer until run-time, this project aims to provide a very fast and simple data access layer that is generated at **design-time** using SQL _files_ as the source-of-truth (such as those found in an SSDT project) without having to deploy the database first.
 
-# Motivation
-Rather than generating code from the database or using a heavy abstraction layer that might miss differences between the database and data access layer until run-time, this project aims to provide a very fast and simple data access layer that is generated at design-time using SQL _files_ as the source-of-truth (such as those found in an SSDT project).
+SqlSharpener accomplishes this by parsing the SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers or Entity Framework Code-First entities. You can do this manually or by invoking one of the included pre-compiled T4 templates.
 
 # Example
 
-Here is one way you can use SqlSharpener...
+A solution with a [simple example](https://github.com/aeslinger0/sqlsharpener/tree/master/examples/SimpleExample) is included with the code for you to download.
+
+To give you an idea of how you can use SqlSharpener...
 
 **Given a stored procedure that looks like this:**
 
