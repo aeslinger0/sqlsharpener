@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace SqlSharpener.Model
 {
@@ -27,17 +28,19 @@ namespace SqlSharpener.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Parameter"/> class.
+        /// Initializes a new instance of the <see cref="Parameter" /> class.
         /// </summary>
         /// <param name="tSqlObject">The TSqlObject representing the parameter.</param>
-        public Parameter(dac.TSqlObject tSqlObject)
+        /// <param name="primaryKeys">The primary keys.</param>
+        /// <param name="foreignKeys">The foreign keys.</param>
+        public Parameter(dac.TSqlObject tSqlObject, IEnumerable<dac.TSqlObject> primaryKeys, IDictionary<dac.TSqlObject, IEnumerable<ForeignKeyConstraintDefinition>> foreignKeys)
         {
             this.Name = tSqlObject.Name.Parts.Last().Trim('@');
             this.IsOutput = dac.Parameter.IsOutput.GetValue<bool>(tSqlObject);
             var dataType = tSqlObject.GetReferenced(dac.Parameter.DataType).ToList().First();
             if (dataType.ObjectType.Name == "TableType")
             {
-                this.TableValue = new Table(dataType);
+                this.TableValue = new Table(dataType, primaryKeys, foreignKeys);
             }
             else
             {

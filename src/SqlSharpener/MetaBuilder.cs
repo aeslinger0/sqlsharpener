@@ -64,7 +64,7 @@ namespace SqlSharpener
                 return _procedures;
             }
         }
-        
+
         /// <summary>
         /// Objects representing the meta data parsed from the tables in the model.
         /// </summary>
@@ -94,7 +94,7 @@ namespace SqlSharpener
                 return _views;
             }
         }
-        
+
 
         /// <summary>
         /// Creates a new TSqlModel, loads all *.sql files specified in the SqlPaths property
@@ -126,7 +126,7 @@ namespace SqlSharpener
             }
             LoadModel(model);
         }
-        
+
 
         /// <summary>
         /// Creates a new TSqlModel, loads each specified sql statement into the new model,
@@ -149,30 +149,30 @@ namespace SqlSharpener
         /// <param name="model">The model.</param>
         public void LoadModel(dac.TSqlModel model)
         {
-            ParseTables(model);
-            ParseViews(model);
-            ParseProcedures(model);
+            var sqlTables = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Table.TypeClass);
+            var sqlViews = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.View.TypeClass);
+            var primaryKeys = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.PrimaryKeyConstraint.TypeClass).Select(o => o.GetReferenced().Where(r => r.ObjectType.Name == "Column")).SelectMany(c=> c);
+            var foreignKeyDictionaries = new[] { GetForeignKeys(sqlTables), GetForeignKeys(sqlViews) };
+            var foreignKeys = foreignKeyDictionaries
+                .SelectMany(x => x)
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            _tables = sqlTables.Select(sqlTable => new Table(sqlTable, primaryKeys, foreignKeys)).ToList();
+            _views = sqlViews.Select(sqlView => new View(sqlView, primaryKeys, foreignKeys)).ToList();
+            _procedures = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Procedure.TypeClass).Select(sqlProc => new Procedure(sqlProc, this.ProcedurePrefix, primaryKeys, foreignKeys)).ToList();
             _modelLoaded = true;
         }
 
-        private void ParseTables(dac.TSqlModel model)
+        public IDictionary<dac.TSqlObject, IEnumerable<ForeignKeyConstraintDefinition>> GetForeignKeys(IEnumerable<dac.TSqlObject> objects)
         {
-            _tables = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Table.TypeClass).Select(sqlTable => new Table(sqlTable)).ToList();
-
-            var sqlPrimaryKeys = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.PrimaryKeyConstraint.TypeClass);
-            var sqlForeignKeys = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.ForeignKeyConstraint.TypeClass);
-            var sqlSynonyms = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Synonym.TypeClass);
-            
-        }
-
-        private void ParseViews(dac.TSqlModel model)
-        {
-            _views = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.View.TypeClass).Select(sqlView => new View(sqlView)).ToList();
-        }
-
-        private void ParseProcedures(dac.TSqlModel model)
-        {
-            _procedures = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Procedure.TypeClass).Select(sqlProc => new Procedure(sqlProc, this.ProcedurePrefix)).ToList();
+            return objects.Select(obj =>
+            {
+                TSqlFragment fragment;
+                TSqlModelUtils.TryGetFragmentForAnalysis(obj, out fragment);
+                var foreignKeyConstraintVisitor = new ForeignKeyConstraintVisitor();
+                fragment.Accept(foreignKeyConstraintVisitor);
+                return new { obj, foreignKeyConstraintVisitor.Nodes };
+            }).ToDictionary(key => key.obj, val => val.Nodes.AsEnumerable());
         }
     }
 }

@@ -71,7 +71,9 @@
   <ItemGroup>
     <Compile Include="AliasResolutionVisitor.cs" />
     <Compile Include="DataType.cs" />
+    <Compile Include="ForeignKeyConstraintVisitor.cs" />
     <Compile Include="Model\Column.cs" />
+    <Compile Include="Model\RelationshipIdentifier.cs" />
     <Compile Include="Model\Table.cs" />
     <Compile Include="Model\View.cs" />
     <Compile Include="TextBuilder.cs" />

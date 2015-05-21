@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace SqlSharpener.Model
 {
@@ -25,10 +26,12 @@ namespace SqlSharpener.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="View"/> class.
+        /// Initializes a new instance of the <see cref="View" /> class.
         /// </summary>
         /// <param name="tSqlObject">The TSqlObject representing the view.</param>
-        public View(dac.TSqlObject tSqlObject)
+        /// <param name="primaryKeys">The primary keys.</param>
+        /// <param name="foreignKeys">The foreign keys.</param>
+        public View(dac.TSqlObject tSqlObject, IEnumerable<dac.TSqlObject> primaryKeys, IDictionary<dac.TSqlObject, IEnumerable<ForeignKeyConstraintDefinition>> foreignKeys)
         {
             // Get the name.
             this.Name = tSqlObject.Name.Parts.Last();
@@ -38,7 +41,7 @@ namespace SqlSharpener.Model
             var sqlColumns = tSqlObject.GetReferenced(dac.View.Columns);
             foreach (var sqlColumn in sqlColumns)
             {
-                var column = new Column(sqlColumn);
+                var column = new Column(sqlColumn, tSqlObject, primaryKeys, foreignKeys);
                 columns.Add(column);
             }
             this.Columns = columns;

@@ -36,14 +36,13 @@ namespace SqlSharpener.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Procedure"/> class.
         /// </summary>
-        /// <param name="tSqlObject">The TSqlObject representing the stored procedure.</param>
         /// <param name="prefix">The prefix used on stored procedure names.</param>
-        public Procedure(dac.TSqlObject tSqlObject, string prefix)
+        public Procedure(dac.TSqlObject tSqlObject, string prefix, IEnumerable<dac.TSqlObject> primaryKeys, IDictionary<dac.TSqlObject, IEnumerable<ForeignKeyConstraintDefinition>> foreignKeys)
         {
             this.Prefix = prefix ?? "";
             this.RawName = tSqlObject.Name.Parts.Last();
             this.Name = this.RawName.Substring(this.Prefix.Length);
-            this.Parameters = tSqlObject.GetReferenced(dac.Procedure.Parameters).Select(x => new Parameter(x));
+            this.Parameters = tSqlObject.GetReferenced(dac.Procedure.Parameters).Select(x => new Parameter(x, primaryKeys, foreignKeys));
             
             TSqlFragment fragment;
             TSqlModelUtils.TryGetFragmentForAnalysis(tSqlObject, out fragment);

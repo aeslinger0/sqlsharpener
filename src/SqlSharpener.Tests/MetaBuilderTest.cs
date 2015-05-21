@@ -342,6 +342,44 @@ namespace SqlSharpener.Tests
             Assert.AreEqual("Int32?", columns.ElementAt(2).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.ElementAt(2).IsNullable);
         }
+
+        [TestMethod]
+        public void PrimaryForeignKeyTest()
+        {
+            var builder = new MetaBuilder();
+            builder.LoadModel(
+                @"create table dbo.tb1(id int identity(1,1) not null,
+                  CONSTRAINT [PK_id] PRIMARY KEY CLUSTERED ([id] ASC))",
+                @"create table dbo.tb2(id int identity(1,1) not null, tb1Id int not null,
+                  CONSTRAINT [PK_id] PRIMARY KEY CLUSTERED ([id] ASC),
+                  CONSTRAINT [FK_tb2_tb1] FOREIGN KEY ([tb1Id]) REFERENCES [dbo].[tb1] ([id]))");
+            Assert.AreEqual(2, builder.Tables.Count());
+            Assert.AreEqual("tb1", builder.Tables.First().Name);
+            
+            Assert.AreEqual(1, builder.Tables.First().Columns.Count());
+            Assert.AreEqual(true, builder.Tables.First().Columns.First().IsPrimaryKey);
+            Assert.AreEqual(false, builder.Tables.First().Columns.First().IsForeignKey);
+            Assert.AreEqual(0, builder.Tables.First().Columns.First().ParentRelationships.Count());
+            Assert.AreEqual(1, builder.Tables.First().Columns.First().ChildRelationships.Count());
+            Assert.AreEqual(null, builder.Tables.First().Columns.First().ChildRelationships.First().Database);
+            Assert.AreEqual("dbo", builder.Tables.First().Columns.First().ChildRelationships.First().Schema);
+            Assert.AreEqual("tb2", builder.Tables.First().Columns.First().ChildRelationships.First().TableOrView);
+            Assert.AreEqual("tb1Id", builder.Tables.First().Columns.First().ChildRelationships.First().Columns.First());
+
+            Assert.AreEqual(2, builder.Tables.ElementAt(1).Columns.Count());
+            Assert.AreEqual(true, builder.Tables.ElementAt(1).Columns.First().IsPrimaryKey);
+            Assert.AreEqual(false, builder.Tables.ElementAt(1).Columns.First().IsForeignKey);
+            Assert.AreEqual(false, builder.Tables.ElementAt(1).Columns.ElementAt(1).IsPrimaryKey);
+            Assert.AreEqual(true, builder.Tables.ElementAt(1).Columns.ElementAt(1).IsForeignKey);
+            Assert.AreEqual(0, builder.Tables.ElementAt(1).Columns.First().ParentRelationships.Count());
+            Assert.AreEqual(0, builder.Tables.ElementAt(1).Columns.First().ChildRelationships.Count());
+            Assert.AreEqual(1, builder.Tables.ElementAt(1).Columns.ElementAt(1).ParentRelationships.Count());
+            Assert.AreEqual(0, builder.Tables.ElementAt(1).Columns.ElementAt(1).ChildRelationships.Count());
+            Assert.AreEqual(null, builder.Tables.ElementAt(1).Columns.ElementAt(1).ParentRelationships.First().Database);
+            Assert.AreEqual("dbo", builder.Tables.ElementAt(1).Columns.ElementAt(1).ParentRelationships.First().Schema);
+            Assert.AreEqual("tb1", builder.Tables.ElementAt(1).Columns.ElementAt(1).ParentRelationships.First().TableOrView);
+            Assert.AreEqual("id", builder.Tables.ElementAt(1).Columns.ElementAt(1).ParentRelationships.First().Columns.First());
+        }
     }
 }
 
