@@ -1,5 +1,5 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.9\tools\SqlSharpener.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.10\tools\SqlSharpener.dll" #>
 <#@ output extension=".cs" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 <#@ import namespace="System.Collections.Generic" #>

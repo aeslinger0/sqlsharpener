@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SqlSharpener</id>
-    <version>1.0.9</version>
+    <version>1.0.10</version>
     <title>SqlSharpener</title>
     <authors>Adam Eslinger</authors>
     <owners>Adam Eslinger</owners>
@@ -10,7 +10,10 @@
     <projectUrl>https://github.com/aeslinger0/sqlsharpener</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Parses SQL files to create a meta-object hierarchy with which you can generate C# code such as stored procedure wrappers or Entity Framework entities. Includes templates. Go to https://github.com/aeslinger0/sqlsharpener for more info!</description>
-    <releaseNotes>05/14/2015 : version 1.0.9
+    <releaseNotes>05/26/2015
+-- Added primary and foreign key relationships to the meta-model.
+
+05/14/2015 : version 1.0.9
 -- Added support for UNION clauses.
 -- Added support for table-valued parameters.
 -- Added support for generic POCO objects.

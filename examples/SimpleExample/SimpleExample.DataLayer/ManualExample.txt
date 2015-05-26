@@ -27,6 +27,10 @@ STORED PROCEDURES:
 				UpdatedBy (String)
 				TaskId (Int32?)
 		
+	TaskCreateMultiple
+		Parameters
+				tasks (Object)
+		
 	TaskGet
 		Parameters
 				TaskId (Int32?)

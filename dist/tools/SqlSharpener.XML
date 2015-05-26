@@ -9,7 +9,7 @@
             Represents a column in a table.
             </summary>
         </member>
-        <member name="M:SqlSharpener.Model.Column.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String},System.Boolean,System.Boolean,System.Int32,System.Int32,System.Int32)">
+        <member name="M:SqlSharpener.Model.Column.#ctor(System.String,System.Collections.Generic.IDictionary{SqlSharpener.TypeFormat,System.String},System.Boolean,System.Boolean,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{SqlSharpener.Model.RelationshipIdentifier},System.Collections.Generic.IEnumerable{SqlSharpener.Model.RelationshipIdentifier})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Column"/> class.
             </summary>
@@ -20,12 +20,19 @@
             <param name="precision">The precision.</param>
             <param name="scale">The scale.</param>
             <param name="length">The length.</param>
+            <param name="isPrimaryKey">if set to <c>true</c> [is primary key].</param>
+            <param name="isForeignKey">if set to <c>true</c> [is foreign key].</param>
+            <param name="parentRelationships">The parent relationships.</param>
+            <param name="childRelationships">The child relationships.</param>
         </member>
-        <member name="M:SqlSharpener.Model.Column.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+        <member name="M:SqlSharpener.Model.Column.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject,Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.Dac.Model.TSqlObject},System.Collections.Generic.IDictionary{Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.TransactSql.ScriptDom.ForeignKeyConstraintDefinition}})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Column"/> class.
             </summary>
             <param name="tSqlObject">The TSqlObject representing the column.</param>
+            <param name="tSqlTable">The table or view this column belongs to.</param>
+            <param name="primaryKeys">The primary keys.</param>
+            <param name="foreignKeys">The foreign keys.</param>
         </member>
         <member name="P:SqlSharpener.Model.Column.Name">
             <summary>
@@ -83,6 +90,38 @@
             The length.
             </value>
         </member>
+        <member name="P:SqlSharpener.Model.Column.IsPrimaryKey">
+            <summary>
+            Gets or sets a value indicating whether this instance is primary key.
+            </summary>
+            <value>
+            <c>true</c> if this instance is primary key; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.IsForeignKey">
+            <summary>
+            Gets or sets a value indicating whether this instance is foreign key.
+            </summary>
+            <value>
+            <c>true</c> if this instance is foreign key; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.ParentRelationships">
+            <summary>
+            Gets or sets the relationships where this column is a foreign key.
+            </summary>
+            <value>
+            The parent relationships.
+            </value>
+        </member>
+        <member name="P:SqlSharpener.Model.Column.ChildRelationships">
+            <summary>
+            Gets or sets the relationships where this column is a foreign key on other tables.
+            </summary>
+            <value>
+            The child relationships.
+            </value>
+        </member>
         <member name="T:SqlSharpener.Model.Table">
             <summary>
             Represents a table in the model.
@@ -95,11 +134,13 @@
             <param name="name">The name of the table.</param>
             <param name="columns">The columns.</param>
         </member>
-        <member name="M:SqlSharpener.Model.Table.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+        <member name="M:SqlSharpener.Model.Table.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.Dac.Model.TSqlObject},System.Collections.Generic.IDictionary{Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.TransactSql.ScriptDom.ForeignKeyConstraintDefinition}})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Table"/> class.
             </summary>
             <param name="tSqlObject">The TSqlObject representing the table.</param>
+            <param name="primaryKeys">The primary keys.</param>
+            <param name="foreignKeys">The foreign keys.</param>
         </member>
         <member name="P:SqlSharpener.Model.Table.Name">
             <summary>
@@ -129,11 +170,13 @@
             <param name="name">The name of the view.</param>
             <param name="columns">The columns.</param>
         </member>
-        <member name="M:SqlSharpener.Model.View.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+        <member name="M:SqlSharpener.Model.View.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.Dac.Model.TSqlObject},System.Collections.Generic.IDictionary{Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.TransactSql.ScriptDom.ForeignKeyConstraintDefinition}})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.View"/> class.
             </summary>
             <param name="tSqlObject">The TSqlObject representing the view.</param>
+            <param name="primaryKeys">The primary keys.</param>
+            <param name="foreignKeys">The foreign keys.</param>
         </member>
         <member name="P:SqlSharpener.Model.View.Name">
             <summary>
@@ -310,11 +353,13 @@
             <param name="dataTypes">The data types.</param>
             <param name="isOutput">if set to <c>true</c> [is output].</param>
         </member>
-        <member name="M:SqlSharpener.Model.Parameter.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject)">
+        <member name="M:SqlSharpener.Model.Parameter.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.Dac.Model.TSqlObject},System.Collections.Generic.IDictionary{Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.TransactSql.ScriptDom.ForeignKeyConstraintDefinition}})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Parameter"/> class.
             </summary>
             <param name="tSqlObject">The TSqlObject representing the parameter.</param>
+            <param name="primaryKeys">The primary keys.</param>
+            <param name="foreignKeys">The foreign keys.</param>
         </member>
         <member name="P:SqlSharpener.Model.Parameter.Name">
             <summary>
@@ -363,11 +408,10 @@
             <param name="parameters">The parameters.</param>
             <param name="selects">The selects.</param>
         </member>
-        <member name="M:SqlSharpener.Model.Procedure.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject,System.String)">
+        <member name="M:SqlSharpener.Model.Procedure.#ctor(Microsoft.SqlServer.Dac.Model.TSqlObject,System.String,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.Dac.Model.TSqlObject},System.Collections.Generic.IDictionary{Microsoft.SqlServer.Dac.Model.TSqlObject,System.Collections.Generic.IEnumerable{Microsoft.SqlServer.TransactSql.ScriptDom.ForeignKeyConstraintDefinition}})">
             <summary>
             Initializes a new instance of the <see cref="T:SqlSharpener.Model.Procedure"/> class.
             </summary>
-            <param name="tSqlObject">The TSqlObject representing the stored procedure.</param>
             <param name="prefix">The prefix used on stored procedure names.</param>
         </member>
         <member name="P:SqlSharpener.Model.Procedure.Name">

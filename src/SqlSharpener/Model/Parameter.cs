@@ -37,8 +37,12 @@ namespace SqlSharpener.Model
         {
             this.Name = tSqlObject.Name.Parts.Last().Trim('@');
             this.IsOutput = dac.Parameter.IsOutput.GetValue<bool>(tSqlObject);
-            var dataType = tSqlObject.GetReferenced(dac.Parameter.DataType).ToList().First();
-            if (dataType.ObjectType.Name == "TableType")
+            var dataType = tSqlObject.GetReferenced(dac.Parameter.DataType).ToList().FirstOrDefault();
+            if (dataType == null)
+            {
+                this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.DotNetFrameworkType, "Object");
+            }
+            else if (dataType.ObjectType.Name == "TableType")
             {
                 this.TableValue = new Table(dataType, primaryKeys, foreignKeys);
             }

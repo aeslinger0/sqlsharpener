@@ -59,15 +59,13 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskCreateMultiple" stored procedure using generated objects for table-valued parameters.
 		/// </summary>
 		/// <returns>An IEnumerable of id</returns>
-		Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<TaskCreateMultiple_tasksParamDto> tasks
- );
+		Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<TaskCreateMultiple_tasksParamDto> tasks );
 
 		/// <summary>
 		/// Calls the "usp_TaskCreateMultiple" stored procedure
 		/// </summary>
 		/// <returns>An IEnumerable of id</returns>
-		Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<ITableValuedParamRow> tasks
- );
+		Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<ITableValuedParamRow> tasks );
 
 		/// <summary>
 		/// Calls the "usp_TaskGet" stored procedure
@@ -147,7 +145,7 @@ namespace SimpleExample.DataLayer
 	}
 
 	/// <summary>
-	/// Interface that POCO's can implement to be able to pass them into a table-valued parameter
+	/// Interface that a POCO can implement to be able to pass it into a table-valued parameter
 	/// if you prefer not to use the generated parameter dto. 
 	/// </summary>
 	public partial interface ITableValuedParamRow
@@ -172,7 +170,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskCreate" stored procedure using a generated input DTO
 		/// </summary>
 		/// <returns>The number of rows affected.</returns>
-		public int TaskCreate( TaskCreateInputDto input )
+		public virtual int TaskCreate( TaskCreateInputDto input )
 		{
 			Int32? TaskIdOutput;
 			var result = this.TaskCreate(input.Name, input.Description, input.TaskStatusId, input.Created, input.CreatedBy, input.Updated, input.UpdatedBy, out TaskIdOutput);
@@ -185,7 +183,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskCreate" stored procedure using POCO objects
 		/// </summary>
 		/// <returns>The number of rows affected.</returns>
-		public TPocoOutputDto TaskCreate<TPocoOutputDto>( IProcedureInputDto input ) 
+		public virtual TPocoOutputDto TaskCreate<TPocoOutputDto>( IProcedureInputDto input ) 
 			where TPocoOutputDto : IProcedureOutputDto<int>, new()
 		{
 			var parameters = input.ToObjectArray();
@@ -204,7 +202,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskCreate" stored procedure
 		/// </summary>
 		/// <returns>The number of rows affected.</returns>
-		public int TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId )
+		public virtual int TaskCreate( String Name, String Description, Int32? TaskStatusId, DateTime? Created, String CreatedBy, DateTime? Updated, String UpdatedBy, out Int32? TaskId )
 		{
 			OnTaskCreateBegin();
 			int result;
@@ -242,7 +240,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskCreateMultiple" stored procedure using a generated input DTO
 		/// </summary>
 		/// <returns>An IEnumerable of id</returns>
-		public Result<IEnumerable<Int32>> TaskCreateMultiple( TaskCreateMultipleInputDto input )
+		public virtual Result<IEnumerable<Int32>> TaskCreateMultiple( TaskCreateMultipleInputDto input )
 		{
 			var result = this.TaskCreateMultiple(input.tasks);
 			return result;
@@ -253,7 +251,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskCreateMultiple" stored procedure using POCO objects
 		/// </summary>
 		/// <returns>An IEnumerable of id</returns>
-		public TPocoOutputDto TaskCreateMultiple<TPocoOutputDto>( IProcedureInputDto input ) 
+		public virtual TPocoOutputDto TaskCreateMultiple<TPocoOutputDto>( IProcedureInputDto input ) 
 			where TPocoOutputDto : IProcedureOutputDto<Result<IEnumerable<Int32>>>, new()
 		{
 			var parameters = input.ToObjectArray();
@@ -269,19 +267,16 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskCreateMultiple" stored procedure using generated objects for table-valued parameters.
 		/// </summary>
 		/// <returns>An IEnumerable of id</returns>
-		public Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<TaskCreateMultiple_tasksParamDto> tasks
- )
+		public virtual Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<TaskCreateMultiple_tasksParamDto> tasks )
 		{
-			return this.TaskCreateMultiple( (IEnumerable<ITableValuedParamRow>)tasks
- );
+			return this.TaskCreateMultiple( (IEnumerable<ITableValuedParamRow>)tasks );
 		}
 
 		/// <summary>
 		/// Calls the "usp_TaskCreateMultiple" stored procedure
 		/// </summary>
 		/// <returns>An IEnumerable of id</returns>
-		public Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<ITableValuedParamRow> tasks
- )
+		public virtual Result<IEnumerable<Int32>> TaskCreateMultiple( IEnumerable<ITableValuedParamRow> tasks )
 		{
 			OnTaskCreateMultipleBegin();
 			Result<IEnumerable<Int32>> result = new Result<IEnumerable<Int32>>();
@@ -322,7 +317,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskGet" stored procedure using a generated input DTO
 		/// </summary>
 		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
-		public Result<TaskGetOutputDto> TaskGet( TaskGetInputDto input )
+		public virtual Result<TaskGetOutputDto> TaskGet( TaskGetInputDto input )
 		{
 			var result = this.TaskGet(input.TaskId);
 			return result;
@@ -333,7 +328,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskGet" stored procedure using POCO objects
 		/// </summary>
 		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
-		public TPocoOutputDto TaskGet<TPocoOutputDto>( IProcedureInputDto input ) 
+		public virtual TPocoOutputDto TaskGet<TPocoOutputDto>( IProcedureInputDto input ) 
 			where TPocoOutputDto : IProcedureOutputDto<Result<TaskGetOutputDto>>, new()
 		{
 			var parameters = input.ToObjectArray();
@@ -350,7 +345,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskGet" stored procedure
 		/// </summary>
 		/// <returns>A DTO filled with the results of the SELECT statement.</returns>
-		public Result<TaskGetOutputDto> TaskGet( Int32? TaskId )
+		public virtual Result<TaskGetOutputDto> TaskGet( Int32? TaskId )
 		{
 			OnTaskGetBegin();
 			Result<TaskGetOutputDto> result = new Result<TaskGetOutputDto>();
@@ -395,7 +390,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskUpdate" stored procedure using a generated input DTO
 		/// </summary>
 		/// <returns>The number of rows affected.</returns>
-		public int TaskUpdate( TaskUpdateInputDto input )
+		public virtual int TaskUpdate( TaskUpdateInputDto input )
 		{
 			var result = this.TaskUpdate(input.TaskId, input.Name, input.Description, input.TaskStatusId, input.Updated, input.UpdatedBy);
 			return result;
@@ -406,7 +401,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskUpdate" stored procedure using POCO objects
 		/// </summary>
 		/// <returns>The number of rows affected.</returns>
-		public TPocoOutputDto TaskUpdate<TPocoOutputDto>( IProcedureInputDto input ) 
+		public virtual TPocoOutputDto TaskUpdate<TPocoOutputDto>( IProcedureInputDto input ) 
 			where TPocoOutputDto : IProcedureOutputDto<int>, new()
 		{
 			var parameters = input.ToObjectArray();
@@ -423,7 +418,7 @@ namespace SimpleExample.DataLayer
 		/// Calls the "usp_TaskUpdate" stored procedure
 		/// </summary>
 		/// <returns>The number of rows affected.</returns>
-		public int TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy )
+		public virtual int TaskUpdate( Int32? TaskId, String Name, String Description, Int32? TaskStatusId, DateTime? Updated, String UpdatedBy )
 		{
 			OnTaskUpdateBegin();
 			int result;
