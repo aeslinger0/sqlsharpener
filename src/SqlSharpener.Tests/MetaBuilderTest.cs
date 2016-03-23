@@ -380,6 +380,35 @@ namespace SqlSharpener.Tests
             Assert.AreEqual("tb1", builder.Tables.ElementAt(1).Columns.ElementAt(1).ParentRelationships.First().TableOrView);
             Assert.AreEqual("id", builder.Tables.ElementAt(1).Columns.ElementAt(1).ParentRelationships.First().Columns.First());
         }
+
+        [TestMethod]
+        public void ViewTest()
+        {
+            var builder = new MetaBuilder();
+
+            builder.LoadModel(
+                @"create table [dbo].[tb1] ([Id] smallint identity (1, 1) not null,[Name] varchar (50) not null, CONSTRAINT [PK_tb1] PRIMARY KEY CLUSTERED ([Id] ASC))",
+                @"create view [dbo].[view1] AS SELECT * FROM [dbo].[tb1] WHERE [Id] > 0");
+
+            Assert.AreEqual(1, builder.Tables.Count());
+            Assert.AreEqual(2, builder.Tables.First().Columns.Count());
+            Assert.AreEqual(1, builder.Views.Count());
+            Assert.AreEqual(2, builder.Views.First().Columns.Count());
+        }
+
+        [TestMethod]
+        public void ViewWithExpressionTest()
+        {
+            var builder = new MetaBuilder();
+
+            builder.LoadModel(
+                @"create table [dbo].[tb1] ([Id] smallint identity (1, 1) not null,[FirstName] varchar (50) not null, [LastName] varchar (50) not null,CONSTRAINT [PK_tb1] PRIMARY KEY CLUSTERED ([Id] ASC))",
+                @"create view [dbo].[view1] AS SELECT [Name] = [FirstName] + ' ' + [LastName] FROM [dbo].[tb1] WHERE [Id] > 0");
+
+            Assert.AreEqual(1, builder.Tables.Count());
+            Assert.AreEqual(3, builder.Tables.First().Columns.Count());
+            Assert.AreEqual(1, builder.Views.Count());
+            Assert.AreEqual(1, builder.Views.First().Columns.Count());
+        }
     }
 }
-
