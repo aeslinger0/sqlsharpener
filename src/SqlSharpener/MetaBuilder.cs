@@ -22,6 +22,7 @@ namespace SqlSharpener
         private bool _modelLoaded = false;
         private IEnumerable<Table> _tables;
         private IEnumerable<View> _views;
+        private dac.SqlServerVersion _sqlServerVersion = dac.SqlServerVersion.Sql100;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MetaBuilder"/> class.
@@ -29,6 +30,18 @@ namespace SqlSharpener
         /// <param name="sqlPaths">The paths to the *.sql files.</param>
         public MetaBuilder(params string[] sqlPaths)
         {
+            this.SqlPaths = new List<string>();
+            this.SqlPaths.AddRange(sqlPaths);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MetaBuilder"/> class.
+        /// </summary>
+        /// <param name="sqlServerVersion">The T-SQL syntax version.</param>
+        /// <param name="sqlPaths">The SQL paths.</param>
+        public MetaBuilder(dac.SqlServerVersion sqlServerVersion = dac.SqlServerVersion.Sql100, params string[] sqlPaths)
+        {
+            _sqlServerVersion = sqlServerVersion;
             this.SqlPaths = new List<string>();
             this.SqlPaths.AddRange(sqlPaths);
         }
@@ -119,7 +132,7 @@ namespace SqlSharpener
                 }
             }
 
-            var model = new dac.TSqlModel(dac.SqlServerVersion.Sql100, new dac.TSqlModelOptions());
+            var model = new dac.TSqlModel(_sqlServerVersion, new dac.TSqlModelOptions());
             foreach (var procFile in procFiles)
             {
                 model.AddObjects(File.ReadAllText(procFile));
@@ -135,7 +148,7 @@ namespace SqlSharpener
         /// <param name="sqlStatements">One or more sql statements to load, such as CREATE TABLE or CREATE PROCEDURE statements.</param>
         public void LoadModel(params string[] sqlStatements)
         {
-            var model = new dac.TSqlModel(dac.SqlServerVersion.Sql100, new dac.TSqlModelOptions());
+            var model = new dac.TSqlModel(_sqlServerVersion, new dac.TSqlModelOptions());
             foreach (var sqlStatement in sqlStatements)
             {
                 model.AddObjects(sqlStatement);
