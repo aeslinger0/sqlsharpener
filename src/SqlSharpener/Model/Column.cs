@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace SqlSharpener.Model
@@ -198,6 +196,10 @@ namespace SqlSharpener.Model
         /// </value>
         public bool IsForeignKey { get; private set; }
 
+        public dac.ColumnGeneratedAlwaysType GeneratedAlwaysType { get; private set; }
+        
+        public bool IsHidden { get; private set; }
+
         /// <summary>
         /// Gets or sets the relationships where this column is a foreign key.
         /// </summary>
@@ -223,6 +225,9 @@ namespace SqlSharpener.Model
             this.Precision = dac.Column.Precision.GetValue<int>(tSqlObject);
             this.Scale = dac.Column.Scale.GetValue<int>(tSqlObject);
             this.Length = dac.Column.Length.GetValue<int>(tSqlObject);
+
+            this.GeneratedAlwaysType = dac.Column.GeneratedAlwaysType.GetValue<dac.ColumnGeneratedAlwaysType>(tSqlObject);
+            this.IsHidden = dac.Column.IsHidden.GetValue<bool>(tSqlObject);
         }
     }
 }
