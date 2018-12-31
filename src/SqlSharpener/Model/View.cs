@@ -12,7 +12,7 @@ namespace SqlSharpener.Model
     /// Represents a view in the model.
     /// </summary>
     [Serializable]
-    public class View
+    public class View : IHasColumns
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="View"/> class.
