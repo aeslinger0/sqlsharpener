@@ -216,7 +216,7 @@ namespace SqlSharpener.Model
 
         private void SetProperties(dac.TSqlObject tSqlObject)
         {
-            var sqlDataTypeName = tSqlObject.GetReferenced(dac.Column.DataType).ToList().First().Name.Parts.Last();
+            var sqlDataTypeName = tSqlObject.GetReferenced(dac.Column.DataType).ToList().FirstOrDefault()?.Name.Parts.Last();
             this.DataTypes = DataTypeHelper.Instance.GetMap(TypeFormat.SqlServerDbType, sqlDataTypeName);
             this.IsIdentity = dac.Column.IsIdentity.GetValue<bool>(tSqlObject);
             this.IsNullable = dac.Column.Nullable.GetValue<bool>(tSqlObject);

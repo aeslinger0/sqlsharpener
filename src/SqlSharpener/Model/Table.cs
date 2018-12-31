@@ -13,7 +13,7 @@ namespace SqlSharpener.Model
     /// Represents a table in the model.
     /// </summary>
     [Serializable]
-    public class Table
+    public class Table : IHasColumns
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Table"/> class.
