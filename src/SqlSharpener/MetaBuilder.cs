@@ -18,6 +18,7 @@ namespace SqlSharpener
     [Serializable]
     public class MetaBuilder
     {
+        private const string SQLFileExtension = ".sql";
         private IEnumerable<Procedure> _procedures;
         private bool _modelLoaded = false;
         private IEnumerable<Table> _tables;
@@ -122,13 +123,13 @@ namespace SqlSharpener
             var procFiles = new List<string>();
             foreach (var sqlPath in this.SqlPaths)
             {
-                if (sqlPath.EndsWith(".sql"))
+                if (sqlPath.EndsWith(SQLFileExtension))
                 {
                     procFiles.Add(sqlPath);
                 }
                 else
                 {
-                    procFiles.AddRange(Directory.GetFiles(sqlPath, "*.sql", SearchOption.AllDirectories));
+                    procFiles.AddRange(Directory.GetFiles(sqlPath, "*.sql", SearchOption.AllDirectories).Where(f => f.EndsWith(SQLFileExtension)));
                 }
             }
 
