@@ -20,7 +20,7 @@ namespace SqlSharpener.Tests
             Assert.AreEqual(3, columns.Count());
 
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.First().IsIdentity);
             Assert.AreEqual(false, columns.First().IsNullable);
             Assert.AreEqual(0, columns.First().Length);
@@ -28,7 +28,7 @@ namespace SqlSharpener.Tests
             Assert.AreEqual(0, columns.First().Scale);
 
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("string", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(false, columns.ElementAt(1).IsIdentity);
             Assert.AreEqual(true, columns.ElementAt(1).IsNullable);
             Assert.AreEqual(50, columns.ElementAt(1).Length);
@@ -86,7 +86,7 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(1, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
         }
 
@@ -103,7 +103,7 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(1, columns.Count());
             Assert.AreEqual("c1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
         }
 
@@ -120,10 +120,10 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(2, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("string", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DbTypeEnum]);
         }
 
@@ -140,7 +140,7 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(1, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
             Assert.AreEqual(true, builder.Procedures.First().Selects.First().IsSingleRow);
         }
@@ -159,10 +159,10 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(2, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("string", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DbTypeEnum]);
         }
 
@@ -180,10 +180,10 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(2, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("string", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DbTypeEnum]);
         }
 
@@ -201,10 +201,10 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(2, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("Int32", columns.First().DataTypes[TypeFormat.DbTypeEnum]);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("string", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("String", columns.ElementAt(1).DataTypes[TypeFormat.DbTypeEnum]);
         }
 
@@ -228,11 +228,11 @@ namespace SqlSharpener.Tests
             Assert.AreEqual("id", param.TableValue.Columns.First().Name);
             Assert.AreEqual(false, param.TableValue.Columns.First().IsIdentity);
             Assert.AreEqual(false, param.TableValue.Columns.First().IsNullable);
-            Assert.AreEqual("Int32?", param.TableValue.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", param.TableValue.Columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual("col1", param.TableValue.Columns.ElementAt(1).Name);
             Assert.AreEqual(false, param.TableValue.Columns.ElementAt(1).IsIdentity);
             Assert.AreEqual(true, param.TableValue.Columns.ElementAt(1).IsNullable);
-            Assert.AreEqual("Int32?", param.TableValue.Columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", param.TableValue.Columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
         }
 
         [TestMethod]
@@ -269,10 +269,10 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(2, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(false, columns.First().IsNullable);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.ElementAt(1).IsNullable);
         }
 
@@ -290,10 +290,10 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(2, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(false, columns.First().IsNullable);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.ElementAt(1).IsNullable);
         }
 
@@ -311,10 +311,10 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(2, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.First().IsNullable);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(false, columns.ElementAt(1).IsNullable);
         }
 
@@ -333,13 +333,13 @@ namespace SqlSharpener.Tests
             var columns = builder.Procedures.First().Selects.First().Columns;
             Assert.AreEqual(3, columns.Count());
             Assert.AreEqual("col1", columns.First().Name);
-            Assert.AreEqual("Int32?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.First().DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(false, columns.First().IsNullable);
             Assert.AreEqual("col2", columns.ElementAt(1).Name);
-            Assert.AreEqual("Int32?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.ElementAt(1).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.ElementAt(1).IsNullable);
             Assert.AreEqual("col3", columns.ElementAt(2).Name);
-            Assert.AreEqual("Int32?", columns.ElementAt(2).DataTypes[TypeFormat.DotNetFrameworkType]);
+            Assert.AreEqual("int?", columns.ElementAt(2).DataTypes[TypeFormat.DotNetFrameworkType]);
             Assert.AreEqual(true, columns.ElementAt(2).IsNullable);
         }
 
