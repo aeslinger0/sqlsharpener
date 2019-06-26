@@ -410,5 +410,15 @@ namespace SqlSharpener.Tests
             Assert.AreEqual(1, builder.Views.Count());
             Assert.AreEqual(1, builder.Views.First().Columns.Count());
         }
+
+        [TestMethod]
+        public void LoadTestThing()
+        {
+            var builder = new MetaBuilder(@"C:\Git\WARP MCM\src\MCM\MCM.Data.Database\tables");
+
+            Assert.AreEqual(7, builder.Tables.Count());
+            Assert.AreEqual(3, builder.Tables.First().Columns.Count());
+            Assert.AreEqual(0, builder.Views.Count());
+        }
     }
 }

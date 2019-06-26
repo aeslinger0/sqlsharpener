@@ -77,8 +77,10 @@ namespace SqlSharpener.Model
             var childTables = foreignKeys.Where(f => f.Value.Any(v =>
                 v.ReferenceTableName.BaseIdentifier.Value == tSqlTable.Name.Parts.Last()
                 && v.ReferencedTableColumns.Any(c => c.Value == this.Name)));
+
             this.ChildRelationships = from t in childTables
                                       from r in t.Value
+                                      where r.ReferenceTableName.BaseIdentifier.Value == tSqlTable.Name.Parts.Last()
                                       let tableParts = t.Key.Name.Parts.Count()
                                       select new RelationshipIdentifier
                                       {
