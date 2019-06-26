@@ -118,6 +118,7 @@ namespace SqlSharpener
             dataTypes.Add(DataTypes.@varbinary, new Dictionary<TypeFormat, string> { { TypeFormat.SqlServerDbType, "varbinary" }, { TypeFormat.DotNetFrameworkType, "Byte[]" }, { TypeFormat.SqlDbTypeEnum, "VarBinary" }, { TypeFormat.SqlDataReaderSqlType, "GetSqlBinary" }, { TypeFormat.DbTypeEnum, "Binary" }, { TypeFormat.SqlDataReaderDbType, "GetBytes" } });
             dataTypes.Add(DataTypes.@varchar, new Dictionary<TypeFormat, string> { { TypeFormat.SqlServerDbType, "varchar" }, { TypeFormat.DotNetFrameworkType, "string" }, { TypeFormat.SqlDbTypeEnum, "VarChar" }, { TypeFormat.SqlDataReaderSqlType, "GetSqlString" }, { TypeFormat.DbTypeEnum, "String" }, { TypeFormat.SqlDataReaderDbType, "GetString" } });
             dataTypes.Add(DataTypes.@xml, new Dictionary<TypeFormat, string> { { TypeFormat.SqlServerDbType, "xml" }, { TypeFormat.DotNetFrameworkType, "Xml" }, { TypeFormat.SqlDbTypeEnum, "Xml" }, { TypeFormat.SqlDataReaderSqlType, "GetSqlXml" }, { TypeFormat.DbTypeEnum, "Xml" }, { TypeFormat.SqlDataReaderDbType, null } });
+            dataTypes.Add(DataTypes.@geography, new Dictionary<TypeFormat, string> { { TypeFormat.SqlServerDbType, "geography" }, { TypeFormat.DotNetFrameworkType, "System.Drawing.Point" }, { TypeFormat.SqlDbTypeEnum, "" }, { TypeFormat.SqlDataReaderSqlType, "" }, { TypeFormat.DbTypeEnum, "" }, { TypeFormat.SqlDataReaderDbType, "" } });
         }
     }
 
@@ -194,6 +195,7 @@ namespace SqlSharpener
         @uniqueidentifier,
         @varbinary,
         @varchar,
-        @xml
+        @xml,
+        @geography,
     }
 }
