@@ -23,6 +23,7 @@ namespace SqlSharpener
         private bool _modelLoaded = false;
         private IEnumerable<Table> _tables;
         private IEnumerable<View> _views;
+        private IEnumerable<string> _indexes;
         private dac.SqlServerVersion _sqlServerVersion = dac.SqlServerVersion.Sql100;
 
         /// <summary>
@@ -109,6 +110,21 @@ namespace SqlSharpener
             }
         }
 
+        /// <summary>
+        /// Objects representing the meta datafor all the indexes parsed.
+        /// </summary>
+        /// <value>
+        /// The views.
+        /// </value>
+        public IEnumerable<string> Indexes
+        {
+            get
+            {
+                if (!_modelLoaded) LoadModel();
+                return _indexes;
+            }
+        }
+
 
         /// <summary>
         /// Creates a new TSqlModel, loads all *.sql files specified in the SqlPaths property
@@ -165,6 +181,7 @@ namespace SqlSharpener
         {
             var sqlTables = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Table.TypeClass);
             var sqlViews = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.View.TypeClass);
+            var indexes = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Index.TypeClass);
             var primaryKeys = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.PrimaryKeyConstraint.TypeClass).Select(o => o.GetReferenced().Where(r => r.ObjectType.Name == "Column")).SelectMany(c=> c);
             var foreignKeyDictionaries = new[] { GetForeignKeys(sqlTables), GetForeignKeys(sqlViews) };
             var foreignKeys = foreignKeyDictionaries
@@ -173,6 +190,7 @@ namespace SqlSharpener
 
             _tables = sqlTables.Select(sqlTable => new Table(sqlTable, primaryKeys, foreignKeys)).ToList();
             _views = sqlViews.Select(sqlView => new View(sqlView, primaryKeys, foreignKeys)).ToList();
+            _indexes = indexes.Select(sqlIndex => sqlIndex.GetScript().Replace(Environment.NewLine, string.Empty)).ToList();
             _procedures = model.GetObjects(dac.DacQueryScopes.UserDefined, dac.Procedure.TypeClass).Select(sqlProc => new Procedure(sqlProc, this.ProcedurePrefix, primaryKeys, foreignKeys)).ToList();
             _modelLoaded = true;
         }

@@ -355,7 +355,7 @@ namespace SqlSharpener.Tests
                   CONSTRAINT [FK_tb2_tb1] FOREIGN KEY ([tb1Id]) REFERENCES [dbo].[tb1] ([id]))");
             Assert.AreEqual(2, builder.Tables.Count());
             Assert.AreEqual("tb1", builder.Tables.First().Name);
-            
+
             Assert.AreEqual(1, builder.Tables.First().Columns.Count());
             Assert.AreEqual(true, builder.Tables.First().Columns.First().IsPrimaryKey);
             Assert.AreEqual(false, builder.Tables.First().Columns.First().IsForeignKey);
@@ -412,13 +412,25 @@ namespace SqlSharpener.Tests
         }
 
         [TestMethod]
-        public void LoadTestThing()
+        public void NonClusteredIndexTest()
         {
-            var builder = new MetaBuilder(@"C:\Git\WARP MCM\src\MCM\MCM.Data.Database\tables");
+            var builder = new MetaBuilder();
+            var nonClusteredIndex = @"CREATE NONCLUSTERED INDEX [ActiveSequence_UpdatedUTC_NonClustered] ON [dbo].[Tasks]([Updated]ASC) INCLUDE ([Id]);";
+            builder.LoadModel(nonClusteredIndex);
 
-            Assert.AreEqual(7, builder.Tables.Count());
-            Assert.AreEqual(3, builder.Tables.First().Columns.Count());
-            Assert.AreEqual(0, builder.Views.Count());
+            Assert.AreEqual(1, builder.Indexes.Count());
+            Assert.IsTrue(string.Join(string.Empty, builder.Indexes.First().Split(null)) == string.Join(string.Empty, nonClusteredIndex.Split(null)));
+        }
+
+        [TestMethod]
+        public void ClusteredIndexTest()
+        {
+            var builder = new MetaBuilder();
+            var nonClusteredIndex = @"CREATE CLUSTERED INDEX [ActiveSequence_UpdatedUTC_NonClustered] ON [dbo].[Tasks]([Updated]ASC) INCLUDE ([Id]);";
+            builder.LoadModel(nonClusteredIndex);
+
+            Assert.AreEqual(1, builder.Indexes.Count());
+            Assert.IsTrue(string.Join(string.Empty, builder.Indexes.First().Split(null)) == string.Join(string.Empty, nonClusteredIndex.Split(null)));
         }
     }
 }
