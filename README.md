@@ -29,6 +29,8 @@ See the [Quick Start Guide](https://github.com/aeslinger0/sqlsharpener/wiki/Quic
 
 The fastest way to get up and running is to call one of SqlSharpener's included pre-compiled templates from your template. Add a new T4 template (\*.tt) file to your data project and set its content as follows: *(Ensure you have the correct version number in the dll path)*
 
+````c#   
+    
     <#@ template debug="false" hostspecific="true" language="C#" #>
     <#@ assembly name="$(SolutionDir)\packages\SqlSharpener.1.0.2\tools\SqlSharpener.dll" #>
     <#@ output extension=".cs" #>
@@ -36,7 +38,7 @@ The fastest way to get up and running is to call one of SqlSharpener's included 
     <#@ import namespace="System.Collections.Generic" #>
     <#@ import namespace="SqlSharpener" #>
     <#
-    	// Specify paths to your *.sql files. Remember to include your tables as well! We need them to get the data types.
+   	// Specify paths to your *.sql files. Remember to include your tables as well! We need them to get the data types.
     	var sqlPaths = new List<string>();
     	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Tables"));
     	sqlPaths.Add(Host.ResolvePath(@"..\SimpleExample.Database\dbo\Stored Procedures"));
@@ -53,30 +55,32 @@ The fastest way to get up and running is to call one of SqlSharpener's included 
     	t.Initialize();
     	this.Write(t.TransformText());
     #>
+````
 
 The generated .cs file will contain a class with functions for all your stored procedures, DTO objects for procedures that return records, and an interface you can used if you use dependency-injection. Whenever your database project changes, simply right-click on the .tt file and click "Run Custom Tool" to regenerate the code.
 
 # Usage
+````c#
+ // Once the code is generated, your business layer can call it like any other function. Here is one example:
 
-Once the code is generated, your business layer can call it like any other function. Here is one example:
-
-        public TaskGetDto Get(int id)
-        {
-            return storedProcedures.TaskGet(id);
-        }
-        
+ public TaskGetDto Get(int id)
+ {
+     return storedProcedures.TaskGet(id);
+ }
+````        
 # Dependency Injection
 
 If you use a dependency-injection framework such as Ninject, you can use the interface generated. For example:
 
-    public class  DataModule : NinjectModule
-    {
-        public override void Load()
-        {
-            Bind<IStoredProcedures>().To<StoredProcedures>();
-        }
-    }
-    
+````c#
+  public class  DataModule : NinjectModule
+  {
+     public override void Load()
+     {
+        Bind<IStoredProcedures>().To<StoredProcedures>();
+      }
+  }
+````    
 # Documentation
 
 Check out the [wiki](https://github.com/aeslinger0/sqlsharpener/wiki) for more info.
